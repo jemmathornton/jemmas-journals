@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "concepts",
+      "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
+      "runtimeArgs": ["-m", "http.server", "8040", "--bind", "127.0.0.1", "--directory", "concepts"],
+      "port": 8040
+    },
+    {
+      "name": "sims-view",
+      "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
+      "runtimeArgs": ["-m", "http.server", "8041", "--bind", "127.0.0.1", "--directory", "C:/Users/Jemma/Documents/SimTracker/site"],
+      "port": 8041
+    },
+    {
+      "name": "pokedex-view",
+      "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
+      "runtimeArgs": ["-m", "http.server", "8042", "--bind", "127.0.0.1", "--directory", "C:/Users/Jemma/Documents/Pokedex/site"],
+      "port": 8042
+    }
+  ]
+}
