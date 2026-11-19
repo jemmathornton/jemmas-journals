@@ -1,18 +1,19 @@
 <title>Jemma’s Journals</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <style>
-/* Jemma's Journals: home page, round 7 (19 Nov 2026). Her pick: the Cloth cover banner with the places as photos in album corners.
-   This round: only the photo and the "Open" link are clickable; the J is no longer clipped; the "Open" links line up; the About block sits centred under the title;
-   the light/dark button sits inside the banner frame; a shorter banner; smaller photo corners. Choices to try (switch, bottom right): Pictures 1–3, Names 1–3, Title 1–3.
-   Places come from one list (PLACES). Fonts: Instrument Serif + Manrope (local, SIL OFL). Icons: Lucide (ISC).
+/* Jemma's Journals: home page, round 8 (19 Nov 2026).
+   Her picks so far: the Cloth cover banner with the title on a label (Title 3); places as photos in album corners; names "My Sim World", "My Library",
+   "My Pokédex" with nothing above (Names 2 with My); Library's picture is the tilted wall of covers (Pictures 1). Sim World and Pokédex show a full map,
+   nothing added on top: which world and which region are still hers to choose (switch, bottom right).
+   Only the photo and "Open …" are links. Places come from one list (PLACES). Fonts: Instrument Serif + Manrope (local, SIL OFL). Icons: Lucide (ISC).
    Earlier rounds are in git history and in for-jemma/concepts/. */
 @font-face{font-family:"Instrument Serif";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-latin.woff2) format("woff2")}
 @font-face{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-italic-latin.woff2) format("woff2")}
 @font-face{font-family:"Manrope";font-style:normal;font-weight:200 800;font-display:swap;src:url(fonts/manrope-latin.woff2) format("woff2")}
 
 :root{
-  /* cream page, ink, a muted gold; the banner is navy cloth */
-  --bg:#F4EEE3; --ink:#221D17; --mute:#776D60; --line:#DDD3C3; --acc:#8E6A22; --mat:#FFFDF8; --cover:#1C2540; --cover-ink:#F4EDDF; --gold:#E4C072; --walnut:#3B2616;
+  /* cream page, ink, a muted gold; the banner is navy cloth with a cream title label */
+  --bg:#F4EEE3; --ink:#221D17; --mute:#776D60; --line:#DDD3C3; --acc:#8E6A22; --mat:#FFFDF8; --cover:#1C2540; --gold:#E4C072; --label:#F3EBDA; --label-ink:#1F2740;
   --display:"Instrument Serif","Iowan Old Style","Palatino Linotype",Georgia,serif;
   --body:"Manrope","Segoe UI",system-ui,sans-serif;
   --g:clamp(16px,4vw,56px); --frame:max(calc(var(--g) - 20px),12px);
@@ -26,7 +27,7 @@
 html{background:var(--bg)}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.65 var(--body);-webkit-font-smoothing:antialiased}
 a{color:inherit}
-button{font:inherit;color:inherit}
+button,select{font:inherit;color:inherit}
 img{max-width:100%}
 h1,h2,h3,p{margin:0;font-weight:400}
 svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
@@ -35,8 +36,8 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .lab{font:700 11px/1.2 var(--body);letter-spacing:.16em;text-transform:uppercase}
 .wrap{max-width:1160px;margin:0 auto}
 
-/* ---- the banner: a navy cloth journal cover */
-.cover{position:relative;color:var(--gold);padding-block:clamp(54px,6vw,84px) clamp(46px,5vw,66px);text-align:center;
+/* ---- the banner: a navy cloth journal cover with a title label */
+.cover{position:relative;padding-block:clamp(54px,6vw,84px) clamp(50px,5.4vw,72px);text-align:center;
   background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(0,0,0,.035) 0 1px,transparent 1px 3px),
     radial-gradient(110% 120% at 30% 0%,color-mix(in srgb,var(--cover) 82%,#4a5a8a),var(--cover) 60%,color-mix(in srgb,var(--cover) 80%,#000));
   box-shadow:inset 0 -2px 0 rgba(0,0,0,.25),0 18px 30px -22px rgba(0,0,0,.7)}
@@ -45,22 +46,9 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .mode{position:absolute;z-index:6;top:calc(30px + env(safe-area-inset-top,0px));right:calc(var(--frame) + 14px);width:38px;height:38px;border-radius:50%;border:1px solid rgba(228,192,114,.4);background:none;display:grid;place-items:center;cursor:pointer;color:var(--gold)}
 .mode:hover{border-color:var(--gold)}
 .mode svg.i{width:17px;height:17px}
-.cover h1{font:400 clamp(56px,9.4vw,140px)/1.04 var(--display);letter-spacing:-.025em;display:inline-block}
-.orn{display:flex;align-items:center;justify-content:center;gap:14px;margin-top:14px}
-.orn i{width:80px;height:1.5px;background:linear-gradient(90deg,transparent,var(--gold))}
-.orn i:last-child{transform:scaleX(-1)}
-.orn b{width:7px;height:7px;transform:rotate(45deg);background:var(--gold)}
-/* Title 1: gold foil (brighter, and no longer clipping the J) */
-.t1 .cover h1{background:linear-gradient(180deg,#FBEFC4 0%,#EFD48A 38%,#C99A3E 56%,#E6C371 80%,#F6E2A6 100%);-webkit-background-clip:text;background-clip:text;color:transparent;
-  padding:.02em .08em .2em;margin-bottom:-.18em;filter:drop-shadow(0 1px 0 rgba(0,0,0,.35))}
-/* Title 2: cream with gold */
-.t2 .cover h1{color:var(--cover-ink)}
-.t2 .cover h1 em{color:var(--gold)}
-/* Title 3: a label on the cover, like a journal's title plate */
-.t3 .cover h1{font-size:clamp(44px,6.6vw,96px);line-height:1;background:#F3EBDA;color:#1F2740;padding:.2em .5em .22em;border-radius:4px;
+.cover h1{display:inline-block;font:400 clamp(44px,6.6vw,96px)/1 var(--display);letter-spacing:-.025em;background:var(--label);color:var(--label-ink);padding:.2em .5em .22em;border-radius:4px;
   box-shadow:0 10px 24px -12px rgba(0,0,0,.7);outline:1.5px solid rgba(31,39,64,.35);outline-offset:-8px}
-.t3 .cover h1 em{color:#8E6A22}
-.t3 .orn{display:none}
+.cover h1 em{color:#8E6A22}
 
 /* ---- About me */
 .intro{display:grid;grid-template-columns:180px minmax(0,1fr);gap:28px 48px;align-items:center;max-width:900px;margin:clamp(56px,6vw,80px) auto 0}
@@ -78,7 +66,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .sec i{flex:1;height:1px;background:var(--line)}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:52px 40px}
 .card{display:flex;flex-direction:column;min-width:0}
-.card .kick{color:var(--acc);margin-bottom:8px}
 .card h3{font:400 40px/1.05 var(--display);margin-bottom:10px}
 .card p{font-size:15.5px;margin-bottom:16px}
 .card p.ph{font-size:15px}
@@ -98,20 +85,12 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 
 /* ---- the pictures */
 .pic{position:absolute;inset:0;overflow:hidden;background:#222}
-.snap .pic>*{transition:transform 1s cubic-bezier(.2,.7,.2,1)}
-.snap:hover .pic>*{transform:scale(1.04)}
-.snap:hover .pic>.wall{transform:rotate(-8deg) scale(1.04)}
 .pic>img.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
-.pic .wall{position:absolute;inset:-34% -14%;display:grid;grid-template-columns:repeat(8,1fr);gap:6px;transform:rotate(-8deg)}
+.pic.map{background:var(--mat)}
+.pic.map>img.bg{object-fit:contain}
+.pic .wall{position:absolute;inset:-34% -14%;display:grid;grid-template-columns:repeat(8,1fr);gap:6px;transform:rotate(-8deg);transition:transform 1s cubic-bezier(.2,.7,.2,1)}
+.snap:hover .pic .wall{transform:rotate(-8deg) scale(1.04)}
 .pic .wall img{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:2px 3px 3px 2px;display:block}
-.pic .grid{position:absolute;inset:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);gap:4px;background:var(--walnut);padding:4px}
-.pic .grid img{width:100%;height:100%;object-fit:cover;border-radius:2px 3px 3px 2px;display:block}
-.pic .fade{position:absolute;inset:0;background:var(--walnut);display:flex;align-items:center;justify-content:flex-end;gap:6px;padding:0;overflow:hidden}
-.pic .fade img{height:66%;aspect-ratio:2/3;object-fit:cover;border-radius:2px 4px 4px 2px;box-shadow:0 8px 16px -6px rgba(0,0,0,.6);flex:none}
-.pic .fade::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--walnut) 0%,rgba(59,38,22,.55) 22%,rgba(59,38,22,0) 48%)}
-.pic .mon{position:absolute;width:20%;max-width:96px;right:9%;top:13%;filter:drop-shadow(0 8px 12px rgba(0,0,0,.45))}
-.pic .mon.two{width:15%;max-width:72px;right:calc(9% + min(21%,100px));top:22%}
-.pic .mon.front{width:44%;max-width:180px;right:6%;top:auto;bottom:4%}
 .pic.blank{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--pc) 88%,#fff) 0 14px,var(--pc) 14px 28px)}
 
 .foot{margin-top:clamp(72px,8vw,110px);border-top:1px solid var(--line)}
@@ -120,15 +99,14 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .credits span+span::before{content:" · "}
 
 /* ---- the trial switch (bottom right; not part of the site) */
-.sw{position:fixed;z-index:50;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));display:grid;gap:4px;padding:8px;border-radius:16px;
+.sw{position:fixed;z-index:50;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));display:grid;gap:6px;padding:10px;border-radius:16px;
   background:var(--sw-bg);color:var(--sw-ink);border:1px solid var(--sw-line);box-shadow:0 10px 30px -8px rgba(0,0,0,.35);font-size:13px}
-.sw .row{display:flex;align-items:center;gap:3px}
-.sw .lab{width:66px;color:var(--sw-mute);font-size:10px;padding-left:4px}
-.sw button{border:0;background:none;min-width:32px;padding:5px 9px;border-radius:99px;font-size:13px;font-weight:700;cursor:pointer;color:var(--sw-ink)}
+.sw label{display:flex;align-items:center;gap:8px}
+.sw .lab{width:52px;color:var(--sw-mute);font-size:10px}
+.sw select{flex:1;min-width:0;padding:5px 8px;border-radius:8px;border:1px solid var(--sw-line);background:var(--sw-bg);font-size:13px;font-weight:600;color:var(--sw-ink)}
+.sw button{border:0;background:none;padding:5px 9px;border-radius:99px;font-size:13px;font-weight:700;cursor:pointer;color:var(--sw-ink);text-align:left}
 .sw button:hover{background:color-mix(in srgb,var(--sw-ink) 8%,transparent)}
-.sw button[aria-pressed="true"]{background:var(--sw-on);color:var(--sw-on-ink)}
-.sw #more{width:100%;text-align:left;padding-left:8px}
-.sw #more[aria-pressed="true"]{background:color-mix(in srgb,var(--sw-ink) 12%,transparent);color:var(--sw-ink)}
+.sw #more[aria-pressed="true"]{background:color-mix(in srgb,var(--sw-ink) 12%,transparent)}
 .toast{position:fixed;z-index:60;left:50%;bottom:calc(150px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--sw-on);color:var(--sw-on-ink);padding:10px 18px;border-radius:99px;font-size:13.5px;font-weight:700;box-shadow:0 10px 30px -8px rgba(0,0,0,.4);white-space:nowrap}
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important}}
@@ -136,52 +114,46 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 @media (max-width:900px){ .cards{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:760px){
   body{font-size:15.5px}
-  .cover{padding-block:62px 44px}
+  .cover{padding-block:66px 46px}
   .cover .ribbon{right:12%;height:60px;width:14px}
   .mode{top:calc(26px + env(safe-area-inset-top,0px))}
-  .orn i{width:50px}
-  .t3 .cover h1{font-size:40px;padding:.22em .45em .24em;outline-offset:-6px}
+  .cover h1{font-size:40px;padding:.22em .45em .24em;outline-offset:-6px}
   .intro{grid-template-columns:96px minmax(0,1fr);gap:18px 20px;align-items:start}
   .intro .photo{font-size:10px;box-shadow:0 0 0 4px var(--bg),0 0 0 5.5px color-mix(in srgb,var(--acc) 60%,transparent)}
   .intro .photo svg.i{width:18px;height:18px}
   .intro p{font-size:20px}
   .cards{grid-template-columns:1fr;gap:44px}
   .card h3{font-size:36px}
-  .pic .mon{width:18%}
-  .pic .mon.two{width:13%;right:calc(9% + 19%)}
-  .sw .lab{width:auto;padding-right:2px}
+  .sw{max-width:calc(100vw - 28px)}
 }
 </style>
 
 <div id="page"></div>
 
 <div class="sw" role="group" aria-label="Choices to try">
-  <div class="row"><span class="lab">Pictures</span><button type="button" data-k="p" data-v="1">1</button><button type="button" data-k="p" data-v="2">2</button><button type="button" data-k="p" data-v="3">3</button></div>
-  <div class="row"><span class="lab">Names</span><button type="button" data-k="n" data-v="1">1</button><button type="button" data-k="n" data-v="2">2</button><button type="button" data-k="n" data-v="3">3</button></div>
-  <div class="row"><span class="lab">Title</span><button type="button" data-k="t" data-v="1">1</button><button type="button" data-k="t" data-v="2">2</button><button type="button" data-k="t" data-v="3">3</button></div>
-  <div class="row"><button type="button" id="more" aria-pressed="false">+ More places</button></div>
+  <label><span class="lab">World</span><select id="pick-w" aria-label="Sims world map"></select></label>
+  <label><span class="lab">Region</span><select id="pick-r" aria-label="Pokémon region map"></select></label>
+  <button type="button" id="more" aria-pressed="false">+ More places</button>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script>
 (function(){
+  // Her Sims worlds (the full maps by 20th Century Plumbob) and the Pokémon regions (the maps her Pokédex uses), for her to choose from.
+  var WORLDS=[["willow-creek","Willow Creek"],["oasis-springs","Oasis Springs"],["newcrest","Newcrest"],["granite-falls","Granite Falls"],["magnolia-promenade","Magnolia Promenade"],["windenburg","Windenburg"],["san-myshuno","San Myshuno"],["selvadorada","Selvadorada"],["brindleton-bay","Brindleton Bay"],["del-sol-valley","Del Sol Valley"],["strangerville","StrangerVille"],["sulani","Sulani"],["glimmerbrook","Glimmerbrook"],["britechester","Britechester"],["evergreen-harbor","Evergreen Harbor"],["mt-komorebi","Mt. Komorebi"],["henford-on-bagley","Henford-on-Bagley"],["copperdale","Copperdale"],["san-sequoia","San Sequoia"],["chestnut-ridge","Chestnut Ridge"],["tomarang","Tomarang"],["ravenwood","Ravenwood"],["nordhaven","Nordhaven"],["gibbi-point","Gibbi Point"],["ondarion","Ondarion"]];
+  var REGIONS=[["kanto","Kanto"],["johto","Johto"],["hoenn","Hoenn"],["sinnoh","Sinnoh"],["unova","Unova"],["kalos","Kalos"],["alola","Alola"],["galar","Galar"],["hisui","Hisui"],["paldea","Paldea"]];
   // The places. A new one is one more line here.
   // "about" is a line from that app's own home page; null means a space for her words.
-  // pics: the three picture choices (Pictures 1, 2, 3) for that place.
   var PLACES=[
-    {name:"Sim World", full:"Jemma’s Sim World", kind:"The Sims 4", pc:"#4E3182",
-     about:"Every world in the game, rebuilt one lot at a time. Wander the neighbourhoods, look around the homes and venues, and meet the households who live in them.",
-     pics:[{img:"img/map-windenburg.jpg"},{img:"img/shot-cottage-am-see.jpg"},{img:"img/shot-hanamigawa-koen.jpg"}]},
-    {name:"Library", full:"Jemma’s Library", kind:"Books", pc:"#6E4524",
-     about:"Every book on the shelves at home, and everything you read.",
-     pics:[{wall:true},{grid:true},{fade:true}]},
-    {name:"Pokédex", full:"Jemma’s Pokédex", kind:"Pokémon GO", pc:"#7E2530",
-     about:null,
-     pics:[{img:"img/region-kanto.jpg",mons:["img/mon/pm25.webp","img/mon/pm133.webp"]},{img:"img/bg-go-fest-2023-london.jpg",front:"img/mon/pm384.webp"},{img:"img/bg-go-fest-2026-copenhagen.jpg",front:"img/mon/pm150.webp"}]}
+    {name:"Sim World", title:"My Sim World", pc:"#4E3182", pic:function(){ return {img:"img/maps/sims-"+S.w+".jpg", map:true}; },
+     about:"Every world in the game, rebuilt one lot at a time. Wander the neighbourhoods, look around the homes and venues, and meet the households who live in them."},
+    {name:"Library", title:"My Library", pc:"#6E4524", pic:function(){ return {wall:true}; },
+     about:"Every book on the shelves at home, and everything you read."},
+    {name:"Pokédex", title:"My Pokédex", pc:"#7E2530", pic:function(){ return {img:"img/maps/region-"+S.r+".jpg", map:true}; },
+     about:null}
   ];
   // Only for "More places": stand-ins to show how it grows. Not real places.
-  var EXTRA=[{name:"New place",full:"New place",kind:"Next",pc:"#35606F",demo:true},{name:"New place",full:"New place",kind:"Next",pc:"#8A6A3A",demo:true},{name:"New place",full:"New place",kind:"Next",pc:"#5A5F73",demo:true}];
-  var ROMAN=["I","II","III","IV","V","VI","VII","VIII","IX","X"];
+  var EXTRA=[{name:"New place",title:"New place",pc:"#35606F",demo:true},{name:"New place",title:"New place",pc:"#8A6A3A",demo:true},{name:"New place",title:"New place",pc:"#5A5F73",demo:true}];
   var ICON={
     "arrow-right":'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
     "image":'<rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>',
@@ -190,62 +162,58 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   };
   function ico(n){ return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+ICON[n]+'</svg>'; }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
-  function cover(n){ return '<img src="img/wall/'+String(n%40).padStart(2,'0')+'.jpg" alt="">'; }
-  var WALL=''; for(var n=0;n<72;n++) WALL+=cover((n*7)%40);
-  var GRID=[3,8,12,17,22,26,31,35].map(cover).join('');
-  var FADE=[5,14,19,28,33,38,9,24].map(cover).join('');
+  var WALL=''; for(var n=0;n<72;n++) WALL+='<img src="img/wall/'+String((n*7)%40).padStart(2,'0')+'.jpg" alt="">';
   function pic(p){
     if(p.demo) return '<span class="pic blank" style="--pc:'+p.pc+'"></span>';
-    var q=p.pics[S.p-1], h='<span class="pic">';
-    if(q.wall) h+='<span class="wall">'+WALL+'</span>';
-    if(q.grid) h+='<span class="grid">'+GRID+'</span>';
-    if(q.fade) h+='<span class="fade">'+FADE+'</span>';
-    if(q.img) h+='<img class="bg" src="'+q.img+'" alt="">';
-    (q.mons||[]).forEach(function(m,i){ h+='<img class="mon'+(i?' two':'')+'" src="'+m+'" alt="">'; });
-    if(q.front) h+='<img class="mon front" src="'+q.front+'" alt="">';
-    return h+'</span>';
+    var q=p.pic();
+    if(q.wall) return '<span class="pic"><span class="wall">'+WALL+'</span></span>';
+    return '<span class="pic'+(q.map?' map':'')+'"><img class="bg" src="'+q.img+'" alt=""></span>';
   }
   function aboutPlace(p){ return p.about ? '<p>'+esc(p.about)+'</p>' : '<p class="ph">A line or two about '+(p.demo?'it':esc(p.name))+', in your own words.</p>'; }
 
-  // state: p pictures, n names, t title (1–3); more places; light/dark
-  var S={p:1,n:1,t:1}, more=false, root=document.documentElement, userMode=null;
-  try{ userMode=localStorage.getItem('jj-mode'); var saved=JSON.parse(localStorage.getItem('jj-s7')||'null'); if(saved) S=saved; }catch(e){}
-  location.hash.slice(1).split('-').forEach(function(w){ var m=/^([pnt])([123])$/.exec(w); if(m) S[m[1]]=+m[2]; if(w==='more') more=true; if(w==='dark'||w==='light') userMode=w; });
+  // state: w world, r region; more places; light/dark. The address can carry them: #willow-creek--kanto--more--dark
+  var S={w:'willow-creek',r:'kanto'}, more=false, root=document.documentElement, userMode=null;
+  var wIds=WORLDS.map(function(x){return x[0];}), rIds=REGIONS.map(function(x){return x[0];});
+  try{ userMode=localStorage.getItem('jj-mode'); var saved=JSON.parse(localStorage.getItem('jj-s8')||'null'); if(saved && wIds.indexOf(saved.w)>=0 && rIds.indexOf(saved.r)>=0) S=saved; }catch(e){}
+  location.hash.slice(1).split('--').forEach(function(w){ if(wIds.indexOf(w)>=0) S.w=w; if(rIds.indexOf(w)>=0) S.r=w; if(w==='more') more=true; if(w==='dark'||w==='light') userMode=w; });
   var mq=window.matchMedia ? matchMedia('(prefers-color-scheme: dark)') : null;
   function sysMode(){ var t=root.getAttribute('data-theme'); if(t==='dark'||t==='light') return t; return mq&&mq.matches ? 'dark':'light'; }
   function applyMode(){ root.setAttribute('data-mode', userMode||sysMode()); }
   applyMode();
   if(mq && mq.addEventListener) mq.addEventListener('change',function(){ if(!userMode){ applyMode(); render(); } });
 
+  var selW=document.getElementById('pick-w'), selR=document.getElementById('pick-r');
+  selW.innerHTML=WORLDS.map(function(x){ return '<option value="'+x[0]+'">'+esc(x[1])+'</option>'; }).join('');
+  selR.innerHTML=REGIONS.map(function(x){ return '<option value="'+x[0]+'">'+esc(x[1])+'</option>'; }).join('');
+  selW.addEventListener('change',function(){ S.w=selW.value; render(); });
+  selR.addEventListener('change',function(){ S.r=selR.value; render(); });
+
   function render(){
     var list=more ? PLACES.concat(EXTRA) : PLACES, dark=root.getAttribute('data-mode')==='dark';
-    var page=document.getElementById('page'); page.className='t'+S.t;
     var h='<header class="cover gut"><button type="button" class="mode" data-mode-btn aria-label="'+(dark?'Light':'Dark')+' mode">'+ico(dark?'sun':'moon')+'</button>'
-      +'<div class="wrap"><h1>Jemma’s <em>Journals</em></h1><div class="orn"><i></i><b></b><i></i></div></div><span class="ribbon"></span></header>'
+      +'<div class="wrap"><h1>Jemma’s <em>Journals</em></h1></div><span class="ribbon"></span></header>'
       +'<main class="gut"><div class="wrap">'
       +'<section class="intro"><span class="photo">'+ico('image')+'Your photo</span><div><span class="lab">About me</span>'
       +'<p class="ph">Your introduction goes here, in your own words: a few sentences about you, what you keep in these journals, anything you’d like people to know.<span class="ph-tag">Placeholder</span></p></div></section>'
       +'<div class="sec"><span class="lab">Contents</span><i></i></div><div class="cards">';
-    list.forEach(function(p,i){
-      var name = S.n===2 ? p.full : p.name, open=p.demo?'it':p.name;
+    list.forEach(function(p){
+      var open=p.demo?'it':p.name;
       h+='<article class="card" style="--pc:'+p.pc+'">'
         +'<a class="snap" href="#" data-open="'+esc(p.demo?'':p.name)+'" aria-label="Open '+esc(open)+'"><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>'+pic(p)+'</a>'
-        +(S.n===1 ? '<span class="kick lab">'+ROMAN[i]+' · '+esc(p.kind)+'</span>' : '')
-        +'<h3>'+esc(name)+'</h3>'+aboutPlace(p)
+        +'<h3>'+esc(p.title)+'</h3>'+aboutPlace(p)
         +'<a class="go" href="#" data-open="'+esc(p.demo?'':p.name)+'">Open '+esc(open)+' '+ico('arrow-right')+'</a></article>';
     });
-    h+='</div></div></main><footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b><p class="credits"><span>World maps by 20th Century Plumbob</span><span>Sims screenshots by Jemma</span><span>Pokémon pictures, backgrounds and region map from the games</span><span>Covers from the publishers</span><span>Icons by Lucide</span></p></div></footer>';
-    page.innerHTML=h;
-    document.querySelectorAll('.sw [data-k]').forEach(function(b){ b.setAttribute('aria-pressed', S[b.dataset.k]===+b.dataset.v ? 'true':'false'); });
+    h+='</div></div></main><footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b><p class="credits"><span>World maps by 20th Century Plumbob</span><span>Region maps from the Pokémon games</span><span>Covers from the publishers</span><span>Icons by Lucide</span></p></div></footer>';
+    document.getElementById('page').innerHTML=h;
+    selW.value=S.w; selR.value=S.r;
     document.getElementById('more').setAttribute('aria-pressed', more?'true':'false');
-    try{ localStorage.setItem('jj-s7',JSON.stringify(S)); }catch(e){}
+    try{ localStorage.setItem('jj-s8',JSON.stringify(S)); }catch(e){}
   }
   render();
 
   var toast=document.getElementById('toast'), t;
   function say(m){ toast.textContent=m; toast.hidden=false; clearTimeout(t); t=setTimeout(function(){ toast.hidden=true; },1800); }
   document.addEventListener('click',function(e){
-    var b=e.target.closest('.sw [data-k]'); if(b){ S[b.dataset.k]=+b.dataset.v; render(); return; }
     if(e.target.closest('#more')){ more=!more; render(); return; }
     if(e.target.closest('[data-mode-btn]')){
       userMode = root.getAttribute('data-mode')==='dark' ? 'light' : 'dark';
