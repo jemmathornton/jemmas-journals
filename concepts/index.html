@@ -156,6 +156,8 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .ql a{color:var(--soft-ink);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--acc) 30%,transparent);padding-bottom:1px}
 .ql a:hover{color:var(--acc);border-bottom-color:var(--acc)}
 .colo-on .foot .credits{display:none}
+/* an edition mark, like a journal's volume number (each redesign gets the next one) */
+.edition{font:700 10.5px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--acc);border:1px solid color-mix(in srgb,var(--acc) 45%,transparent);border-radius:99px;padding:5px 10px 4px}
 /* about this site: plain facts about how it's made */
 .colo{max-width:760px;margin:0 auto;padding:26px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 22px;font-size:13px;color:var(--mute);text-align:left}
 .colo dt{font:700 10.5px/1.9 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
@@ -210,7 +212,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 
 <div class="sw" role="group" aria-label="Versions to try">
   <div class="row"><span class="lab">Version</span><button type="button" data-ver="1">As now</button><button type="button" data-ver="2">Improved</button></div>
-  <div class="row"><span class="lab">Extras</span><button type="button" data-x="ql" aria-pressed="false">Quick links</button><button type="button" data-x="colo" aria-pressed="false">About this site</button><button type="button" data-x="slot" aria-pressed="false">Empty slot</button></div>
+  <div class="row"><span class="lab">Extras</span><button type="button" data-x="ql" aria-pressed="false">Quick links</button><button type="button" data-x="colo" aria-pressed="false">About this site</button><button type="button" data-x="slot" aria-pressed="false">Empty slot</button><button type="button" data-x="ed" aria-pressed="false">Edition</button></div>
   <div class="row"><button type="button" id="more" aria-pressed="false">+ More places</button></div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -257,7 +259,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   var ver=2, more=false, root=document.documentElement, userMode='light', X={ql:false,colo:false,slot:false};
   try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; var v=localStorage.getItem('jj-ver9'); if(v) ver=+v; var xs=JSON.parse(localStorage.getItem('jj-x10')||'null'); if(xs) X=xs; }catch(e){}
   location.hash.slice(1).split('--').forEach(function(w){ if(w==='now') ver=1; if(w==='improved') ver=2; if(w==='more') more=true; if(w==='dark'||w==='light') userMode=w;
-    if(w==='links') X.ql=true; if(w==='colophon') X.colo=true; if(w==='slot') X.slot=true; if(w==='plain') X={ql:false,colo:false,slot:false}; });
+    if(w==='links') X.ql=true; if(w==='colophon') X.colo=true; if(w==='slot') X.slot=true; if(w==='edition') X.ed=true; if(w==='plain') X={ql:false,colo:false,slot:false,ed:false}; });
   function applyMode(){ root.setAttribute('data-mode', userMode); }
   applyMode();
 
@@ -288,7 +290,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
     if(X.slot) h+='<article class="card slot"><a class="snap" href="#" data-open="" aria-label="Room for the next place">'+ico('plus')+'Room for the next place</a><h3>Next journal</h3></article>';
     h+='</div></div></main>'
       +(v2?'<div class="end" aria-hidden="true"><i></i><b></b><i></i></div>':'')
-      +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b><p class="credits"><span>World maps by 20th Century Plumbob</span><span>Region maps from the Pokémon games</span><span>Covers from the publishers</span><span>Icons by Lucide</span></p>'
+      +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b>'+(X.ed?'<span class="edition">Edition I</span>':'')+'<p class="credits"><span>World maps by 20th Century Plumbob</span><span>Region maps from the Pokémon games</span><span>Covers from the publishers</span><span>Icons by Lucide</span></p>'
       +(X.colo ? '<p class="colo-h">About this site</p><dl class="colo"><dt>Fonts</dt><dd>Instrument Serif and Manrope</dd><dt>Icons</dt><dd>Lucide</dd>'
         +'<dt>Pictures</dt><dd>World maps by 20th Century Plumbob; region maps from the Pokémon games; book covers from their publishers</dd>'
         +'<dt>Made with</dt><dd>Plain HTML and CSS; kept on GitHub</dd><dt>Privacy</dt><dd>No cookies, no tracking, no ads</dd></dl>' : '')

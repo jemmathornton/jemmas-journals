@@ -1,0 +1,36 @@
+# DRAFT, not in use. For when Jemma decides to put her apps online with GitHub Pages (see research/going-online.md).
+# It would go in each app's own repository as .github/workflows/publish.yml (sim-tracker, library, pokedex),
+# and then, in that repository's Settings > Pages, "Source" would be set to "GitHub Actions".
+# What it does: every time she pushes to main, GitHub copies the site/ folder (and only that) to her Pages address,
+# e.g. https://jemmathornton.github.io/library/. Nothing else in the repository is published.
+# Before using: check each action's current major version on its GitHub page (the numbers below were current when written).
+name: Publish the site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:        # also lets her run it by hand from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site          # only the site/ folder goes online
+      - id: deployment
+        uses: actions/deploy-pages@v4

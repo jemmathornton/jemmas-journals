@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found · Jemma’s Journals</title>
+<meta name="theme-color" content="#1C2540">
+<style>
+/* Jemma's Journals: the page shown for an address that doesn't exist (for when the site is online). Same cover and paper as the home page. */
+@font-face{font-family:"Instrument Serif";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-latin.woff2) format("woff2")}
+@font-face{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-italic-latin.woff2) format("woff2")}
+@font-face{font-family:"Manrope";font-style:normal;font-weight:200 800;font-display:swap;src:url(fonts/manrope-latin.woff2) format("woff2")}
+:root{--bg:#F4EEE3;--ink:#221D17;--mute:#6E6458;--acc:#8A661E;--cover:#1C2540;--gold:#E4C072;--label:#F3EBDA;--label-ink:#1F2740;color-scheme:light}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);font:400 16px/1.65 "Manrope","Segoe UI",system-ui,sans-serif}
+.cover{position:relative;padding:56px 20px 50px;text-align:center;background:radial-gradient(110% 120% at 30% 0%,#2E3A60,var(--cover) 60%,#141B30);box-shadow:0 18px 30px -22px rgba(0,0,0,.7)}
+.cover::before{content:"";position:absolute;inset:16px;border:1.5px solid color-mix(in srgb,var(--gold) 50%,transparent);border-radius:4px}
+.cover a{display:inline-block;font:400 clamp(36px,6vw,64px)/1 "Instrument Serif",Georgia,serif;letter-spacing:-.025em;background:var(--label);color:var(--label-ink);padding:.2em .5em .22em;border-radius:4px;text-decoration:none;outline:1.5px solid rgba(31,39,64,.35);outline-offset:-7px;position:relative}
+.cover a em{color:#8E6A22}
+main{max-width:640px;margin:0 auto;padding:72px 20px 96px;text-align:center}
+h1{font:400 clamp(40px,6vw,56px)/1.05 "Instrument Serif",Georgia,serif;margin:0 0 14px}
+p{margin:0 0 28px;color:var(--mute)}
+.go{display:inline-flex;align-items:center;gap:8px;font-weight:700;color:var(--acc);text-decoration:none;border-bottom:1.5px solid color-mix(in srgb,var(--acc) 35%,transparent)}
+.go:hover{border-bottom-color:var(--acc)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:4px}
+</style>
+</head>
+<body>
+<header class="cover"><a href="./">Jemma’s <em>Journals</em></a></header>
+<main>
+  <h1>Page not found</h1>
+  <p>There’s nothing at this address.</p>
+  <a class="go" href="./">← Back to Jemma’s Journals</a>
+</main>
+</body>
+</html>
