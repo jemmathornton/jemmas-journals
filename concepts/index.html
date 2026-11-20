@@ -172,15 +172,8 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .about-site .cr{white-space:nowrap}   /* each credit stays in one piece when the line wraps */
 
 /* ================================================================ Ideas to try for the whole page (switch) */
-/* paper: a faint grain on the cream page, like real paper */
-body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45  0 0 0 0 .36  0 0 0 0 .22  .6 0 0 0 -.18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-/* stitching: a stitched line round the edge of the cloth cover */
-.i-stitch .cover::after{content:"";position:absolute;inset:7px max(calc(var(--frame) - 9px),5px);border:1.5px dashed rgba(228,192,114,.38);border-radius:3px;pointer-events:none}
-/* tilted photos: each place's photo sits a little crooked, as if stuck in by hand; it straightens when pointed at */
-.i-tilt .card:nth-child(3n+1) .snap{transform:rotate(-1.6deg)}
-.i-tilt .card:nth-child(3n+2) .snap{transform:rotate(1.2deg)}
-.i-tilt .card:nth-child(3n+3) .snap{transform:rotate(-.8deg)}
-.i-tilt .card .snap:hover{transform:rotate(0) translateY(-3px)}
+/* stitching round the cover (her pick, 20 Nov) */
+.cover::after{content:"";position:absolute;inset:7px max(calc(var(--frame) - 9px),5px);border:1.5px dashed rgba(228,192,114,.38);border-radius:3px;pointer-events:none}
 /* ribbon: the bookmark is a real link that takes you to Contents */
 .i-ribbon .cover .ribbon{cursor:pointer;transition:height .25s cubic-bezier(.2,.7,.2,1)}
 .i-ribbon .cover .ribbon:hover{height:108px}
@@ -252,7 +245,7 @@ body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 <div id="page"></div>
 
 <div class="sw" role="group" aria-label="Try it">
-  <div class="row"><span class="lab">Ideas</span><button type="button" data-idea="paper">Paper</button><button type="button" data-idea="stitch">Stitching</button><button type="button" data-idea="tilt">Tilted photos</button><button type="button" data-idea="ribbon">Bookmark ribbon</button><button type="button" data-idea="mini">Title on scroll</button><button type="button" data-idea="enter">Gentle entrance</button></div>
+  <div class="row"><span class="lab">Ideas</span><button type="button" data-idea="ribbon">Bookmark ribbon</button><button type="button" data-idea="mini">Title on scroll</button><button type="button" data-idea="enter">Gentle entrance</button></div>
   <div class="row"><button type="button" id="more" aria-pressed="false">+ More places</button></div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -295,7 +288,7 @@ body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
   var more=0, root=document.documentElement, userMode='light';   // more: how many stand-in places to add (0–3), to show how the page grows
   try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; localStorage.removeItem('jj-foot'); }catch(e){}
-  var IDEAS={paper:false,stitch:false,tilt:false,ribbon:false,mini:false,enter:false};
+  var IDEAS={ribbon:false,mini:false,enter:false};
   try{ var si=JSON.parse(localStorage.getItem('jj-ideas')||'null'); if(si) for(var k in IDEAS) IDEAS[k]=!!si[k]; }catch(e){}
   location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w;
     if(w==='plain') for(var k in IDEAS) IDEAS[k]=false; if(IDEAS.hasOwnProperty(w)) IDEAS[w]=true; });
@@ -335,7 +328,6 @@ body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
       +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b>'+aboutSite()
       +'<a class="totop" href="#top" data-top>'+ico('arrow-up')+'Back to top</a></div></footer>';
     var page=document.getElementById('page'); page.className='v2'+Object.keys(IDEAS).filter(function(k){return IDEAS[k];}).map(function(k){return ' i-'+k;}).join(''); page.innerHTML=h;
-    document.body.classList.toggle('i-paper', IDEAS.paper);
     document.querySelectorAll('.sw [data-idea]').forEach(function(b){ b.setAttribute('aria-pressed', IDEAS[b.dataset.idea] ? 'true':'false'); });
     try{ localStorage.setItem('jj-ideas',JSON.stringify(IDEAS)); }catch(e){}
     onScroll();
