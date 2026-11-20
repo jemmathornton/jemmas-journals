@@ -25,6 +25,8 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 - 20 Nov: the Improved version (gold corner brackets on the cover, serif section headings with a diamond rule, About photo in album corners, centred footer, Back to top), with About this site laid out across the footer. Not wanted: quick links, an empty slot, an edition mark.
 - 20 Nov (later): links say “Open My Sim World” etc. (she found “Open Sim World” odd beside “My Sim World”). About this site must be small and subtle (she hated the table-like band). A way back home in each app: **A**, a small “← Jemma’s Journals” link at the top of each app’s sidebar (subtle); not yet added to the apps (their own projects, and the link needs the home page’s online address).
 
+- 20 Nov (evening): **tab icon is her own design**, drawn in `concepts/tools/draw-icon.html`: navy square, cream book outline, gold corners in front, upright cream J (front, navy gap) and slanted gold J just lower right. Files in `concepts/img/icon/` and `concepts/favicon.ico`, linked from the page. For looks she can’t describe, offer her that canvas rather than more guesses.
+
 ## Where things are
 
 - `concepts/index.html`: the page as it stands, with the trial switch (bottom right) and “+ More places”. The places are one list, `PLACES`, in its script. Published for her phone as a private Claude artifact: https://claude.ai/artifact/Ad37As365K3HDcR8iHw7HE (republish after changes).
