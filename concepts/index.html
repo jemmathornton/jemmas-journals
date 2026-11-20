@@ -31,7 +31,13 @@
 :root[data-mode="dark"]{
   --bg:#15130F; --ink:#EFE9DE; --soft-ink:#D6CEC1; --mute:#A89F91; --line:#2F2A23; --acc:#DDB86A; --mat:#E9E2D4; --cover:#131A30;
   --sw-bg:#1E2330; --sw-ink:#ECEEF3; --sw-mute:#9AA1B2; --sw-line:#30364A; --sw-on:#ECEEF3; --sw-on-ink:#151923; color-scheme:dark }
-:root[data-mode="dark"] .v2{--mat:#D8D0C1}
+/* dark mode turns the light things dark (her ask, 20 Nov): the title label and the photo mats go blackish, the photo corners go cream-white */
+:root[data-mode="dark"]{--label:var(--bg); --label-ink:#F3EBDA}   /* same as the page, as the cream label matches the cream page in light */
+:root[data-mode="dark"] .v2{--mat:#0C0B09}
+:root[data-mode="dark"] .cover h1{outline-color:rgba(243,235,218,.22)}
+:root[data-mode="dark"] .cover h1 em{color:var(--gold)}
+:root[data-mode="dark"] .c{background:#F3EBDA;box-shadow:0 1px 2px rgba(0,0,0,.6)}
+:root[data-mode="dark"] .snap,:root[data-mode="dark"] .v2 .intro .mount{box-shadow:0 14px 30px -14px rgba(0,0,0,.9),0 0 0 1px rgba(243,235,218,.08)}
 
 *{box-sizing:border-box}
 html{background:var(--bg);scroll-behavior:smooth}
