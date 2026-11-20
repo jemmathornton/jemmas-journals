@@ -17,7 +17,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 
 ## Her decisions so far
 
-- Navy cloth-cover banner with the title on a cream label; no elastic-band stripe.
+- Cloth-cover banner with the title on a cream label; no elastic-band stripe. **Cover colour: old gold** (#8E6520, cream trim; dark #6A4A17), her pick 20 Nov evening, replacing navy (too cool). Tab icon and share picture are still navy.
 - Places as photos in album corners, named “My Sim World”, “My Library”, “My Pokédex”, nothing above the names.
 - Only the photo and “Open …” are links (not the whole card).
 - Library’s picture: the tilted wall of her covers. Sim World and Pokédex: a full map, nothing added on top. Which ones is open: she’ll supply a Sims picture; for Pokédex she’d like the combined Johto and Kanto painting (official HeartGold/SoulSilver art, PidgiWiki `File:Johto_and_Kanto_-_Pokemon_HeartGold_and_SoulSilver.jpg`; not on her PC yet).

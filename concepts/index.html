@@ -1,6 +1,6 @@
 <title>Jemma’s Journals</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<meta name="theme-color" content="#1C2540">
+<meta name="theme-color" content="#8E6520">
 <meta name="robots" content="noindex, noai, noimageai">   <!-- her choice, 20 Nov: keep out of search engines and AI -->
 <!-- Tab icon: drawn by Jemma on 20 Nov (book, gold corners, her two J’s); made by tools/draw-icon.html -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
@@ -20,7 +20,7 @@
 
 :root{
   /* cream page, ink, a muted gold; the banner is navy cloth with a cream title label */
-  --bg:#F4EEE3; --ink:#221D17; --soft-ink:#463D33; --mute:#6E6458; --line:#DDD3C3; --acc:#8A661E; --mat:#FFFDF8; --cover:#1C2540; --gold:#E4C072; --label:#F3EBDA; --label-ink:#1F2740;
+  --bg:#F4EEE3; --ink:#221D17; --soft-ink:#463D33; --mute:#6E6458; --line:#DDD3C3; --acc:#8A661E; --mat:#FFFDF8; --cover:#8E6520; --cover-hi:#C2943F; --deco:#F3EBDA; --gold:#E4C072; --label:#F3EBDA; --label-ink:#1F2740;
   --display:"Instrument Serif","Iowan Old Style","Palatino Linotype",Georgia,serif;
   --body:"Manrope","Segoe UI",system-ui,sans-serif;
   --g:clamp(16px,4vw,56px); --frame:max(calc(var(--g) - 20px),12px);
@@ -29,7 +29,7 @@
 }
 /* dark only when the button is pressed (her choice: light by default) */
 :root[data-mode="dark"]{
-  --bg:#29221B; --ink:#EFE9DE; --soft-ink:#D6CEC1; --mute:#A89F91; --line:#40362B; --acc:#DDB86A; --mat:#E9E2D4; --cover:#131A30;
+  --bg:#29221B; --ink:#EFE9DE; --soft-ink:#D6CEC1; --mute:#A89F91; --line:#40362B; --acc:#DDB86A; --mat:#E9E2D4; --cover:#6A4A17; --cover-hi:#93702F;
   --sw-bg:#1E2330; --sw-ink:#ECEEF3; --sw-mute:#9AA1B2; --sw-line:#30364A; --sw-on:#ECEEF3; --sw-on-ink:#151923; color-scheme:dark }
 /* dark mode turns the light things dark (her ask, 20 Nov): the title label and the photo mats go blackish, the photo corners go cream-white */
 :root[data-mode="dark"]{--label:var(--bg); --label-ink:#F3EBDA}   /* same as the page, as the cream label matches the cream page in light */
@@ -177,13 +177,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .about-site .cr{white-space:nowrap}   /* each credit stays in one piece when the line wraps */
 
 /* ================================================================ Ideas to try for the whole page (switch) */
-/* cover colours to try (her ask, 20 Nov: navy feels too cool; something more yellow/gold?) */
-:root[data-cover="2"]{--cover:#B4852B;--cover-hi:#E2B85C;--deco:#3B2A10}
-:root[data-cover="3"]{--cover:#8E6520;--cover-hi:#C2943F;--deco:#F3EBDA}
-:root[data-cover="4"]{--cover:#563F1C;--cover-hi:#8C6A34;--deco:#E4C072}
-:root[data-mode="dark"][data-cover="2"]{--cover:#8C661F;--cover-hi:#B98E40}
-:root[data-mode="dark"][data-cover="3"]{--cover:#6A4A17;--cover-hi:#93702F}
-:root[data-mode="dark"][data-cover="4"]{--cover:#3D2C13;--cover-hi:#69502A}
 /* stitching round the cover (her pick, 20 Nov) */
 .cover::after{content:"";position:absolute;inset:7px max(calc(var(--frame) - 9px),5px);border:1.5px dashed color-mix(in srgb,var(--deco,var(--gold)) 38%,transparent);border-radius:3px;pointer-events:none}
 /* gentle entrance (her pick, 20 Nov): sections fade up softly once, as the page opens (not for anyone who has reduced motion turned on) */
@@ -245,7 +238,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 <div id="page"></div>
 
 <div class="sw" role="group" aria-label="Try it">
-  <div class="row"><span class="lab">Cover</span><button type="button" data-cover="1">1 · Navy (as now)</button><button type="button" data-cover="2">2 · Mustard</button><button type="button" data-cover="3">3 · Old gold</button><button type="button" data-cover="4">4 · Bronze</button></div>
   <div class="row"><button type="button" id="more" aria-pressed="false">+ More places</button></div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -286,9 +278,9 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   function h2(text,id){ return '<div class="h2"><h2'+(id?' id="'+id+'"':'')+'>'+text+'</h2><span class="rule"><i></i><b></b></span></div>'; }
 
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
-  var more=0, root=document.documentElement, userMode='light', cover=1;   // cover: colours to try (1 navy … 4 bronze)   // more: how many stand-in places to add (0–3), to show how the page grows
+  var more=0, root=document.documentElement, userMode='light';   // more: how many stand-in places to add (0–3), to show how the page grows
   try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; localStorage.removeItem('jj-foot'); }catch(e){}
-  location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w; var cm=/^cover([1234])$/.exec(w); if(cm) cover=+cm[1];
+  location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w;
     });
 
   // About this site: two quiet lines (her pick, 20 Nov: option 2, each credit starting with a capital)
@@ -297,7 +289,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
     return '<div class="about-site two"><p>No cookies, no tracking, no ads. Made with plain HTML and CSS, kept on GitHub.</p>'
       +'<p>'+['World maps by 20th Century Plumbob','Region maps from the Pokémon games','Book covers from their publishers','Fonts: Instrument Serif and Manrope','Icons by Lucide'].map(function(t){ return '<span class="cr">'+t+'</span>'; }).join(' '+DOT+' ')+'</p></div>';
   }
-  function applyMode(){ root.setAttribute('data-mode', userMode); root.setAttribute('data-cover', cover); document.querySelectorAll('.sw [data-cover]').forEach(function(b){ b.setAttribute('aria-pressed', +b.dataset.cover===cover ? 'true':'false'); }); }
+  function applyMode(){ root.setAttribute('data-mode', userMode); }
   applyMode();
 
   var firstRender=true;   // the gentle entrance plays once, when the page first opens
@@ -334,7 +326,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   var toast=document.getElementById('toast'), t;
   function say(m){ toast.textContent=m; toast.hidden=false; clearTimeout(t); t=setTimeout(function(){ toast.hidden=true; },1800); }
   document.addEventListener('click',function(e){
-    var cb=e.target.closest('.sw [data-cover]'); if(cb){ cover=+cb.dataset.cover; applyMode(); return; }
     if(e.target.closest('#more')){ more=(more+1)%4; render(); return; }
     if(e.target.closest('[data-top]')){ e.preventDefault(); window.scrollTo(0,0); return; }
     if(e.target.closest('[data-mode-btn]')){
