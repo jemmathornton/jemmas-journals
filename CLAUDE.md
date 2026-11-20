@@ -17,7 +17,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 
 ## Her decisions so far
 
-- Cloth-cover banner with the title on a cream label; no elastic-band stripe. **Cover colour: old gold** (#8E6520, cream trim; dark #6A4A17), her pick 20 Nov evening, replacing navy (too cool). Tab icon and share picture are still navy.
+- Cloth-cover banner with the title on a cream label; no elastic-band stripe. **Cover colour: old gold** (#8E6520, cream trim; dark #6A4A17), her pick 20 Nov evening, replacing navy (too cool). Share picture is still navy.
 - Places as photos in album corners, named “My Sim World”, “My Library”, “My Pokédex”, nothing above the names.
 - Only the photo and “Open …” are links (not the whole card).
 - Library’s picture: the tilted wall of her covers. Sim World and Pokédex: a full map, nothing added on top. Which ones is open: she’ll supply a Sims picture; for Pokédex she’d like the combined Johto and Kanto painting (official HeartGold/SoulSilver art, PidgiWiki `File:Johto_and_Kanto_-_Pokemon_HeartGold_and_SoulSilver.jpg`; not on her PC yet).
@@ -31,7 +31,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 - 20 Nov (evening): page ideas: **stitching on the cover, yes** (always on now); **paper and tilted photos, no** (removed). Bookmark ribbon (as a link): no, removed. Title on scroll: no, removed. Red ribbon: removed (her pick). **Gentle entrance: yes** (plays once as the page opens; skipped for reduced motion). The Ideas row is gone from the switch.
 - 20 Nov (evening): pictures parked again: she will change them later (Pokédex whole-vs-fill not decided).
 - 20 Nov (evening): dark mode: opens light; moon button switches and is remembered. Dark **swaps colours consistently** (her ask): page and title label the same warm black (#29221B), photo mats deeper warm black (#0D0A07) so photos stand out, photo corners cream.
-- 20 Nov (evening): **tab icon is her own design**, drawn in `concepts/tools/draw-icon.html`: navy square, cream book outline, gold corners in front, upright cream J (front, navy gap) and slanted gold J just lower right. Files in `concepts/img/icon/` and `concepts/favicon.ico`, linked from the page. For looks she can’t describe, offer her that canvas rather than more guesses.
+- 20 Nov (evening): **tab icon is her own design**, drawn in `concepts/tools/draw-icon.html` (redrawn simpler 20 Nov late): cream square, old gold book outline, warm black upright J in front with a cream gap, old gold slanted J just lower right; no corners. Files in `concepts/img/icon/` and `concepts/favicon.ico`, linked from the page. For looks she can’t describe, offer her that canvas rather than more guesses.
 
 ## Where things are
 
