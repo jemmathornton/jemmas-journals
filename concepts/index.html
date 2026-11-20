@@ -56,7 +56,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
     radial-gradient(110% 120% at 30% 0%,color-mix(in srgb,var(--cover) 82%,#4a5a8a),var(--cover) 60%,color-mix(in srgb,var(--cover) 80%,#000));
   box-shadow:inset 0 -2px 0 rgba(0,0,0,.25),0 18px 30px -22px rgba(0,0,0,.7)}
 .cover::before{content:"";position:absolute;inset:16px var(--frame);border:1.5px solid color-mix(in srgb,var(--gold) 50%,transparent);border-radius:4px;pointer-events:none}
-.cover .ribbon{position:absolute;z-index:3;right:14%;top:100%;width:18px;height:92px;background:linear-gradient(90deg,#7E2232,#A23446 50%,#7E2232);clip-path:polygon(0 0,100% 0,100% 100%,50% 84%,0 100%);box-shadow:0 4px 8px rgba(0,0,0,.3)}
 .mode{position:absolute;z-index:6;top:calc(30px + env(safe-area-inset-top,0px));right:calc(var(--frame) + 14px);width:38px;height:38px;border-radius:50%;border:1px solid rgba(228,192,114,.4);background:none;display:grid;place-items:center;cursor:pointer;color:var(--gold)}
 .mode:hover{border-color:var(--gold)}
 .mode:focus-visible{outline-color:var(--gold)}
@@ -172,7 +171,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .about-site .cr{white-space:nowrap}   /* each credit stays in one piece when the line wraps */
 
 /* ================================================================ Ideas to try for the whole page (switch) */
-.i-noribbon .cover .ribbon{display:none}   /* trying the banner without the red ribbon */
 /* stitching round the cover (her pick, 20 Nov) */
 .cover::after{content:"";position:absolute;inset:7px max(calc(var(--frame) - 9px),5px);border:1.5px dashed rgba(228,192,114,.38);border-radius:3px;pointer-events:none}
 /* gentle entrance: sections fade up softly as the page opens (not for anyone who has reduced motion turned on) */
@@ -181,6 +179,11 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   .i-enter .sec{animation-delay:.12s}.i-enter .card:nth-child(1){animation-delay:.2s}.i-enter .card:nth-child(2){animation-delay:.28s}.i-enter .card:nth-child(3){animation-delay:.36s}
   .i-enter .card:nth-child(n+4){animation-delay:.42s}.i-enter .end,.i-enter .foot{animation-delay:.45s}
 }
+/* trying it: pressing the switch button plays it once, even with reduced motion on, so it can be judged */
+.i-enter.demo .intro,.i-enter.demo .sec,.i-enter.demo .card,.i-enter.demo .end,.i-enter.demo .foot{animation:jj-in .7s cubic-bezier(.2,.7,.2,1) both}
+.i-enter.demo .sec{animation-delay:.12s}.i-enter.demo .card:nth-child(1){animation-delay:.2s}.i-enter.demo .card:nth-child(2){animation-delay:.28s}.i-enter.demo .card:nth-child(3){animation-delay:.36s}
+.i-enter.demo .card:nth-child(n+4){animation-delay:.42s}.i-enter.demo .end,.i-enter.demo .foot{animation-delay:.45s}
+
 @keyframes jj-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
 /* ---- the trial switch (bottom right; not part of the site) */
@@ -201,7 +204,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 @media (max-width:760px){
   body{font-size:15.5px}
   .cover{padding-block:66px 46px}
-  .cover .ribbon{right:12%;height:60px;width:14px}
   .mode{top:calc(26px + env(safe-area-inset-top,0px))}
   .cover h1{font-size:40px;padding:.22em .45em .24em;outline-offset:-6px}
   .intro{grid-template-columns:96px minmax(0,1fr);gap:18px 20px;align-items:start}
@@ -234,7 +236,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 <div id="page"></div>
 
 <div class="sw" role="group" aria-label="Try it">
-  <div class="row"><span class="lab">Ideas</span><button type="button" data-idea="noribbon">No ribbon</button><button type="button" data-idea="enter">Gentle entrance</button></div>
+  <div class="row"><span class="lab">Ideas</span><button type="button" data-idea="enter">Gentle entrance (plays when pressed)</button></div>
   <div class="row"><button type="button" id="more" aria-pressed="false">+ More places</button></div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -277,7 +279,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
   var more=0, root=document.documentElement, userMode='light';   // more: how many stand-in places to add (0–3), to show how the page grows
   try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; localStorage.removeItem('jj-foot'); }catch(e){}
-  var IDEAS={noribbon:false,enter:false};
+  var IDEAS={enter:false};
   try{ var si=JSON.parse(localStorage.getItem('jj-ideas')||'null'); if(si) for(var k in IDEAS) IDEAS[k]=!!si[k]; }catch(e){}
   location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w;
     if(w==='plain') for(var k in IDEAS) IDEAS[k]=false; if(IDEAS.hasOwnProperty(w)) IDEAS[w]=true; });
@@ -297,7 +299,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
       +'<header class="cover gut"><span class="cn tl"></span><span class="cn tr"></span><span class="cn bl"></span><span class="cn br"></span>'
       +'<button type="button" class="mode" data-mode-btn aria-pressed="'+dark+'" aria-label="Dark mode">'+ico(dark?'sun':'moon')+'</button>'
       +'<div class="wrap"><h1>Jemma’s <em>Journals</em></h1></div>'
-      +'<span class="ribbon"></span>'
       +'</header>'
       +'<main class="gut"><div class="wrap">';
     var INTRO='<p class="ph">Your introduction goes here, in your own words: a few sentences about you, what you keep in these journals, anything you’d like people to know.<span class="ph-tag">Placeholder</span></p>';
@@ -327,7 +328,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   var toast=document.getElementById('toast'), t;
   function say(m){ toast.textContent=m; toast.hidden=false; clearTimeout(t); t=setTimeout(function(){ toast.hidden=true; },1800); }
   document.addEventListener('click',function(e){
-    var ib=e.target.closest('.sw [data-idea]'); if(ib){ IDEAS[ib.dataset.idea]=!IDEAS[ib.dataset.idea]; render(); return; }
+    var ib=e.target.closest('.sw [data-idea]'); if(ib){ IDEAS[ib.dataset.idea]=!IDEAS[ib.dataset.idea]; render(); if(ib.dataset.idea==='enter'&&IDEAS.enter){ window.scrollTo(0,0); document.getElementById('page').classList.add('demo'); } return; }
     if(e.target.closest('#more')){ more=(more+1)%4; render(); return; }
     if(e.target.closest('[data-top]')){ e.preventDefault(); window.scrollTo(0,0); return; }
     if(e.target.closest('[data-mode-btn]')){
