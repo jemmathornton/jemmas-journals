@@ -153,7 +153,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 /* ================================================================ Extras to try (switch): quick links, about this site, an empty slot */
 /* quick links: straight into each place's main sections (their names are the apps' own) */
 .ql{display:flex;flex-wrap:wrap;gap:6px 16px;margin:-4px 0 18px;font-size:13.5px;font-weight:600;color:var(--mute)}
-.ql a{color:var(--soft-ink);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--acc) 30%,transparent);padding-bottom:1px}
+.ql a{display:inline-flex;align-items:center;min-height:26px;color:var(--soft-ink);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--acc) 30%,transparent);padding-top:3px}
 .ql a:hover{color:var(--acc);border-bottom-color:var(--acc)}
 .colo-on .foot .credits{display:none}
 /* an edition mark, like a journal's volume number (each redesign gets the next one) */
@@ -200,10 +200,15 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   .v2 .cover .cn::after{width:9px;height:9px}
   .v2 .cover .cn.tl,.v2 .cover .cn.tr{top:22px}.v2 .cover .cn.bl,.v2 .cover .cn.br{bottom:22px}
   .v2 .mode{top:calc(30px + env(safe-area-inset-top,0px));right:calc(var(--frame) + 34px)}
-  .v2 .intro{grid-template-columns:1fr;gap:22px}
-  .v2 .intro .mount{width:150px;padding:9px}
-  .v2 .intro .mount .photo{inset:9px}
+  .v2 .intro{grid-template-columns:104px minmax(0,1fr);gap:16px 18px}
+  .v2 .intro .mount{width:104px;padding:7px}
+  .v2 .intro .mount .photo{inset:7px}
+  .v2 .intro .mount .c{width:16px;height:16px}
+  .v2 .intro .h2{margin:0 0 10px}
   .v2 .h2 h2{font-size:32px}
+  .sw{left:calc(14px + env(safe-area-inset-left,0px));max-width:none}
+  .sw .row{flex-wrap:wrap}
+  .sw button{padding:6px 9px;font-size:12.5px}
   .v2 .card h3{font-size:38px}
 }
 </style>
@@ -222,13 +227,13 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   // The places. A new one is one more line here. "about" is a line from that app's own home page; null means a space for her words.
   // Pictures are parked for now (her call, 20 Nov): Sim World and Pokédex show a full map until she chooses.
   var PLACES=[
-    {name:"Sim World", title:"My Sim World", pc:"#4E3182", pic:{img:"img/maps/sims-willow-creek.jpg", map:true, alt:"Map of Willow Creek"},
+    {name:"Sim World", title:"My Sim World", pc:"#4E3182", pic:{img:"img/maps/sims-willow-creek.webp", map:true, alt:"Map of Willow Creek"},
      links:[["Calendar","calendar"],["Families","families"],["Businesses","businesses"],["Clubs","clubs"],["Dynasties","dynasties"]],
      about:"Every world in the game, rebuilt one lot at a time. Wander the neighbourhoods, look around the homes and venues, and meet the households who live in them."},
     {name:"Library", title:"My Library", pc:"#6E4524", pic:{wall:true, alt:"Covers of books from my shelves"},
      links:[["All Shelves","shelves"],["Reading","reading"],["History","history"],["To Buy","to-buy"],["Authors","authors"]],
      about:"Every book on the shelves at home, and everything you read."},
-    {name:"Pokédex", title:"My Pokédex", pc:"#7E2530", pic:{img:"img/maps/region-kanto.jpg", map:true, alt:"Map of Kanto"},
+    {name:"Pokédex", title:"My Pokédex", pc:"#7E2530", pic:{img:"img/maps/region-kanto.webp", map:true, alt:"Map of Kanto"},
      links:[["Every Pokémon","dex"],["Event Pokémon","sets"],["Looking for","want"],["What’s on","coming"]],
      about:null}
   ];
@@ -244,7 +249,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   };
   function ico(n){ return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+ICON[n]+'</svg>'; }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
-  var WALL=''; for(var n=0;n<72;n++) WALL+='<img src="img/wall/'+String((n*7)%40).padStart(2,'0')+'.jpg" alt="" loading="lazy" decoding="async">';
+  var WALL=''; for(var n=0;n<72;n++) WALL+='<img src="img/wall/'+String((n*7)%40).padStart(2,'0')+'.webp" alt="" loading="lazy" decoding="async">';
   function pic(p){
     if(p.demo) return '<span class="pic blank" style="--pc:'+p.pc+'"></span>';
     var q=p.pic;

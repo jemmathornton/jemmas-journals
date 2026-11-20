@@ -1,0 +1,38 @@
+<!-- DRAFT, not in use: the <head> for the real home page once it goes online (see research/site-ideas.md, "Before it goes online").
+     Assumes the address https://jemmathornton.github.io/ ; change it if she picks her own domain.
+     Lines marked CHOICE depend on her decisions. -->
+<!doctype html>
+<html lang="en-GB">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light">   <!-- light by default, her choice; the button switches to dark -->
+  <title>Jemma’s Journals</title>
+  <!-- CHOICE: a one-line description in her own words (shown in some link previews), e.g. <meta name="description" content="…"> -->
+  <meta name="theme-color" content="#1C2540">   <!-- the banner's navy, used by phone browsers for the bar -->
+
+  <!-- CHOICE: keep it out of search engines (a request, not privacy). Each of her other sites would need the same line. -->
+  <meta name="robots" content="noindex">
+
+  <!-- Tab and home-screen icon: CHOICE of A, B or C (for-jemma/concepts/choice-tab-icon.png) -->
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="icon" href="/icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">   <!-- 180 × 180 -->
+  <link rel="manifest" href="/manifest.webmanifest">
+
+  <!-- Share preview when the link is sent in a message (absolute https addresses). -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Jemma’s Journals">
+  <meta property="og:title" content="Jemma’s Journals">
+  <meta property="og:url" content="https://jemmathornton.github.io/">
+  <meta property="og:image" content="https://jemmathornton.github.io/img/share-preview.png">   <!-- 1200 × 630, under 300 KB for WhatsApp -->
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Jemma’s Journals on a navy cloth cover">
+  <meta property="og:locale" content="en_GB">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Fonts: start loading the two the first screen needs straight away -->
+  <link rel="preload" href="/fonts/instrument-serif-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+</head>

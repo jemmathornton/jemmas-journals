@@ -31,6 +31,24 @@ From the “slash pages” tradition ([slashpages.net](https://slashpages.net/))
 - **A “page not found” page** in the same style (`concepts/404.html`).
 - **Not listed by search engines** (a `noindex` tag), if she prefers.
 
+## Done overnight (no change to how it looks)
+
+- **Lighter pictures:** the book covers and maps are now saved at the size they’re shown, as WebP: the whole page went from about 920 KB to about 410 KB, which matters on a phone ([MDN on image formats](https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Image_types)).
+- **Places higher up on a phone:** in the Improved version the About photo now sits beside her words on a phone, so the first place starts at 545 px instead of 738 px (the phone screen is 844 px).
+- **Bigger tap areas** for the quick links (at least 24 px, the accessibility standard: [W3C target size](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html)).
+- Every text colour checked against its background (all pass); 108 automatic page checks pass.
+
+## Before it goes online: checklist (drafts in `research/drafts/`)
+
+- `head.html`: the page’s hidden settings: language (en-GB), light colour scheme, share-preview tags for WhatsApp/iMessage/Discord ([ogp.me](https://ogp.me/); keep the picture under ~300 KB for WhatsApp), icons, and the fonts started early ([web.dev](https://web.dev/articles/font-best-practices)).
+- Icons: a 32 px favicon.ico, an SVG icon and a 180 × 180 apple-touch-icon ([Evil Martians, 2026](https://evilmartians.com/chronicles/how-to-favicon-in-2021-six-files-that-fit-most-needs)), once she picks A, B or C.
+- `manifest.webmanifest`: lets “Add to Home Screen” open it like an app on Android and iPhone ([web.dev](https://web.dev/articles/add-manifest); since iOS 26 every Home Screen site opens as a web app, [WebKit](https://webkit.org/blog/17333/webkit-features-in-safari-26-0/)).
+- `robots.txt`: optional lines asking AI companies’ crawlers (OpenAI, Google’s AI, Anthropic, Apple’s AI, Common Crawl) not to collect the pages. Requests, not locks.
+- `noindex`: one line per page to ask search engines not to list it; each of her apps would need it too if they should stay unlisted ([Google](https://developers.google.com/search/docs/crawling-indexing/block-indexing)).
+- `concepts/404.html`: the not-found page (GitHub Pages uses `404.html` at the root; [GitHub](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-custom-404-page-for-your-github-pages-site)).
+- After publishing: run [PageSpeed Insights](https://pagespeed.web.dev) on the phone tab (aim for 90+) and [WAVE](https://wave.webaim.org/extension/) for accessibility.
+- Counting visitors: not needed. If she ever wants it, GoatCounter is free and cookie-free; under the UK’s 2025 changes, simple analytics to improve a site needs a short privacy note with a way to opt out rather than a consent banner ([ICO](https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guidance-on-the-use-of-storage-and-access-technologies/what-are-the-exceptions/)). Not legal advice. Her saved light/dark choice is the kind of “appearance” setting the ICO allows without asking.
+
 ## Examples worth a look (picked by the research helper; design taste, not a ranking)
 
 - Laurel Schwulst, https://laurelschwulst.com: a column of picture cards, each with a title and one line. Her essay on personal websites is widely cited ([The Creative Independent](https://thecreativeindependent.com/essays/laurel-schwulst-my-website-is-a-shifting-house-next-to-a-river-of-knowledge-what-could-yours-be/)).
