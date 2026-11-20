@@ -162,19 +162,13 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .v2 .totop{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-weight:700;font-size:13px;color:var(--acc);text-decoration:none}
 .v2 .totop svg.i{width:14px;height:14px}
 
-/* ================================================================ About this site (her pick, 20 Nov), small and quiet: three ways to try (switch) */
+/* ================================================================ About this site (her pick, 20 Nov: two short lines, small and quiet) */
 .foot .credits{display:none}
 .about-site{max-width:760px;font-size:12.5px;line-height:1.7;color:var(--mute)}
-.foot .about-site b{font:700 1em/1.7 var(--body);color:var(--soft-ink)}
-.about-site .dot{margin:0 7px;color:color-mix(in srgb,var(--acc) 60%,transparent)}
-/* 2: two short lines */
+.about-site .dot{margin:0 3px;color:color-mix(in srgb,var(--acc) 60%,transparent)}
 .about-site.two p{margin:0}
-/* 3: tucked away behind a small "About this site" */
-.about-site.tuck summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:6px;font-weight:700;color:var(--acc);font-size:12.5px;padding:4px 2px}
-.about-site.tuck summary::-webkit-details-marker{display:none}
-.about-site.tuck summary::after{content:"";width:6px;height:6px;border-right:1.5px solid currentColor;border-bottom:1.5px solid currentColor;transform:rotate(45deg) translateY(-2px);transition:transform .2s}
-.about-site.tuck[open] summary::after{transform:rotate(-135deg) translateY(-1px)}
-.about-site.tuck p{margin:6px 0 0}
+.foot .about-site.two{max-width:none}
+.about-site .cr{white-space:nowrap}   /* each credit stays in one piece when the line wraps */
 
 /* ================================================================ Ideas to try for the whole page (switch) */
 /* paper: a faint grain on the cream page, like real paper */
@@ -249,14 +243,14 @@ body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
   .sw button{padding:6px 9px;font-size:12.5px}
   .v2 .card h3{font-size:38px}
   .about-site{font-size:12px}
-  .about-site .dot{margin:0 5px}
+  .about-site .dot{display:none}
+  .about-site .cr{display:block}
 }
 </style>
 
 <div id="page"></div>
 
 <div class="sw" role="group" aria-label="Try it">
-  <div class="row"><span class="lab">About this site</span><button type="button" data-foot="1">1 · One line</button><button type="button" data-foot="2">2 · Two lines</button><button type="button" data-foot="3">3 · Tucked away</button></div>
   <div class="row"><span class="lab">Ideas</span><button type="button" data-idea="paper">Paper</button><button type="button" data-idea="stitch">Stitching</button><button type="button" data-idea="tilt">Tilted photos</button><button type="button" data-idea="ribbon">Bookmark ribbon</button><button type="button" data-idea="mini">Title on scroll</button><button type="button" data-idea="enter">Gentle entrance</button></div>
   <div class="row"><button type="button" id="more" aria-pressed="false">+ More places</button></div>
 </div>
@@ -298,20 +292,18 @@ body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
   function h2(text,id){ return '<div class="h2"><h2'+(id?' id="'+id+'"':'')+'>'+text+'</h2><span class="rule"><i></i><b></b></span></div>'; }
 
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
-  var more=0, root=document.documentElement, userMode='light', foot=1;   // more: how many stand-in places to add (0–3), to show how the page grows
-  try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; var f=+localStorage.getItem('jj-foot'); if(f>=1&&f<=3) foot=f; }catch(e){}
+  var more=0, root=document.documentElement, userMode='light';   // more: how many stand-in places to add (0–3), to show how the page grows
+  try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; localStorage.removeItem('jj-foot'); }catch(e){}
   var IDEAS={paper:false,stitch:false,tilt:false,ribbon:false,mini:false,enter:false};
   try{ var si=JSON.parse(localStorage.getItem('jj-ideas')||'null'); if(si) for(var k in IDEAS) IDEAS[k]=!!si[k]; }catch(e){}
-  location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w; var x=/^foot([123])$/.exec(w); if(x) foot=+x[1];
+  location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w;
     if(w==='plain') for(var k in IDEAS) IDEAS[k]=false; if(IDEAS.hasOwnProperty(w)) IDEAS[w]=true; });
 
-  // About this site: the same plain facts, three quiet ways to show them (switch)
+  // About this site: two quiet lines (her pick, 20 Nov: option 2, each credit starting with a capital)
   var DOT='<span class="dot" aria-hidden="true">·</span>';
   function aboutSite(){
-    if(foot===1) return '<p class="about-site"><b>About this site:</b> fonts Instrument Serif and Manrope'+DOT+'icons by Lucide'+DOT+'world maps by 20th Century Plumbob'+DOT+'region maps from the Pokémon games'+DOT+'book covers from their publishers'+DOT+'made with plain HTML and CSS'+DOT+'no cookies, no tracking, no ads</p>';
-    if(foot===2) return '<div class="about-site two"><p>No cookies, no tracking, no ads. Made with plain HTML and CSS, kept on GitHub.</p>'
-      +'<p>World maps by 20th Century Plumbob'+DOT+'region maps from the Pokémon games'+DOT+'book covers from their publishers'+DOT+'fonts Instrument Serif and Manrope'+DOT+'icons by Lucide</p></div>';
-    return '<details class="about-site tuck"><summary>About this site</summary><p>Fonts Instrument Serif and Manrope'+DOT+'icons by Lucide'+DOT+'world maps by 20th Century Plumbob'+DOT+'region maps from the Pokémon games'+DOT+'book covers from their publishers'+DOT+'made with plain HTML and CSS'+DOT+'no cookies, no tracking, no ads</p></details>';
+    return '<div class="about-site two"><p>No cookies, no tracking, no ads. Made with plain HTML and CSS, kept on GitHub.</p>'
+      +'<p>'+['World maps by 20th Century Plumbob','Region maps from the Pokémon games','Book covers from their publishers','Fonts: Instrument Serif and Manrope','Icons by Lucide'].map(function(t){ return '<span class="cr">'+t+'</span>'; }).join(' '+DOT+' ')+'</p></div>';
   }
   function applyMode(){ root.setAttribute('data-mode', userMode); }
   applyMode();
@@ -348,8 +340,6 @@ body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
     onScroll();
     var mb=document.getElementById('more'); mb.setAttribute('aria-pressed', more?'true':'false'); mb.textContent = more ? 'Showing '+(3+more)+' places · add another' : '+ More places';
     if(more===3) mb.textContent='Showing 6 places · back to 3';
-    document.querySelectorAll('.sw [data-foot]').forEach(function(b){ b.setAttribute('aria-pressed', +b.dataset.foot===foot ? 'true':'false'); });
-    try{ localStorage.setItem('jj-foot',String(foot)); }catch(e){}
   }
   // title on scroll: show the slim bar once the banner has scrolled out of sight
   function onScroll(){ var bar=document.querySelector('.minibar'); if(!bar) return; var cov=document.querySelector('.cover'); bar.classList.toggle('show', cov && cov.getBoundingClientRect().bottom < 0); }
@@ -359,7 +349,6 @@ body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
   var toast=document.getElementById('toast'), t;
   function say(m){ toast.textContent=m; toast.hidden=false; clearTimeout(t); t=setTimeout(function(){ toast.hidden=true; },1800); }
   document.addEventListener('click',function(e){
-    var fb=e.target.closest('.sw [data-foot]'); if(fb){ foot=+fb.dataset.foot; render(); return; }
     var ib=e.target.closest('.sw [data-idea]'); if(ib){ IDEAS[ib.dataset.idea]=!IDEAS[ib.dataset.idea]; render(); return; }
     if(e.target.closest('[data-ribbon]')){ e.preventDefault(); var c=document.getElementById('contents'); if(c) c.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto':'smooth', block:'start'}); return; }
     if(e.target.closest('#more')){ more=(more+1)%4; render(); return; }

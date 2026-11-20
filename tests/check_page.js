@@ -75,7 +75,8 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       check(r.headings.join('|') === 'My Sim World|My Library|My Pokédex', tag + 'names are My Sim World, My Library, My Pokédex (' + r.headings.join(', ') + ')');
       check(r.openLinksLevel, tag + '"Open" links line up across the row');
       check(r.modeButton, tag + 'light/dark button has a label');
-      check(/Instrument Serif/.test(r.about) && /no cookies/.test(r.about), tag + 'About this site is in the footer');
+      check(/Instrument Serif/.test(r.about) && /No cookies/.test(r.about), tag + 'About this site is in the footer');
+      check(/Region maps/.test(r.about) && /Book covers/.test(r.about) && /Icons by Lucide/.test(r.about), tag + 'each credit starts with a capital (her ask, 20 Nov)');
       check(r.openWords === 'Open My Sim World|Open My Library|Open My Pokédex', tag + 'links say Open My … (' + r.openWords + ')');
       check(!r.creditsShown, tag + 'the credits aren’t repeated above About this site');
       check(r.corners === 4, tag + 'the cover has its four gold corners (Improved)');
