@@ -173,16 +173,12 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 /* ================================================================ Ideas to try for the whole page (switch) */
 /* stitching round the cover (her pick, 20 Nov) */
 .cover::after{content:"";position:absolute;inset:7px max(calc(var(--frame) - 9px),5px);border:1.5px dashed rgba(228,192,114,.38);border-radius:3px;pointer-events:none}
-/* gentle entrance: sections fade up softly as the page opens (not for anyone who has reduced motion turned on) */
+/* gentle entrance (her pick, 20 Nov): sections fade up softly once, as the page opens (not for anyone who has reduced motion turned on) */
 @media (prefers-reduced-motion: no-preference){
   .i-enter .intro,.i-enter .sec,.i-enter .card,.i-enter .end,.i-enter .foot{animation:jj-in .7s cubic-bezier(.2,.7,.2,1) both}
   .i-enter .sec{animation-delay:.12s}.i-enter .card:nth-child(1){animation-delay:.2s}.i-enter .card:nth-child(2){animation-delay:.28s}.i-enter .card:nth-child(3){animation-delay:.36s}
   .i-enter .card:nth-child(n+4){animation-delay:.42s}.i-enter .end,.i-enter .foot{animation-delay:.45s}
 }
-/* trying it: pressing the switch button plays it once, even with reduced motion on, so it can be judged */
-.i-enter.demo .intro,.i-enter.demo .sec,.i-enter.demo .card,.i-enter.demo .end,.i-enter.demo .foot{animation:jj-in .7s cubic-bezier(.2,.7,.2,1) both}
-.i-enter.demo .sec{animation-delay:.12s}.i-enter.demo .card:nth-child(1){animation-delay:.2s}.i-enter.demo .card:nth-child(2){animation-delay:.28s}.i-enter.demo .card:nth-child(3){animation-delay:.36s}
-.i-enter.demo .card:nth-child(n+4){animation-delay:.42s}.i-enter.demo .end,.i-enter.demo .foot{animation-delay:.45s}
 
 @keyframes jj-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
@@ -236,7 +232,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 <div id="page"></div>
 
 <div class="sw" role="group" aria-label="Try it">
-  <div class="row"><span class="lab">Ideas</span><button type="button" data-idea="enter">Gentle entrance (plays when pressed)</button></div>
   <div class="row"><button type="button" id="more" aria-pressed="false">+ More places</button></div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -279,10 +274,8 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
   var more=0, root=document.documentElement, userMode='light';   // more: how many stand-in places to add (0–3), to show how the page grows
   try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; localStorage.removeItem('jj-foot'); }catch(e){}
-  var IDEAS={enter:false};
-  try{ var si=JSON.parse(localStorage.getItem('jj-ideas')||'null'); if(si) for(var k in IDEAS) IDEAS[k]=!!si[k]; }catch(e){}
   location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w;
-    if(w==='plain') for(var k in IDEAS) IDEAS[k]=false; if(IDEAS.hasOwnProperty(w)) IDEAS[w]=true; });
+    });
 
   // About this site: two quiet lines (her pick, 20 Nov: option 2, each credit starting with a capital)
   var DOT='<span class="dot" aria-hidden="true">·</span>';
@@ -293,6 +286,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   function applyMode(){ root.setAttribute('data-mode', userMode); }
   applyMode();
 
+  var firstRender=true;   // the gentle entrance plays once, when the page first opens
   function render(){
     var list=PLACES.concat(EXTRA.slice(0,more)), dark=userMode==='dark';
     var h='<a class="skip" href="#contents">Skip to contents</a>'
@@ -316,9 +310,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
       +'<div class="end" aria-hidden="true"><i></i><b></b><i></i></div>'
       +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b>'+aboutSite()
       +'<a class="totop" href="#top" data-top>'+ico('arrow-up')+'Back to top</a></div></footer>';
-    var page=document.getElementById('page'); page.className='v2'+Object.keys(IDEAS).filter(function(k){return IDEAS[k];}).map(function(k){return ' i-'+k;}).join(''); page.innerHTML=h;
-    document.querySelectorAll('.sw [data-idea]').forEach(function(b){ b.setAttribute('aria-pressed', IDEAS[b.dataset.idea] ? 'true':'false'); });
-    try{ localStorage.setItem('jj-ideas',JSON.stringify(IDEAS)); }catch(e){}
+    var page=document.getElementById('page'); page.className='v2'+(firstRender?' i-enter':''); firstRender=false; page.innerHTML=h;
     var mb=document.getElementById('more'); mb.setAttribute('aria-pressed', more?'true':'false'); mb.textContent = more ? 'Showing '+(3+more)+' places · add another' : '+ More places';
     if(more===3) mb.textContent='Showing 6 places · back to 3';
   }
@@ -328,7 +320,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   var toast=document.getElementById('toast'), t;
   function say(m){ toast.textContent=m; toast.hidden=false; clearTimeout(t); t=setTimeout(function(){ toast.hidden=true; },1800); }
   document.addEventListener('click',function(e){
-    var ib=e.target.closest('.sw [data-idea]'); if(ib){ IDEAS[ib.dataset.idea]=!IDEAS[ib.dataset.idea]; render(); if(ib.dataset.idea==='enter'&&IDEAS.enter){ window.scrollTo(0,0); document.getElementById('page').classList.add('demo'); } return; }
     if(e.target.closest('#more')){ more=(more+1)%4; render(); return; }
     if(e.target.closest('[data-top]')){ e.preventDefault(); window.scrollTo(0,0); return; }
     if(e.target.closest('[data-mode-btn]')){

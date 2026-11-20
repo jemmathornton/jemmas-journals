@@ -40,6 +40,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       await page.goto(HOST, { waitUntil: 'networkidle' });
       await page.evaluate(async () => { await document.fonts.ready; for (let y = 0; y < document.body.scrollHeight; y += 400) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 40)); } window.scrollTo(0, 0); });
       await page.waitForLoadState('networkidle');
+      await page.evaluate(() => Promise.all(document.getAnimations().map(a => a.finished)));   // let the gentle entrance finish
       const tag = size.name + ', ' + version + ': ';
       const r = await page.evaluate(() => {
         const cards = [...document.querySelectorAll('.card')];
@@ -60,6 +61,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
           openWords: cards.map(c => c.querySelector('.go').textContent.trim()).join('|'),
           creditsShown: !!document.querySelector('.foot .credits') && getComputedStyle(document.querySelector('.foot .credits')).display !== 'none',
           corners: document.querySelectorAll('.cover .cn').length,
+          entrance: document.getElementById('page').classList.contains('i-enter'),
           stitched: getComputedStyle(document.querySelector('.cover'), '::after').borderTopStyle,
           noindex: ((document.querySelector('meta[name="robots"]') || {}).content || ''),
           icons: [...document.querySelectorAll('link[rel="icon"],link[rel="apple-touch-icon"]')].map(l => l.getAttribute('href')),
@@ -82,6 +84,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       check(r.openWords === 'Open My Sim World|Open My Library|Open My Pokédex', tag + 'links say Open My … (' + r.openWords + ')');
       check(!r.creditsShown, tag + 'the credits aren’t repeated above About this site');
       check(r.corners === 4, tag + 'the cover has its four gold corners (Improved)');
+      check(r.entrance, tag + 'the gentle entrance is on when the page opens (her pick, 20 Nov)');
       check(r.stitched === 'dashed', tag + 'the cover has its stitching (her pick, 20 Nov)');
       check(/noindex/.test(r.noindex) && /noai/.test(r.noindex) && fs.existsSync(path.join(ROOT, 'robots.txt')), tag + 'asks search engines and AI to stay away (' + r.noindex + ')');
       check(r.icons.length === 3 && r.icons.every(h => fs.existsSync(path.join(ROOT, h))), tag + 'tab icon files are there (' + r.icons.join(', ') + ')');
