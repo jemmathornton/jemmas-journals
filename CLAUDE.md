@@ -30,6 +30,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 - 20 Nov (evening): **keep out of search engines and AI crawlers**: robots meta (noindex, noai, noimageai) on the pages and concepts/robots.txt. Going online: later.
 - 20 Nov (evening): page ideas: **stitching on the cover, yes** (always on now); **paper and tilted photos, no** (removed). Bookmark ribbon (as a link): no, removed. Title on scroll: no, removed. Red ribbon: removed (her pick). **Gentle entrance: yes** (plays once as the page opens; skipped for reduced motion). The Ideas row is gone from the switch.
 - 20 Nov (evening): pictures parked again: she will change them later (Pokédex whole-vs-fill not decided).
+- 20 Nov (evening): dark mode checked after all changes and **kept as it is** (opens light; moon button switches and is remembered).
 - 20 Nov (evening): **tab icon is her own design**, drawn in `concepts/tools/draw-icon.html`: navy square, cream book outline, gold corners in front, upright cream J (front, navy gap) and slanted gold J just lower right. Files in `concepts/img/icon/` and `concepts/favicon.ico`, linked from the page. For looks she can’t describe, offer her that canvas rather than more guesses.
 
 ## Where things are
