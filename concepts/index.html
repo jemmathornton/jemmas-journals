@@ -174,11 +174,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 /* ================================================================ Ideas to try for the whole page (switch) */
 /* stitching round the cover (her pick, 20 Nov) */
 .cover::after{content:"";position:absolute;inset:7px max(calc(var(--frame) - 9px),5px);border:1.5px dashed rgba(228,192,114,.38);border-radius:3px;pointer-events:none}
-/* ribbon: the bookmark is a real link that takes you to Contents */
-.i-ribbon .cover .ribbon{cursor:pointer;transition:height .25s cubic-bezier(.2,.7,.2,1)}
-.i-ribbon .cover .ribbon:hover{height:108px}
-.ribbon-tip{position:absolute;z-index:4;left:calc(86% + 10px);top:calc(100% + 84px);font:600 12px/1 var(--body);color:var(--mute);white-space:nowrap;opacity:0;transition:opacity .2s;pointer-events:none}
-.i-ribbon .cover .ribbon:hover + .ribbon-tip{opacity:1}
 /* title on scroll: a slim navy bar with the title appears once the banner has gone by */
 .minibar{position:fixed;z-index:40;left:0;right:0;top:0;height:46px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--cover);box-shadow:inset 0 -1px 0 rgba(228,192,114,.4),0 6px 18px -10px rgba(0,0,0,.6);
   transform:translateY(-110%);transition:transform .3s cubic-bezier(.2,.7,.2,1);padding-top:env(safe-area-inset-top,0px)}
@@ -245,7 +240,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 <div id="page"></div>
 
 <div class="sw" role="group" aria-label="Try it">
-  <div class="row"><span class="lab">Ideas</span><button type="button" data-idea="ribbon">Bookmark ribbon</button><button type="button" data-idea="mini">Title on scroll</button><button type="button" data-idea="enter">Gentle entrance</button></div>
+  <div class="row"><span class="lab">Ideas</span><button type="button" data-idea="mini">Title on scroll</button><button type="button" data-idea="enter">Gentle entrance</button></div>
   <div class="row"><button type="button" id="more" aria-pressed="false">+ More places</button></div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -288,7 +283,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
   var more=0, root=document.documentElement, userMode='light';   // more: how many stand-in places to add (0–3), to show how the page grows
   try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; localStorage.removeItem('jj-foot'); }catch(e){}
-  var IDEAS={ribbon:false,mini:false,enter:false};
+  var IDEAS={mini:false,enter:false};
   try{ var si=JSON.parse(localStorage.getItem('jj-ideas')||'null'); if(si) for(var k in IDEAS) IDEAS[k]=!!si[k]; }catch(e){}
   location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w;
     if(w==='plain') for(var k in IDEAS) IDEAS[k]=false; if(IDEAS.hasOwnProperty(w)) IDEAS[w]=true; });
@@ -308,7 +303,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
       +'<header class="cover gut"><span class="cn tl"></span><span class="cn tr"></span><span class="cn bl"></span><span class="cn br"></span>'
       +'<button type="button" class="mode" data-mode-btn aria-pressed="'+dark+'" aria-label="Dark mode">'+ico(dark?'sun':'moon')+'</button>'
       +'<div class="wrap"><h1>Jemma’s <em>Journals</em></h1></div>'
-      +(IDEAS.ribbon ? '<a class="ribbon" href="#contents" data-ribbon aria-label="Bookmark: go to Contents"></a><span class="ribbon-tip" aria-hidden="true">To Contents</span>' : '<span class="ribbon"></span>')
+      +'<span class="ribbon"></span>'
       +'</header>'
       +(IDEAS.mini ? '<div class="minibar gut" aria-hidden="true"><a href="#top" data-top tabindex="-1">Jemma’s <em>Journals</em></a></div>' : '')
       +'<main class="gut"><div class="wrap">';
@@ -343,7 +338,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   function say(m){ toast.textContent=m; toast.hidden=false; clearTimeout(t); t=setTimeout(function(){ toast.hidden=true; },1800); }
   document.addEventListener('click',function(e){
     var ib=e.target.closest('.sw [data-idea]'); if(ib){ IDEAS[ib.dataset.idea]=!IDEAS[ib.dataset.idea]; render(); return; }
-    if(e.target.closest('[data-ribbon]')){ e.preventDefault(); var c=document.getElementById('contents'); if(c) c.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto':'smooth', block:'start'}); return; }
     if(e.target.closest('#more')){ more=(more+1)%4; render(); return; }
     if(e.target.closest('[data-top]')){ e.preventDefault(); window.scrollTo(0,0); return; }
     if(e.target.closest('[data-mode-btn]')){
