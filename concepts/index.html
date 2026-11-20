@@ -1,40 +1,45 @@
 <title>Jemma’s Journals</title>
 <meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#1C2540">
 <style>
-/* Jemma's Journals: home page, round 8 (19 Nov 2026).
-   Her picks so far: the Cloth cover banner with the title on a label (Title 3); places as photos in album corners; names "My Sim World", "My Library",
-   "My Pokédex" with nothing above (Names 2 with My); Library's picture is the tilted wall of covers (Pictures 1). Sim World and Pokédex show a full map,
-   nothing added on top: which world and which region are still hers to choose (switch, bottom right).
-   Only the photo and "Open …" are links. Places come from one list (PLACES). Fonts: Instrument Serif + Manrope (local, SIL OFL). Icons: Lucide (ISC).
-   Earlier rounds are in git history and in for-jemma/concepts/. */
+/* Jemma's Journals: home page, round 9 (20 Nov 2026).
+   Her picks: the Cloth cover banner with the title on a label; places as photos in album corners; names "My Sim World", "My Library", "My Pokédex";
+   Library's picture is the tilted wall of covers; Sim World and Pokédex show a full map (which ones is still open; pictures parked for now). Light mode by default.
+   This round: behind-the-scenes basics (skip link, picture descriptions, lazy loading, keyboard focus), and an "Improved" version beside "As now" (switch, bottom right).
+   Only the photo and "Open …" are links. Places come from one list (PLACES). Fonts: Instrument Serif + Manrope (local, SIL OFL). Icons: Lucide (ISC). */
 @font-face{font-family:"Instrument Serif";font-style:normal;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-latin.woff2) format("woff2")}
 @font-face{font-family:"Instrument Serif";font-style:italic;font-weight:400;font-display:swap;src:url(fonts/instrument-serif-italic-latin.woff2) format("woff2")}
 @font-face{font-family:"Manrope";font-style:normal;font-weight:200 800;font-display:swap;src:url(fonts/manrope-latin.woff2) format("woff2")}
 
 :root{
   /* cream page, ink, a muted gold; the banner is navy cloth with a cream title label */
-  --bg:#F4EEE3; --ink:#221D17; --mute:#776D60; --line:#DDD3C3; --acc:#8E6A22; --mat:#FFFDF8; --cover:#1C2540; --gold:#E4C072; --label:#F3EBDA; --label-ink:#1F2740;
+  --bg:#F4EEE3; --ink:#221D17; --soft-ink:#463D33; --mute:#6E6458; --line:#DDD3C3; --acc:#8A661E; --mat:#FFFDF8; --cover:#1C2540; --gold:#E4C072; --label:#F3EBDA; --label-ink:#1F2740;
   --display:"Instrument Serif","Iowan Old Style","Palatino Linotype",Georgia,serif;
   --body:"Manrope","Segoe UI",system-ui,sans-serif;
   --g:clamp(16px,4vw,56px); --frame:max(calc(var(--g) - 20px),12px);
   --sw-bg:#FFFFFF; --sw-ink:#1A1F2C; --sw-mute:#6B7280; --sw-line:#E1E4EA; --sw-on:#1A1F2C; --sw-on-ink:#FFFFFF;
+  color-scheme:light;
 }
+/* dark only when the button is pressed (her choice: light by default) */
 :root[data-mode="dark"]{
-  --bg:#15130F; --ink:#EFE9DE; --mute:#A89F91; --line:#2F2A23; --acc:#DDB86A; --mat:#E9E2D4; --cover:#131A30;
+  --bg:#15130F; --ink:#EFE9DE; --soft-ink:#D6CEC1; --mute:#A89F91; --line:#2F2A23; --acc:#DDB86A; --mat:#E9E2D4; --cover:#131A30;
   --sw-bg:#1E2330; --sw-ink:#ECEEF3; --sw-mute:#9AA1B2; --sw-line:#30364A; --sw-on:#ECEEF3; --sw-on-ink:#151923; color-scheme:dark }
+:root[data-mode="dark"] .v2{--mat:#D8D0C1}
 
 *{box-sizing:border-box}
-html{background:var(--bg)}
+html{background:var(--bg);scroll-behavior:smooth}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.65 var(--body);-webkit-font-smoothing:antialiased}
 a{color:inherit}
-button,select{font:inherit;color:inherit}
+button{font:inherit;color:inherit}
 img{max-width:100%}
 h1,h2,h3,p{margin:0;font-weight:400}
 svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
-:focus-visible{outline:2px solid currentColor;outline-offset:3px;border-radius:4px}
+:focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:4px}
 .gut{padding-left:max(var(--g),env(safe-area-inset-left,0px));padding-right:max(var(--g),env(safe-area-inset-right,0px))}
 .lab{font:700 11px/1.2 var(--body);letter-spacing:.16em;text-transform:uppercase}
 .wrap{max-width:1160px;margin:0 auto}
+.skip{position:absolute;left:-999px;top:10px;z-index:100;padding:10px 16px;border-radius:8px;background:var(--label);color:var(--label-ink);font-weight:700;text-decoration:none}
+.skip:focus{left:max(var(--g),env(safe-area-inset-left,0px))}
 
 /* ---- the banner: a navy cloth journal cover with a title label */
 .cover{position:relative;padding-block:clamp(54px,6vw,84px) clamp(50px,5.4vw,72px);text-align:center;
@@ -45,6 +50,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .cover .ribbon{position:absolute;z-index:3;right:14%;top:100%;width:18px;height:92px;background:linear-gradient(90deg,#7E2232,#A23446 50%,#7E2232);clip-path:polygon(0 0,100% 0,100% 100%,50% 84%,0 100%);box-shadow:0 4px 8px rgba(0,0,0,.3)}
 .mode{position:absolute;z-index:6;top:calc(30px + env(safe-area-inset-top,0px));right:calc(var(--frame) + 14px);width:38px;height:38px;border-radius:50%;border:1px solid rgba(228,192,114,.4);background:none;display:grid;place-items:center;cursor:pointer;color:var(--gold)}
 .mode:hover{border-color:var(--gold)}
+.mode:focus-visible{outline-color:var(--gold)}
 .mode svg.i{width:17px;height:17px}
 .cover h1{display:inline-block;font:400 clamp(44px,6.6vw,96px)/1 var(--display);letter-spacing:-.025em;background:var(--label);color:var(--label-ink);padding:.2em .5em .22em;border-radius:4px;
   box-shadow:0 10px 24px -12px rgba(0,0,0,.7);outline:1.5px solid rgba(31,39,64,.35);outline-offset:-8px}
@@ -73,11 +79,11 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .snap{position:relative;display:block;aspect-ratio:4/3;background:var(--mat);padding:12px;box-shadow:0 14px 30px -18px rgba(0,0,0,.55);margin-bottom:22px;transition:box-shadow .3s,transform .3s}
 .snap:hover{box-shadow:0 20px 36px -18px rgba(0,0,0,.6);transform:translateY(-2px)}
 .snap .pic{inset:12px}
-.snap .c{position:absolute;z-index:2;width:24px;height:24px;background:linear-gradient(135deg,#3B3530,#1C1916);box-shadow:0 1px 2px rgba(0,0,0,.3)}
-.snap .c.tl{top:5px;left:5px;clip-path:polygon(0 0,100% 0,0 100%)}
-.snap .c.tr{top:5px;right:5px;clip-path:polygon(0 0,100% 0,100% 100%)}
-.snap .c.bl{bottom:5px;left:5px;clip-path:polygon(0 0,0 100%,100% 100%)}
-.snap .c.br{bottom:5px;right:5px;clip-path:polygon(100% 0,100% 100%,0 100%)}
+.c{position:absolute;z-index:2;width:24px;height:24px;background:linear-gradient(135deg,#3B3530,#1C1916);box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.c.tl{top:5px;left:5px;clip-path:polygon(0 0,100% 0,0 100%)}
+.c.tr{top:5px;right:5px;clip-path:polygon(0 0,100% 0,100% 100%)}
+.c.bl{bottom:5px;left:5px;clip-path:polygon(0 0,0 100%,100% 100%)}
+.c.br{bottom:5px;right:5px;clip-path:polygon(100% 0,100% 100%,0 100%)}
 .go{margin-top:auto;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:15px;color:var(--acc);text-decoration:none;padding:2px 0;border-bottom:1.5px solid transparent;transition:border-color .2s}
 .go:hover{border-bottom-color:currentColor}
 .go svg.i{transition:transform .25s}
@@ -97,19 +103,66 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .foot .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:8px 24px;flex-wrap:wrap;padding-block:26px 150px;font-size:12px;color:var(--mute)}
 .foot b{font:400 20px/1 var(--display);color:var(--ink)}
 .credits span+span::before{content:" · "}
+.totop{display:none}
+
+/* ================================================================ Improved (v2): refinements to try, beside "As now" */
+/* the cover gets gold corner brackets, like a bound journal */
+.v2 .cover .cn{position:absolute;width:30px;height:30px;pointer-events:none;color:var(--gold);opacity:.85}
+.v2 .cover .cn::after{content:"";position:absolute;width:14px;height:14px;border-color:inherit}
+.v2 .cover .cn.tl{top:24px;left:calc(var(--frame) + 8px);border-top:2px solid;border-left:2px solid}
+.v2 .cover .cn.tr{top:24px;right:calc(var(--frame) + 8px);border-top:2px solid;border-right:2px solid}
+.v2 .cover .cn.bl{bottom:24px;left:calc(var(--frame) + 8px);border-bottom:2px solid;border-left:2px solid}
+.v2 .cover .cn.br{bottom:24px;right:calc(var(--frame) + 8px);border-bottom:2px solid;border-right:2px solid}
+.v2 .cover .cn.tl::after{top:5px;left:5px;border-top:1px solid;border-left:1px solid}
+.v2 .cover .cn.tr::after{top:5px;right:5px;border-top:1px solid;border-right:1px solid}
+.v2 .cover .cn.bl::after{bottom:5px;left:5px;border-bottom:1px solid;border-left:1px solid}
+.v2 .cover .cn.br::after{bottom:5px;right:5px;border-bottom:1px solid;border-right:1px solid}
+.v2 .mode{top:calc(46px + env(safe-area-inset-top,0px));right:calc(var(--frame) + 46px)}
+/* section headings: a proper heading with a gold diamond rule, like a chapter title */
+.v2 .h2{display:flex;align-items:center;gap:16px;flex:1}
+.v2 .sec{display:flex}
+.v2 .h2 h2{font:400 clamp(32px,3.2vw,42px)/1 var(--display);white-space:nowrap}
+.v2 .h2 .rule{flex:1;display:flex;align-items:center;gap:10px;color:var(--acc)}
+.v2 .h2 .rule i{flex:1;height:1px;background:linear-gradient(90deg,color-mix(in srgb,var(--acc) 55%,transparent),var(--line) 60%,transparent)}
+.v2 .h2 .rule b{width:7px;height:7px;transform:rotate(45deg);background:currentColor;flex:none}
+/* About me: the photo is mounted in album corners like the places */
+.v2 .intro{grid-template-columns:220px minmax(0,1fr);align-items:start}
+.v2 .intro .mount{position:relative;display:block;aspect-ratio:4/5;background:var(--mat);padding:12px;box-shadow:0 14px 30px -18px rgba(0,0,0,.55);transform:rotate(-1.5deg)}
+.v2 .intro .mount .photo{position:absolute;inset:12px;aspect-ratio:auto;border-radius:2px;box-shadow:none;border:2px dashed color-mix(in srgb,var(--ink) 22%,transparent);background:color-mix(in srgb,var(--mat) 92%,var(--ink))}
+.v2 .intro .h2{margin:6px 0 16px}
+.v2 .intro p{color:var(--soft-ink)}
+.v2 .intro p.ph{color:var(--mute)}
+/* the places: softer description ink, a clearer link */
+.v2 .sec{margin:clamp(64px,7vw,96px) 0 36px}
+.v2 .card h3{font-size:42px}
+.v2 .card p{color:var(--soft-ink)}
+.v2 .card p.ph{color:var(--mute)}
+.v2 .go{border-bottom:1.5px solid color-mix(in srgb,var(--acc) 35%,transparent)}
+.v2 .go:hover{border-bottom-color:var(--acc)}
+/* the end of the page: a closing mark, a centred footer and a way back up */
+.v2 .end{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:clamp(72px,8vw,110px);color:var(--acc)}
+.v2 .end i{width:90px;height:1px;background:linear-gradient(90deg,transparent,var(--acc))}
+.v2 .end i:last-child{transform:scaleX(-1)}
+.v2 .end b{width:8px;height:8px;transform:rotate(45deg);background:currentColor}
+.v2 .foot{margin-top:28px;border-top:0}
+.v2 .foot .wrap{flex-direction:column;align-items:center;text-align:center;gap:10px}
+.v2 .foot b{font-size:24px}
+.v2 .totop{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-weight:700;font-size:13px;color:var(--acc);text-decoration:none}
+.v2 .totop svg.i{width:14px;height:14px}
 
 /* ---- the trial switch (bottom right; not part of the site) */
-.sw{position:fixed;z-index:50;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));display:grid;gap:6px;padding:10px;border-radius:16px;
+.sw{position:fixed;z-index:50;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));display:grid;gap:6px;padding:8px;border-radius:16px;
   background:var(--sw-bg);color:var(--sw-ink);border:1px solid var(--sw-line);box-shadow:0 10px 30px -8px rgba(0,0,0,.35);font-size:13px}
-.sw label{display:flex;align-items:center;gap:8px}
-.sw .lab{width:52px;color:var(--sw-mute);font-size:10px}
-.sw select{flex:1;min-width:0;padding:5px 8px;border-radius:8px;border:1px solid var(--sw-line);background:var(--sw-bg);font-size:13px;font-weight:600;color:var(--sw-ink)}
-.sw button{border:0;background:none;padding:5px 9px;border-radius:99px;font-size:13px;font-weight:700;cursor:pointer;color:var(--sw-ink);text-align:left}
+.sw .row{display:flex;align-items:center;gap:3px}
+.sw .lab{color:var(--sw-mute);font-size:10px;padding:0 6px 0 4px}
+.sw button{border:0;background:none;padding:6px 11px;border-radius:99px;font-size:13px;font-weight:700;cursor:pointer;color:var(--sw-ink);white-space:nowrap}
 .sw button:hover{background:color-mix(in srgb,var(--sw-ink) 8%,transparent)}
-.sw #more[aria-pressed="true"]{background:color-mix(in srgb,var(--sw-ink) 12%,transparent)}
-.toast{position:fixed;z-index:60;left:50%;bottom:calc(150px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--sw-on);color:var(--sw-on-ink);padding:10px 18px;border-radius:99px;font-size:13.5px;font-weight:700;box-shadow:0 10px 30px -8px rgba(0,0,0,.4);white-space:nowrap}
+.sw button[aria-pressed="true"]{background:var(--sw-on);color:var(--sw-on-ink)}
+.sw #more{text-align:left}
+.sw #more[aria-pressed="true"]{background:color-mix(in srgb,var(--sw-ink) 12%,transparent);color:var(--sw-ink)}
+.toast{position:fixed;z-index:60;left:50%;bottom:calc(120px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--sw-on);color:var(--sw-on-ink);padding:10px 18px;border-radius:99px;font-size:13.5px;font-weight:700;box-shadow:0 10px 30px -8px rgba(0,0,0,.4);white-space:nowrap}
 
-@media (prefers-reduced-motion: reduce){*{transition:none!important}}
+@media (prefers-reduced-motion: reduce){*{transition:none!important} html{scroll-behavior:auto}}
 
 @media (max-width:900px){ .cards{grid-template-columns:repeat(2,minmax(0,1fr))} }
 @media (max-width:760px){
@@ -124,101 +177,111 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   .intro p{font-size:20px}
   .cards{grid-template-columns:1fr;gap:44px}
   .card h3{font-size:36px}
-  .sw{max-width:calc(100vw - 28px)}
+  .v2 .cover .cn{width:20px;height:20px}
+  .v2 .cover .cn::after{width:9px;height:9px}
+  .v2 .cover .cn.tl,.v2 .cover .cn.tr{top:22px}.v2 .cover .cn.bl,.v2 .cover .cn.br{bottom:22px}
+  .v2 .mode{top:calc(30px + env(safe-area-inset-top,0px));right:calc(var(--frame) + 34px)}
+  .v2 .intro{grid-template-columns:1fr;gap:22px}
+  .v2 .intro .mount{width:150px;padding:9px}
+  .v2 .intro .mount .photo{inset:9px}
+  .v2 .h2 h2{font-size:32px}
+  .v2 .card h3{font-size:38px}
 }
 </style>
 
 <div id="page"></div>
 
-<div class="sw" role="group" aria-label="Choices to try">
-  <label><span class="lab">World</span><select id="pick-w" aria-label="Sims world map"></select></label>
-  <label><span class="lab">Region</span><select id="pick-r" aria-label="Pokémon region map"></select></label>
-  <button type="button" id="more" aria-pressed="false">+ More places</button>
+<div class="sw" role="group" aria-label="Versions to try">
+  <div class="row"><span class="lab">Version</span><button type="button" data-ver="1">As now</button><button type="button" data-ver="2">Improved</button></div>
+  <div class="row"><button type="button" id="more" aria-pressed="false">+ More places</button></div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script>
 (function(){
-  // Her Sims worlds (the full maps by 20th Century Plumbob) and the Pokémon regions (the maps her Pokédex uses), for her to choose from.
-  var WORLDS=[["willow-creek","Willow Creek"],["oasis-springs","Oasis Springs"],["newcrest","Newcrest"],["granite-falls","Granite Falls"],["magnolia-promenade","Magnolia Promenade"],["windenburg","Windenburg"],["san-myshuno","San Myshuno"],["selvadorada","Selvadorada"],["brindleton-bay","Brindleton Bay"],["del-sol-valley","Del Sol Valley"],["strangerville","StrangerVille"],["sulani","Sulani"],["glimmerbrook","Glimmerbrook"],["britechester","Britechester"],["evergreen-harbor","Evergreen Harbor"],["mt-komorebi","Mt. Komorebi"],["henford-on-bagley","Henford-on-Bagley"],["copperdale","Copperdale"],["san-sequoia","San Sequoia"],["chestnut-ridge","Chestnut Ridge"],["tomarang","Tomarang"],["ravenwood","Ravenwood"],["nordhaven","Nordhaven"],["gibbi-point","Gibbi Point"],["ondarion","Ondarion"]];
-  var REGIONS=[["kanto","Kanto"],["johto","Johto"],["hoenn","Hoenn"],["sinnoh","Sinnoh"],["unova","Unova"],["kalos","Kalos"],["alola","Alola"],["galar","Galar"],["hisui","Hisui"],["paldea","Paldea"]];
-  // The places. A new one is one more line here.
-  // "about" is a line from that app's own home page; null means a space for her words.
+  // The places. A new one is one more line here. "about" is a line from that app's own home page; null means a space for her words.
+  // Pictures are parked for now (her call, 20 Nov): Sim World and Pokédex show a full map until she chooses.
   var PLACES=[
-    {name:"Sim World", title:"My Sim World", pc:"#4E3182", pic:function(){ return {img:"img/maps/sims-"+S.w+".jpg", map:true}; },
+    {name:"Sim World", title:"My Sim World", pc:"#4E3182", pic:{img:"img/maps/sims-willow-creek.jpg", map:true, alt:"Map of Willow Creek"},
      about:"Every world in the game, rebuilt one lot at a time. Wander the neighbourhoods, look around the homes and venues, and meet the households who live in them."},
-    {name:"Library", title:"My Library", pc:"#6E4524", pic:function(){ return {wall:true}; },
+    {name:"Library", title:"My Library", pc:"#6E4524", pic:{wall:true, alt:"Covers of books from my shelves"},
      about:"Every book on the shelves at home, and everything you read."},
-    {name:"Pokédex", title:"My Pokédex", pc:"#7E2530", pic:function(){ return {img:"img/maps/region-"+S.r+".jpg", map:true}; },
+    {name:"Pokédex", title:"My Pokédex", pc:"#7E2530", pic:{img:"img/maps/region-kanto.jpg", map:true, alt:"Map of Kanto"},
      about:null}
   ];
   // Only for "More places": stand-ins to show how it grows. Not real places.
   var EXTRA=[{name:"New place",title:"New place",pc:"#35606F",demo:true},{name:"New place",title:"New place",pc:"#8A6A3A",demo:true},{name:"New place",title:"New place",pc:"#5A5F73",demo:true}];
   var ICON={
     "arrow-right":'<path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>',
+    "arrow-up":'<path d="m5 12 7-7 7 7"/><path d="M12 19V5"/>',
     "image":'<rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>',
     "sun":'<circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>',
     "moon":'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'
   };
   function ico(n){ return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+ICON[n]+'</svg>'; }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
-  var WALL=''; for(var n=0;n<72;n++) WALL+='<img src="img/wall/'+String((n*7)%40).padStart(2,'0')+'.jpg" alt="">';
+  var WALL=''; for(var n=0;n<72;n++) WALL+='<img src="img/wall/'+String((n*7)%40).padStart(2,'0')+'.jpg" alt="" loading="lazy" decoding="async">';
   function pic(p){
     if(p.demo) return '<span class="pic blank" style="--pc:'+p.pc+'"></span>';
-    var q=p.pic();
-    if(q.wall) return '<span class="pic"><span class="wall">'+WALL+'</span></span>';
-    return '<span class="pic'+(q.map?' map':'')+'"><img class="bg" src="'+q.img+'" alt=""></span>';
+    var q=p.pic;
+    if(q.wall) return '<span class="pic" role="img" aria-label="'+esc(q.alt)+'"><span class="wall">'+WALL+'</span></span>';
+    return '<span class="pic'+(q.map?' map':'')+'"><img class="bg" src="'+q.img+'" alt="'+esc(q.alt||'')+'" loading="lazy" decoding="async"></span>';
   }
   function aboutPlace(p){ return p.about ? '<p>'+esc(p.about)+'</p>' : '<p class="ph">A line or two about '+(p.demo?'it':esc(p.name))+', in your own words.</p>'; }
+  var CORNERS='<span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>';
+  function h2(text,id){ return '<div class="h2"><h2'+(id?' id="'+id+'"':'')+'>'+text+'</h2><span class="rule"><i></i><b></b></span></div>'; }
 
-  // state: w world, r region; more places; light/dark. The address can carry them: #willow-creek--kanto--more--dark
-  var S={w:'willow-creek',r:'kanto'}, more=false, root=document.documentElement, userMode=null;
-  var wIds=WORLDS.map(function(x){return x[0];}), rIds=REGIONS.map(function(x){return x[0];});
-  try{ userMode=localStorage.getItem('jj-mode'); var saved=JSON.parse(localStorage.getItem('jj-s8')||'null'); if(saved && wIds.indexOf(saved.w)>=0 && rIds.indexOf(saved.r)>=0) S=saved; }catch(e){}
-  location.hash.slice(1).split('--').forEach(function(w){ if(wIds.indexOf(w)>=0) S.w=w; if(rIds.indexOf(w)>=0) S.r=w; if(w==='more') more=true; if(w==='dark'||w==='light') userMode=w; });
-  var mq=window.matchMedia ? matchMedia('(prefers-color-scheme: dark)') : null;
-  function sysMode(){ var t=root.getAttribute('data-theme'); if(t==='dark'||t==='light') return t; return mq&&mq.matches ? 'dark':'light'; }
-  function applyMode(){ root.setAttribute('data-mode', userMode||sysMode()); }
+  // state: version (1 as now, 2 improved), more places, light/dark (light unless the button is pressed)
+  var ver=2, more=false, root=document.documentElement, userMode='light';
+  try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; var v=localStorage.getItem('jj-ver9'); if(v) ver=+v; }catch(e){}
+  location.hash.slice(1).split('--').forEach(function(w){ if(w==='now') ver=1; if(w==='improved') ver=2; if(w==='more') more=true; if(w==='dark'||w==='light') userMode=w; });
+  function applyMode(){ root.setAttribute('data-mode', userMode); }
   applyMode();
-  if(mq && mq.addEventListener) mq.addEventListener('change',function(){ if(!userMode){ applyMode(); render(); } });
-
-  var selW=document.getElementById('pick-w'), selR=document.getElementById('pick-r');
-  selW.innerHTML=WORLDS.map(function(x){ return '<option value="'+x[0]+'">'+esc(x[1])+'</option>'; }).join('');
-  selR.innerHTML=REGIONS.map(function(x){ return '<option value="'+x[0]+'">'+esc(x[1])+'</option>'; }).join('');
-  selW.addEventListener('change',function(){ S.w=selW.value; render(); });
-  selR.addEventListener('change',function(){ S.r=selR.value; render(); });
 
   function render(){
-    var list=more ? PLACES.concat(EXTRA) : PLACES, dark=root.getAttribute('data-mode')==='dark';
-    var h='<header class="cover gut"><button type="button" class="mode" data-mode-btn aria-label="'+(dark?'Light':'Dark')+' mode">'+ico(dark?'sun':'moon')+'</button>'
+    var list=more ? PLACES.concat(EXTRA) : PLACES, dark=userMode==='dark', v2=ver===2;
+    var h='<a class="skip" href="#contents">Skip to contents</a>'
+      +'<header class="cover gut">'+(v2?'<span class="cn tl"></span><span class="cn tr"></span><span class="cn bl"></span><span class="cn br"></span>':'')
+      +'<button type="button" class="mode" data-mode-btn aria-pressed="'+dark+'" aria-label="Dark mode">'+ico(dark?'sun':'moon')+'</button>'
       +'<div class="wrap"><h1>Jemma’s <em>Journals</em></h1></div><span class="ribbon"></span></header>'
-      +'<main class="gut"><div class="wrap">'
-      +'<section class="intro"><span class="photo">'+ico('image')+'Your photo</span><div><span class="lab">About me</span>'
-      +'<p class="ph">Your introduction goes here, in your own words: a few sentences about you, what you keep in these journals, anything you’d like people to know.<span class="ph-tag">Placeholder</span></p></div></section>'
-      +'<div class="sec"><span class="lab">Contents</span><i></i></div><div class="cards">';
+      +'<main class="gut"><div class="wrap">';
+    var INTRO='<p class="ph">Your introduction goes here, in your own words: a few sentences about you, what you keep in these journals, anything you’d like people to know.<span class="ph-tag">Placeholder</span></p>';
+    if(v2){
+      h+='<section class="intro" aria-labelledby="about"><span class="mount">'+CORNERS+'<span class="photo">'+ico('image')+'Your photo</span></span><div>'+h2('About me','about')+INTRO+'</div></section>'
+        +'<div class="sec">'+h2('Contents','contents')+'</div>';
+    } else {
+      h+='<section class="intro" aria-label="About me"><span class="photo">'+ico('image')+'Your photo</span><div><span class="lab">About me</span>'+INTRO+'</div></section>'
+        +'<div class="sec" id="contents"><span class="lab">Contents</span><i></i></div>';
+    }
+    h+='<div class="cards">';
     list.forEach(function(p){
       var open=p.demo?'it':p.name;
       h+='<article class="card" style="--pc:'+p.pc+'">'
-        +'<a class="snap" href="#" data-open="'+esc(p.demo?'':p.name)+'" aria-label="Open '+esc(open)+'"><span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>'+pic(p)+'</a>'
+        +'<a class="snap" href="#" data-open="'+esc(p.demo?'':p.name)+'" aria-label="Open '+esc(open)+'">'+CORNERS+pic(p)+'</a>'
         +'<h3>'+esc(p.title)+'</h3>'+aboutPlace(p)
         +'<a class="go" href="#" data-open="'+esc(p.demo?'':p.name)+'">Open '+esc(open)+' '+ico('arrow-right')+'</a></article>';
     });
-    h+='</div></div></main><footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b><p class="credits"><span>World maps by 20th Century Plumbob</span><span>Region maps from the Pokémon games</span><span>Covers from the publishers</span><span>Icons by Lucide</span></p></div></footer>';
-    document.getElementById('page').innerHTML=h;
-    selW.value=S.w; selR.value=S.r;
+    h+='</div></div></main>'
+      +(v2?'<div class="end" aria-hidden="true"><i></i><b></b><i></i></div>':'')
+      +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b><p class="credits"><span>World maps by 20th Century Plumbob</span><span>Region maps from the Pokémon games</span><span>Covers from the publishers</span><span>Icons by Lucide</span></p>'
+      +'<a class="totop" href="#top" data-top>'+ico('arrow-up')+'Back to top</a></div></footer>';
+    var page=document.getElementById('page'); page.className=v2?'v2':'v1'; page.innerHTML=h;
+    document.querySelectorAll('.sw [data-ver]').forEach(function(b){ b.setAttribute('aria-pressed', +b.dataset.ver===ver ? 'true':'false'); });
     document.getElementById('more').setAttribute('aria-pressed', more?'true':'false');
-    try{ localStorage.setItem('jj-s8',JSON.stringify(S)); }catch(e){}
+    try{ localStorage.setItem('jj-ver9',String(ver)); }catch(e){}
   }
   render();
 
   var toast=document.getElementById('toast'), t;
   function say(m){ toast.textContent=m; toast.hidden=false; clearTimeout(t); t=setTimeout(function(){ toast.hidden=true; },1800); }
   document.addEventListener('click',function(e){
+    var b=e.target.closest('.sw [data-ver]'); if(b){ ver=+b.dataset.ver; render(); return; }
     if(e.target.closest('#more')){ more=!more; render(); return; }
+    if(e.target.closest('[data-top]')){ e.preventDefault(); window.scrollTo(0,0); return; }
     if(e.target.closest('[data-mode-btn]')){
-      userMode = root.getAttribute('data-mode')==='dark' ? 'light' : 'dark';
-      try{ localStorage.setItem('jj-mode',userMode); }catch(err){}
-      applyMode(); render(); return;
+      userMode = userMode==='dark' ? 'light' : 'dark';
+      try{ localStorage.setItem('jj-mode2',userMode); }catch(err){}
+      applyMode(); render(); document.querySelector('[data-mode-btn]').focus(); return;
     }
     var a=e.target.closest('a[data-open]'); if(!a) return;
     e.preventDefault();
