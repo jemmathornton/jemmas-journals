@@ -2,6 +2,8 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="theme-color" content="#1C2540">
 <style>
+/* Jemma's Journals: home page. 20 Nov 2026 (morning): her picks are the Improved version and About this site (laid out across the footer).
+   Round 9 notes follow (the As now version and the other extras were taken out; they're in git history). */
 /* Jemma's Journals: home page, round 9 (20 Nov 2026).
    Her picks: the Cloth cover banner with the title on a label; places as photos in album corners; names "My Sim World", "My Library", "My Pokédex";
    Library's picture is the tilted wall of covers; Sim World and Pokédex show a full map (which ones is still open; pictures parked for now). Light mode by default.
@@ -150,24 +152,15 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .v2 .totop{display:inline-flex;align-items:center;gap:6px;margin-top:6px;font-weight:700;font-size:13px;color:var(--acc);text-decoration:none}
 .v2 .totop svg.i{width:14px;height:14px}
 
-/* ================================================================ Extras to try (switch): quick links, about this site, an empty slot */
-/* quick links: straight into each place's main sections (their names are the apps' own) */
-.ql{display:flex;flex-wrap:wrap;gap:6px 16px;margin:-4px 0 18px;font-size:13.5px;font-weight:600;color:var(--mute)}
-.ql a{display:inline-flex;align-items:center;min-height:26px;color:var(--soft-ink);text-decoration:none;border-bottom:1px solid color-mix(in srgb,var(--acc) 30%,transparent);padding-top:3px}
-.ql a:hover{color:var(--acc);border-bottom-color:var(--acc)}
-.colo-on .foot .credits{display:none}
-/* an edition mark, like a journal's volume number (each redesign gets the next one) */
-.edition{font:700 10.5px/1 var(--body);letter-spacing:.2em;text-transform:uppercase;color:var(--acc);border:1px solid color-mix(in srgb,var(--acc) 45%,transparent);border-radius:99px;padding:5px 10px 4px}
-/* about this site: plain facts about how it's made */
-.colo{max-width:760px;margin:0 auto;padding:26px 0 0;display:grid;grid-template-columns:auto 1fr;gap:6px 22px;font-size:13px;color:var(--mute);text-align:left}
-.colo dt{font:700 10.5px/1.9 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--acc)}
+/* ================================================================ About this site (her pick, 20 Nov): plain facts about how it's made, laid out across the footer */
+.foot .credits{display:none}
+.colo-h{font:700 11px/1.2 var(--body);letter-spacing:.16em;text-transform:uppercase;color:var(--acc);margin-top:14px}
+.colo{display:grid;grid-template-columns:1fr .7fr 2.1fr 1.2fr 1.1fr;width:100%;max-width:1060px;margin:8px 0 0;font-size:13px;line-height:1.5;color:var(--mute);text-align:left;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.colo div{padding:14px 18px;border-left:1px solid var(--line)}
+.colo div:first-child{border-left:0}
+.colo dt{font:700 10.5px/1.2 var(--body);letter-spacing:.14em;text-transform:uppercase;color:var(--soft-ink);margin-bottom:5px}
 .colo dd{margin:0}
-.colo-h{font:400 22px/1 var(--display);color:var(--ink);text-align:center;margin-top:8px}
-/* an empty slot for the next place */
-.card.slot .snap{text-decoration:none;background:transparent;box-shadow:none;border:2px dashed color-mix(in srgb,var(--acc) 40%,transparent);display:grid;place-items:center;color:var(--mute);font-weight:700;font-size:14px;gap:6px}
-.card.slot .snap:hover{transform:none}
-.card.slot .snap svg.i{width:28px;height:28px;color:var(--acc)}
-.card.slot h3{color:var(--mute)}
 
 /* ---- the trial switch (bottom right; not part of the site) */
 .sw{position:fixed;z-index:50;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));display:grid;gap:6px;padding:8px;border-radius:16px;
@@ -210,14 +203,19 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   .sw .row{flex-wrap:wrap}
   .sw button{padding:6px 9px;font-size:12.5px}
   .v2 .card h3{font-size:38px}
+  .colo{grid-template-columns:1fr 1fr}
+  .colo div{padding:12px 12px;border-left:0;border-top:1px solid var(--line)}
+  .colo div:nth-child(-n+2){border-top:0}
+  .colo div:nth-child(even){border-left:1px solid var(--line)}
+  .colo div:nth-child(3){grid-column:1 / -1;border-left:0}
+  .colo div:nth-child(4){border-left:0}
+  .colo div:nth-child(5){border-left:1px solid var(--line)}
 }
 </style>
 
 <div id="page"></div>
 
-<div class="sw" role="group" aria-label="Versions to try">
-  <div class="row"><span class="lab">Version</span><button type="button" data-ver="1">As now</button><button type="button" data-ver="2">Improved</button></div>
-  <div class="row"><span class="lab">Extras</span><button type="button" data-x="ql" aria-pressed="false">Quick links</button><button type="button" data-x="colo" aria-pressed="false">About this site</button><button type="button" data-x="slot" aria-pressed="false">Empty slot</button><button type="button" data-x="ed" aria-pressed="false">Edition</button></div>
+<div class="sw" role="group" aria-label="Try it">
   <div class="row"><button type="button" id="more" aria-pressed="false">+ More places</button></div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -228,13 +226,10 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   // Pictures are parked for now (her call, 20 Nov): Sim World and Pokédex show a full map until she chooses.
   var PLACES=[
     {name:"Sim World", title:"My Sim World", pc:"#4E3182", pic:{img:"img/maps/sims-willow-creek.webp", map:true, alt:"Map of Willow Creek"},
-     links:[["Calendar","calendar"],["Families","families"],["Businesses","businesses"],["Clubs","clubs"],["Dynasties","dynasties"]],
      about:"Every world in the game, rebuilt one lot at a time. Wander the neighbourhoods, look around the homes and venues, and meet the households who live in them."},
     {name:"Library", title:"My Library", pc:"#6E4524", pic:{wall:true, alt:"Covers of books from my shelves"},
-     links:[["All Shelves","shelves"],["Reading","reading"],["History","history"],["To Buy","to-buy"],["Authors","authors"]],
      about:"Every book on the shelves at home, and everything you read."},
     {name:"Pokédex", title:"My Pokédex", pc:"#7E2530", pic:{img:"img/maps/region-kanto.webp", map:true, alt:"Map of Kanto"},
-     links:[["Every Pokémon","dex"],["Event Pokémon","sets"],["Looking for","want"],["What’s on","coming"]],
      about:null}
   ];
   // Only for "More places": stand-ins to show how it grows. Not real places.
@@ -260,59 +255,49 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   var CORNERS='<span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>';
   function h2(text,id){ return '<div class="h2"><h2'+(id?' id="'+id+'"':'')+'>'+text+'</h2><span class="rule"><i></i><b></b></span></div>'; }
 
-  // state: version (1 as now, 2 improved), more places, light/dark (light unless the button is pressed)
-  var ver=2, more=false, root=document.documentElement, userMode='light', X={ql:false,colo:false,slot:false};
-  try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; var v=localStorage.getItem('jj-ver9'); if(v) ver=+v; var xs=JSON.parse(localStorage.getItem('jj-x10')||'null'); if(xs) X=xs; }catch(e){}
-  location.hash.slice(1).split('--').forEach(function(w){ if(w==='now') ver=1; if(w==='improved') ver=2; if(w==='more') more=true; if(w==='dark'||w==='light') userMode=w;
-    if(w==='links') X.ql=true; if(w==='colophon') X.colo=true; if(w==='slot') X.slot=true; if(w==='edition') X.ed=true; if(w==='plain') X={ql:false,colo:false,slot:false,ed:false}; });
+  // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
+  var more=false, root=document.documentElement, userMode='light';
+  try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; }catch(e){}
+  location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=true; if(w==='dark'||w==='light') userMode=w; });
   function applyMode(){ root.setAttribute('data-mode', userMode); }
   applyMode();
 
   function render(){
-    var list=more ? PLACES.concat(EXTRA) : PLACES, dark=userMode==='dark', v2=ver===2;
+    var list=more ? PLACES.concat(EXTRA) : PLACES, dark=userMode==='dark';
     var h='<a class="skip" href="#contents">Skip to contents</a>'
-      +'<header class="cover gut">'+(v2?'<span class="cn tl"></span><span class="cn tr"></span><span class="cn bl"></span><span class="cn br"></span>':'')
+      +'<header class="cover gut"><span class="cn tl"></span><span class="cn tr"></span><span class="cn bl"></span><span class="cn br"></span>'
       +'<button type="button" class="mode" data-mode-btn aria-pressed="'+dark+'" aria-label="Dark mode">'+ico(dark?'sun':'moon')+'</button>'
       +'<div class="wrap"><h1>Jemma’s <em>Journals</em></h1></div><span class="ribbon"></span></header>'
       +'<main class="gut"><div class="wrap">';
     var INTRO='<p class="ph">Your introduction goes here, in your own words: a few sentences about you, what you keep in these journals, anything you’d like people to know.<span class="ph-tag">Placeholder</span></p>';
-    if(v2){
-      h+='<section class="intro" aria-labelledby="about"><span class="mount">'+CORNERS+'<span class="photo">'+ico('image')+'Your photo</span></span><div>'+h2('About me','about')+INTRO+'</div></section>'
-        +'<div class="sec">'+h2('Contents','contents')+'</div>';
-    } else {
-      h+='<section class="intro" aria-label="About me"><span class="photo">'+ico('image')+'Your photo</span><div><span class="lab">About me</span>'+INTRO+'</div></section>'
-        +'<div class="sec" id="contents"><span class="lab">Contents</span><i></i></div>';
-    }
-    h+='<div class="cards">';
+    h+='<section class="intro" aria-labelledby="about"><span class="mount">'+CORNERS+'<span class="photo">'+ico('image')+'Your photo</span></span><div>'+h2('About me','about')+INTRO+'</div></section>'
+      +'<div class="sec">'+h2('Contents','contents')+'</div>'
+      +'<div class="cards">';
     list.forEach(function(p){
       var open=p.demo?'it':p.name;
       h+='<article class="card" style="--pc:'+p.pc+'">'
         +'<a class="snap" href="#" data-open="'+esc(p.demo?'':p.name)+'" aria-label="Open '+esc(open)+'">'+CORNERS+pic(p)+'</a>'
         +'<h3>'+esc(p.title)+'</h3>'+aboutPlace(p)
-        +(X.ql && p.links ? '<nav class="ql" aria-label="Sections of '+esc(p.title)+'">'+p.links.map(function(l){ return '<a href="#" data-open="'+esc(p.name+' › '+l[0])+'">'+esc(l[0])+'</a>'; }).join('')+'</nav>' : '')
         +'<a class="go" href="#" data-open="'+esc(p.demo?'':p.name)+'">Open '+esc(open)+' '+ico('arrow-right')+'</a></article>';
     });
-    if(X.slot) h+='<article class="card slot"><a class="snap" href="#" data-open="" aria-label="Room for the next place">'+ico('plus')+'Room for the next place</a><h3>Next journal</h3></article>';
     h+='</div></div></main>'
-      +(v2?'<div class="end" aria-hidden="true"><i></i><b></b><i></i></div>':'')
-      +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b>'+(X.ed?'<span class="edition">Edition I</span>':'')+'<p class="credits"><span>World maps by 20th Century Plumbob</span><span>Region maps from the Pokémon games</span><span>Covers from the publishers</span><span>Icons by Lucide</span></p>'
-      +(X.colo ? '<p class="colo-h">About this site</p><dl class="colo"><dt>Fonts</dt><dd>Instrument Serif and Manrope</dd><dt>Icons</dt><dd>Lucide</dd>'
-        +'<dt>Pictures</dt><dd>World maps by 20th Century Plumbob; region maps from the Pokémon games; book covers from their publishers</dd>'
-        +'<dt>Made with</dt><dd>Plain HTML and CSS; kept on GitHub</dd><dt>Privacy</dt><dd>No cookies, no tracking, no ads</dd></dl>' : '')
+      +'<div class="end" aria-hidden="true"><i></i><b></b><i></i></div>'
+      +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b>'
+      +'<p class="colo-h">About this site</p><dl class="colo">'
+      +'<div><dt>Fonts</dt><dd>Instrument Serif and Manrope</dd></div>'
+      +'<div><dt>Icons</dt><dd>Lucide</dd></div>'
+      +'<div><dt>Pictures</dt><dd>world maps by 20th Century Plumbob, region maps from the Pokémon games, book covers from their publishers</dd></div>'
+      +'<div><dt>Made with</dt><dd>plain HTML and CSS, kept on GitHub</dd></div>'
+      +'<div><dt>Privacy</dt><dd>no cookies, no tracking, no ads</dd></div></dl>'
       +'<a class="totop" href="#top" data-top>'+ico('arrow-up')+'Back to top</a></div></footer>';
-    var page=document.getElementById('page'); page.className=(v2?'v2':'v1')+(X.colo?' colo-on':''); page.innerHTML=h;
-    document.querySelectorAll('.sw [data-ver]').forEach(function(b){ b.setAttribute('aria-pressed', +b.dataset.ver===ver ? 'true':'false'); });
+    var page=document.getElementById('page'); page.className='v2'; page.innerHTML=h;
     document.getElementById('more').setAttribute('aria-pressed', more?'true':'false');
-    document.querySelectorAll('.sw [data-x]').forEach(function(b){ b.setAttribute('aria-pressed', X[b.dataset.x]?'true':'false'); });
-    try{ localStorage.setItem('jj-ver9',String(ver)); localStorage.setItem('jj-x10',JSON.stringify(X)); }catch(e){}
   }
   render();
 
   var toast=document.getElementById('toast'), t;
   function say(m){ toast.textContent=m; toast.hidden=false; clearTimeout(t); t=setTimeout(function(){ toast.hidden=true; },1800); }
   document.addEventListener('click',function(e){
-    var b=e.target.closest('.sw [data-ver]'); if(b){ ver=+b.dataset.ver; render(); return; }
-    var x=e.target.closest('.sw [data-x]'); if(x){ X[x.dataset.x]=!X[x.dataset.x]; render(); return; }
     if(e.target.closest('#more')){ more=!more; render(); return; }
     if(e.target.closest('[data-top]')){ e.preventDefault(); window.scrollTo(0,0); return; }
     if(e.target.closest('[data-mode-btn]')){

@@ -23,7 +23,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
 (async () => {
   const browser = await chromium.launch({ channel: 'msedge' });
   for (const size of SIZES) {
-    for (const version of ['now', 'improved']) {
+    for (const version of ['page']) {
       // the device asks for dark: the page must still open light (her choice, 20 Nov)
       const ctx = await browser.newContext({ ...size, colorScheme: 'dark' });
       const page = await ctx.newPage();
@@ -37,7 +37,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
         if (!file.startsWith(ROOT) || !fs.existsSync(file)) return route.fulfill({ status: 404, body: 'missing' });
         route.fulfill({ body: fs.readFileSync(file), contentType: TYPES[path.extname(file)] || 'application/octet-stream' });
       });
-      await page.goto(HOST + '#' + version, { waitUntil: 'networkidle' });
+      await page.goto(HOST, { waitUntil: 'networkidle' });
       await page.evaluate(async () => { await document.fonts.ready; for (let y = 0; y < document.body.scrollHeight; y += 400) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 40)); } window.scrollTo(0, 0); });
       await page.waitForLoadState('networkidle');
       const tag = size.name + ', ' + version + ': ';
@@ -56,6 +56,9 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
           headings: cards.map(c => c.querySelector('h3').textContent),
           openLinksLevel: (() => { const ys = cards.map(c => Math.round(c.querySelector('.go').getBoundingClientRect().top)); return new Set(ys).size === 1 || window.innerWidth < 900; })(),
           modeButton: !!document.querySelector('[data-mode-btn][aria-label]'),
+          about: [...document.querySelectorAll('dl.colo dt')].map(d => d.textContent).join('|'),
+          creditsShown: !!document.querySelector('.foot .credits') && getComputedStyle(document.querySelector('.foot .credits')).display !== 'none',
+          corners: document.querySelectorAll('.cover .cn').length,
         };
       });
       check(r.mode === 'light', tag + 'opens in light mode (got ' + r.mode + ')');
@@ -70,6 +73,9 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       check(r.headings.join('|') === 'My Sim World|My Library|My Pokédex', tag + 'names are My Sim World, My Library, My Pokédex (' + r.headings.join(', ') + ')');
       check(r.openLinksLevel, tag + '"Open" links line up across the row');
       check(r.modeButton, tag + 'light/dark button has a label');
+      check(r.about === 'Fonts|Icons|Pictures|Made with|Privacy', tag + 'About this site is in the footer (' + r.about + ')');
+      check(!r.creditsShown, tag + 'the credits aren’t repeated above About this site');
+      check(r.corners === 4, tag + 'the cover has its four gold corners (Improved)');
       // the dark button works and is remembered
       await page.click('[data-mode-btn]');
       check(await page.evaluate(() => document.documentElement.getAttribute('data-mode')) === 'dark', tag + 'dark button switches to dark');
@@ -83,36 +89,6 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       check(errors.length === 0, tag + 'no errors in the browser (' + errors.slice(0, 2).join(' / ') + ')');
       await ctx.close();
     }
-  }
-  // the extras to try (quick links, about this site, empty slot), on a laptop and a phone
-  for (const size of [SIZES[0], SIZES[2]]) {
-    const ctx = await browser.newContext({ ...size });
-    const page = await ctx.newPage();
-    const errors = [];
-    page.on('pageerror', e => errors.push(e.message));
-    await page.route(HOST + '**', route => {
-      const url = new URL(route.request().url());
-      if (url.pathname === '/' || url.pathname === '/index.html') return route.fulfill({ body: wrap(), contentType: TYPES['.html'] });
-      const file = path.join(ROOT, decodeURIComponent(url.pathname));
-      if (!file.startsWith(ROOT) || !fs.existsSync(file)) return route.fulfill({ status: 404, body: 'missing' });
-      route.fulfill({ body: fs.readFileSync(file), contentType: TYPES[path.extname(file)] || 'application/octet-stream' });
-    });
-    await page.goto(HOST + '#improved--links--colophon--slot', { waitUntil: 'networkidle' });
-    const tag = size.name + ', extras: ';
-    const r = await page.evaluate(() => ({
-      quick: [...document.querySelectorAll('.ql')].map(n => [...n.querySelectorAll('a')].map(a => a.textContent).join('|')),
-      colo: !!document.querySelector('dl.colo'),
-      creditsHidden: getComputedStyle(document.querySelector('.foot .credits')).display === 'none',
-      slot: !!document.querySelector('.card.slot'),
-      sideways: document.documentElement.scrollWidth - document.documentElement.clientWidth,
-    }));
-    check(r.quick.length === 3, tag + 'quick links under each place');
-    check(r.quick[1] === 'All Shelves|Reading|History|To Buy|Authors', tag + 'Library quick links use the Library’s own names (' + r.quick[1] + ')');
-    check(r.colo && r.creditsHidden, tag + '"About this site" shows and the credits line isn’t repeated');
-    check(r.slot, tag + 'empty slot shows');
-    check(r.sideways <= 0, tag + 'no sideways scrolling (' + r.sideways + 'px)');
-    check(errors.length === 0, tag + 'no errors in the browser');
-    await ctx.close();
   }
   await browser.close();
   console.log(passes + ' checks passed, ' + failures + ' failed');
