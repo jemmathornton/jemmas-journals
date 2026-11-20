@@ -1,0 +1,104 @@
+<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><title>Draw the tab icon</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+@font-face{font-family:"Instrument Serif";src:url(../fonts/instrument-serif-latin.woff2) format("woff2")}
+@font-face{font-family:"Instrument Serif";font-style:italic;src:url(../fonts/instrument-serif-italic-latin.woff2) format("woff2")}
+@font-face{font-family:"Manrope";font-weight:200 800;src:url(../fonts/manrope-latin.woff2) format("woff2")}
+body{margin:0;background:#F4EEE3;font:14px/1.4 Manrope,sans-serif;color:#221D17;padding:20px}
+h1{font:700 20px Manrope;margin:0 0 4px}p{margin:0 0 14px;color:#6E6458}
+.wrap{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start}
+canvas#c{width:400px;height:400px;touch-action:none;cursor:grab;box-shadow:0 2px 10px rgba(0,0,0,.15);border-radius:4px;background:#fff}
+.panel{display:grid;gap:12px;min-width:260px}
+fieldset{border:1px solid #DDD3C3;border-radius:8px;padding:10px 12px;display:grid;gap:8px}
+legend{font-weight:700}
+label{display:flex;align-items:center;gap:8px}
+input[type=range]{flex:1}
+button{font:600 13px Manrope;padding:7px 12px;border-radius:6px;border:1px solid #B9AE9C;background:#fff;cursor:pointer}
+button.on{background:#1C2540;color:#fff;border-color:#1C2540}
+.row{display:flex;gap:6px;flex-wrap:wrap}
+.sw{width:26px;height:26px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 0 1px #999;cursor:pointer}
+.sw.on{box-shadow:0 0 0 3px #1C2540}
+.prev{display:flex;gap:16px;align-items:flex-end}
+.prev canvas{display:block}
+#done{background:#A23446;color:#fff;border-color:#A23446}
+#msg{color:#2D6A3E;font-weight:600}
+</style></head><body>
+<h1>Draw the tab icon</h1>
+<p>Click a J to pick it, drag to move it, and use the sliders for its size and angle. Or switch to the pen and draw. Press Done when it looks right.</p>
+<div class="wrap">
+  <canvas id="c" width="800" height="800"></canvas>
+  <div class="panel">
+    <fieldset><legend>Background</legend>
+      <div class="row"><button data-bg="navy" class="on">Navy square</button><button data-bg="label">Cream label</button><button data-bg="none">Nothing</button></div>
+    </fieldset>
+    <fieldset><legend>Selected: <span id="selname">upright J</span></legend>
+      <div class="row"><button data-sel="0" class="on">Upright J</button><button data-sel="1">Slanted J</button></div>
+      <label>Size <input type="range" id="size" min="20" max="110" step="1"></label>
+      <label>Angle <input type="range" id="angle" min="-60" max="60" step="1"><span id="angv"></span></label>
+      <div class="row" id="lettercols"></div>
+      <label><input type="checkbox" id="front"> In front of the other J</label>
+      <label><input type="checkbox" id="cut"> Navy gap round it</label>
+    </fieldset>
+    <fieldset><legend>Pen</legend>
+      <div class="row"><button id="pen">Use the pen</button><button id="undo">Undo line</button><button id="clear">Clear lines</button></div>
+      <div class="row" id="pencols"></div>
+      <label>Thickness <input type="range" id="thick" min="1" max="14" value="4"></label>
+    </fieldset>
+    <fieldset><legend>At tab size</legend>
+      <div class="prev"><canvas id="p16" width="16" height="16"></canvas><canvas id="p32" width="32" height="32"></canvas><canvas id="p64" width="64" height="64"></canvas></div>
+    </fieldset>
+    <div class="row"><button id="done">Done</button><button id="reset">Start again</button></div>
+    <div id="msg"></div>
+  </div>
+</div>
+<script>
+var NAVY='#1C2540',CREAM='#F3EBDA',GOLD='#E4C072',INK='#1F2740',BRASS='#8E6A22',RED='#A23446';
+var COLS=[CREAM,GOLD,NAVY,BRASS,RED,'#FFFFFF'];
+var c=document.getElementById('c'),x=c.getContext('2d'),K=8; // 100 units = 800 px
+function fresh(){ return {bg:'navy',sel:0,J:[{italic:false,x:36,y:47,size:62,angle:0,col:CREAM,front:false,cut:false},{italic:true,x:64,y:56,size:62,angle:10,col:GOLD,front:true,cut:false}],lines:[]}; }
+var S=fresh(), pen=false, penCol=GOLD, drawing=null, drag=null;
+function drawJ(g,j,k){ g.save(); g.translate(j.x*k,j.y*k); g.rotate(j.angle*Math.PI/180);
+  g.font=(j.italic?'italic ':'')+(j.size*k)+'px "Instrument Serif"'; g.textAlign='center'; g.textBaseline='alphabetic';
+  var m=g.measureText('J'), dy=(m.actualBoundingBoxAscent-m.actualBoundingBoxDescent)/2, dx=(m.actualBoundingBoxLeft-m.actualBoundingBoxRight)/2;
+  if(j.cut){ g.lineWidth=j.size*k*.1; g.strokeStyle=S.bg==='label'?CREAM:NAVY; g.lineJoin='round'; g.strokeText('J',dx,dy); }
+  g.fillStyle=j.col; g.fillText('J',dx,dy); g.restore(); }
+function render(g,k){ g.clearRect(0,0,100*k,100*k);
+  if(S.bg!=='none'){ g.fillStyle=NAVY; g.beginPath(); g.roundRect(0,0,100*k,100*k,22*k); g.fill(); }
+  if(S.bg==='label'){ g.fillStyle=CREAM; g.beginPath(); g.roundRect(16*k,16*k,68*k,68*k,6*k); g.fill(); }
+  var order=S.J.slice().sort(function(a,b){return (a.front?1:0)-(b.front?1:0);});
+  order.forEach(function(j){drawJ(g,j,k);});
+  S.lines.forEach(function(l){ g.strokeStyle=l.col; g.lineWidth=l.w*k; g.lineCap='round'; g.lineJoin='round'; g.beginPath(); l.pts.forEach(function(p,i){ i?g.lineTo(p[0]*k,p[1]*k):g.moveTo(p[0]*k,p[1]*k); }); if(l.pts.length===1) g.lineTo(l.pts[0][0]*k+.01,l.pts[0][1]*k); g.stroke(); }); }
+function all(){ render(x,K); [16,32,64].forEach(function(n){ var p=document.getElementById('p'+n), g=p.getContext('2d'); render(g,n/100); }); sync(); }
+function sync(){ var j=S.J[S.sel]; document.getElementById('selname').textContent=S.sel?'slanted J':'upright J';
+  document.getElementById('size').value=j.size; document.getElementById('angle').value=j.angle; document.getElementById('angv').textContent=j.angle+'°';
+  document.getElementById('front').checked=j.front; document.getElementById('cut').checked=j.cut;
+  document.querySelectorAll('[data-sel]').forEach(function(b){b.classList.toggle('on',+b.dataset.sel===S.sel);});
+  document.querySelectorAll('[data-bg]').forEach(function(b){b.classList.toggle('on',b.dataset.bg===S.bg);});
+  document.querySelectorAll('#lettercols .sw').forEach(function(b){b.classList.toggle('on',b.dataset.c===j.col);});
+  document.querySelectorAll('#pencols .sw').forEach(function(b){b.classList.toggle('on',b.dataset.c===penCol);});
+  document.getElementById('pen').classList.toggle('on',pen); c.style.cursor=pen?'crosshair':'grab'; }
+function swatches(id,fn){ var el=document.getElementById(id); COLS.forEach(function(col){ var s=document.createElement('span'); s.className='sw'; s.style.background=col; s.dataset.c=col; s.onclick=function(){fn(col);all();}; el.appendChild(s); }); }
+swatches('lettercols',function(col){S.J[S.sel].col=col;}); swatches('pencols',function(col){penCol=col;pen=true;});
+document.querySelectorAll('[data-bg]').forEach(function(b){b.onclick=function(){S.bg=b.dataset.bg;all();};});
+document.querySelectorAll('[data-sel]').forEach(function(b){b.onclick=function(){S.sel=+b.dataset.sel;pen=false;all();};});
+document.getElementById('size').oninput=function(){S.J[S.sel].size=+this.value;all();};
+document.getElementById('angle').oninput=function(){S.J[S.sel].angle=+this.value;all();};
+document.getElementById('front').onchange=function(){S.J[S.sel].front=this.checked;S.J[1-S.sel].front=!this.checked;all();};
+document.getElementById('cut').onchange=function(){S.J[S.sel].cut=this.checked;all();};
+document.getElementById('pen').onclick=function(){pen=!pen;all();};
+document.getElementById('undo').onclick=function(){S.lines.pop();all();};
+document.getElementById('clear').onclick=function(){S.lines=[];all();};
+document.getElementById('reset').onclick=function(){S=fresh();pen=false;document.getElementById('msg').textContent='';all();};
+document.getElementById('done').onclick=function(){ window.ICON={state:JSON.parse(JSON.stringify(S)),png:c.toDataURL('image/png')}; document.getElementById('msg').textContent='Saved. Tell Claude it’s done.'; };
+function pt(e){ var r=c.getBoundingClientRect(); return [(e.clientX-r.left)/r.width*100,(e.clientY-r.top)/r.height*100]; }
+function hit(p){ // nearest J within reach
+  var best=-1,bd=1e9; S.J.forEach(function(j,i){ var d=Math.hypot(p[0]-j.x,p[1]-j.y); if(d<j.size*.45&&d<bd){bd=d;best=i;} }); return best; }
+c.onpointerdown=function(e){ c.setPointerCapture(e.pointerId); var p=pt(e);
+  if(pen){ drawing={col:penCol,w:+document.getElementById('thick').value/K*2,pts:[p]}; S.lines.push(drawing); all(); return; }
+  var i=hit(p); if(i<0) return; S.sel=i; drag={i:i,ox:p[0]-S.J[i].x,oy:p[1]-S.J[i].y}; c.style.cursor='grabbing'; all(); };
+c.onpointermove=function(e){ var p=pt(e);
+  if(drawing){ drawing.pts.push(p); all(); return; }
+  if(drag){ var j=S.J[drag.i]; j.x=Math.round((p[0]-drag.ox)*2)/2; j.y=Math.round((p[1]-drag.oy)*2)/2; all(); } };
+c.onpointerup=c.onpointercancel=function(){ drawing=null; drag=null; c.style.cursor=pen?'crosshair':'grab'; };
+Promise.allSettled([document.fonts.load('100px "Instrument Serif"'),document.fonts.load('italic 100px "Instrument Serif"')]).then(all);
+</script></body></html>
