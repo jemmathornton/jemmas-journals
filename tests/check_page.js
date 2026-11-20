@@ -84,6 +84,36 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       await ctx.close();
     }
   }
+  // the extras to try (quick links, about this site, empty slot), on a laptop and a phone
+  for (const size of [SIZES[0], SIZES[2]]) {
+    const ctx = await browser.newContext({ ...size });
+    const page = await ctx.newPage();
+    const errors = [];
+    page.on('pageerror', e => errors.push(e.message));
+    await page.route(HOST + '**', route => {
+      const url = new URL(route.request().url());
+      if (url.pathname === '/' || url.pathname === '/index.html') return route.fulfill({ body: wrap(), contentType: TYPES['.html'] });
+      const file = path.join(ROOT, decodeURIComponent(url.pathname));
+      if (!file.startsWith(ROOT) || !fs.existsSync(file)) return route.fulfill({ status: 404, body: 'missing' });
+      route.fulfill({ body: fs.readFileSync(file), contentType: TYPES[path.extname(file)] || 'application/octet-stream' });
+    });
+    await page.goto(HOST + '#improved--links--colophon--slot', { waitUntil: 'networkidle' });
+    const tag = size.name + ', extras: ';
+    const r = await page.evaluate(() => ({
+      quick: [...document.querySelectorAll('.ql')].map(n => [...n.querySelectorAll('a')].map(a => a.textContent).join('|')),
+      colo: !!document.querySelector('dl.colo'),
+      creditsHidden: getComputedStyle(document.querySelector('.foot .credits')).display === 'none',
+      slot: !!document.querySelector('.card.slot'),
+      sideways: document.documentElement.scrollWidth - document.documentElement.clientWidth,
+    }));
+    check(r.quick.length === 3, tag + 'quick links under each place');
+    check(r.quick[1] === 'All Shelves|Reading|History|To Buy|Authors', tag + 'Library quick links use the Library’s own names (' + r.quick[1] + ')');
+    check(r.colo && r.creditsHidden, tag + '"About this site" shows and the credits line isn’t repeated');
+    check(r.slot, tag + 'empty slot shows');
+    check(r.sideways <= 0, tag + 'no sideways scrolling (' + r.sideways + 'px)');
+    check(errors.length === 0, tag + 'no errors in the browser');
+    await ctx.close();
+  }
   await browser.close();
   console.log(passes + ' checks passed, ' + failures + ' failed');
   process.exit(failures ? 1 : 0);
