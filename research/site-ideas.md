@@ -27,7 +27,7 @@ From the “slash pages” tradition ([slashpages.net](https://slashpages.net/))
 ## Small things websites often forget
 
 - **Tab and home-screen icon** (options made: `for-jemma/concepts/choice-tab-icon.png`).
-- **Share picture** for when the link is sent in a message (made from the banner: `concepts/img/share-preview.png`; it could instead be her own photo, e.g. of a real journal).
+- **Share picture** for when the link is sent in a message (made from the banner: `concepts/img/share-preview.jpg`; it could instead be her own photo, e.g. of a real journal).
 - **A “page not found” page** in the same style (`concepts/404.html`).
 - **Not listed by search engines** (a `noindex` tag), if she prefers.
 

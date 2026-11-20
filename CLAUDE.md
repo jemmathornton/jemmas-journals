@@ -17,7 +17,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 
 ## Her decisions so far
 
-- Cloth-cover banner with the title on a cream label; no elastic-band stripe. **Cover colour: old gold** (#8E6520, cream trim; dark #6A4A17), her pick 20 Nov evening, replacing navy (too cool). Share picture is still navy.
+- Cloth-cover banner with the title on a cream label; no elastic-band stripe. **Cover colour: old gold** (#8E6520, cream trim; dark #6A4A17), her pick 20 Nov evening, replacing navy (too cool). Share picture retaken from the gold banner (img/share-preview.jpg, 1200×630, 86 KB).
 - Places as photos in album corners, named “My Sim World”, “My Library”, “My Pokédex”, nothing above the names.
 - Only the photo and “Open …” are links (not the whole card).
 - Library’s picture: the tilted wall of her covers. Sim World and Pokédex: a full map, nothing added on top. Which ones is open: she’ll supply a Sims picture; for Pokédex she’d like the combined Johto and Kanto painting (official HeartGold/SoulSilver art, PidgiWiki `File:Johto_and_Kanto_-_Pokemon_HeartGold_and_SoulSilver.jpg`; not on her PC yet).
@@ -40,7 +40,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 - `for-jemma/concepts/`: screenshots of each round and the labelled choice sheets (older rounds in `round-1/` …).
 - `research/going-online.md`: hosting research (GitHub Pages and what each app needs, checked in each app’s code).
 - `research/site-ideas.md`: ideas to make the site better, what was tried on the page, a checklist for going online. `research/drafts/`: draft head tags, robots.txt, manifest and a publishing workflow (none in use until she decides).
-- `concepts/404.html` (not-found page) and `concepts/img/share-preview.png` (link preview picture), for when it’s online. Pictures on the page are WebP at the size shown (`img/wall/*.webp`, `img/maps/*.webp`); the JPGs are the larger originals.
+- `concepts/404.html` (not-found page) and `concepts/img/share-preview.jpg` (link preview picture), for when it’s online. Pictures on the page are WebP at the size shown (`img/wall/*.webp`, `img/maps/*.webp`); the JPGs are the larger originals.
 - `tests/check_page.js`: checks the page in Edge at 1600, 1280 and 390 wide (run with `C:/Users/Jemma/Documents/SimTracker/.tools/node/node.exe tests/check_page.js`; uses Sim World’s Playwright). Run after every change.
 
 ## Git
