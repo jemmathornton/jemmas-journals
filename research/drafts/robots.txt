@@ -1,9 +1,9 @@
-# DRAFT, not in use. Would sit at the root of the main site (https://jemmathornton.github.io/robots.txt) and covers her other sites under it too.
+# In use: concepts/robots.txt (her choice, 20 Nov: keep out of search and AI crawlers). Would sit at the root of the main site (https://jemmathornton.github.io/robots.txt) and covers her other sites under it too.
 # These are requests, not locks: well-behaved crawlers follow them; anyone with the link can still open the pages.
 # Search engines: the noindex tag in each page asks them not to list it, so they are NOT blocked here
 # (blocking them here would stop them seeing that tag). Link previews in messages are not blocked either.
 #
-# CHOICE: the lines below ask companies' AI crawlers not to collect the pages for training or AI answers.
+# Her choice (20 Nov): the lines below ask companies' AI crawlers not to collect the pages for training or AI answers.
 
 User-agent: GPTBot
 Disallow: /
@@ -24,4 +24,16 @@ User-agent: Applebot-Extended
 Disallow: /
 
 User-agent: CCBot
+Disallow: /
+
+User-agent: PerplexityBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: meta-externalagent
+Disallow: /
+
+User-agent: Amazonbot
 Disallow: /

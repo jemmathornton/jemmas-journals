@@ -60,6 +60,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
           openWords: cards.map(c => c.querySelector('.go').textContent.trim()).join('|'),
           creditsShown: !!document.querySelector('.foot .credits') && getComputedStyle(document.querySelector('.foot .credits')).display !== 'none',
           corners: document.querySelectorAll('.cover .cn').length,
+          noindex: ((document.querySelector('meta[name="robots"]') || {}).content || ''),
           icons: [...document.querySelectorAll('link[rel="icon"],link[rel="apple-touch-icon"]')].map(l => l.getAttribute('href')),
         };
       });
@@ -80,6 +81,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       check(r.openWords === 'Open My Sim World|Open My Library|Open My Pokédex', tag + 'links say Open My … (' + r.openWords + ')');
       check(!r.creditsShown, tag + 'the credits aren’t repeated above About this site');
       check(r.corners === 4, tag + 'the cover has its four gold corners (Improved)');
+      check(/noindex/.test(r.noindex) && /noai/.test(r.noindex) && fs.existsSync(path.join(ROOT, 'robots.txt')), tag + 'asks search engines and AI to stay away (' + r.noindex + ')');
       check(r.icons.length === 3 && r.icons.every(h => fs.existsSync(path.join(ROOT, h))), tag + 'tab icon files are there (' + r.icons.join(', ') + ')');
       // the dark button works and is remembered
       await page.click('[data-mode-btn]');
