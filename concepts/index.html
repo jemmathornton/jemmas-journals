@@ -35,6 +35,8 @@ a{color:inherit}
 button{font:inherit;color:inherit}
 img{max-width:100%}
 h1,h2,h3,p{margin:0;font-weight:400}
+h1,h2,h3{text-wrap:balance}
+p{text-wrap:pretty}   /* no lonely last word on a line */
 svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
 :focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:4px}
 .gut{padding-left:max(var(--g),env(safe-area-inset-left,0px));padding-right:max(var(--g),env(safe-area-inset-right,0px))}
@@ -72,7 +74,11 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .sec{display:flex;align-items:center;gap:16px;margin:clamp(56px,6vw,80px) 0 34px}
 .sec .lab{color:var(--acc)}
 .sec i{flex:1;height:1px;background:var(--line)}
-.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:52px 40px}
+/* the places: three to a row; as more are added the rows stay tidy (4 = 2×2, 5 = 3 + 2 centred, 6 = 3 + 3) */
+.cards{display:flex;flex-wrap:wrap;justify-content:center;gap:52px 40px}
+.cards>.card{flex:0 0 calc((100% - 80px) / 3)}
+.cards:has(>.card:nth-child(4):last-child){max-width:calc((100% - 80px) / 3 * 2 + 40px);margin-inline:auto}
+.cards:has(>.card:nth-child(4):last-child)>.card{flex-basis:calc((100% - 40px) / 2)}
 .card{display:flex;flex-direction:column;min-width:0}
 .card h3{font:400 40px/1.05 var(--display);margin-bottom:10px}
 .card p{font-size:15.5px;margin-bottom:16px}
@@ -169,6 +175,8 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 /* ================================================================ Ideas to try for the whole page (switch) */
 /* paper: a faint grain on the cream page, like real paper */
 body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45  0 0 0 0 .36  0 0 0 0 .22  0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+/* stitching: a stitched line round the edge of the cloth cover */
+.i-stitch .cover::after{content:"";position:absolute;inset:7px max(calc(var(--frame) - 9px),5px);border:1.5px dashed rgba(228,192,114,.38);border-radius:3px;pointer-events:none}
 /* tilted photos: each place's photo sits a little crooked, as if stuck in by hand; it straightens when pointed at */
 .i-tilt .card:nth-child(3n+1) .snap{transform:rotate(-1.6deg)}
 .i-tilt .card:nth-child(3n+2) .snap{transform:rotate(1.2deg)}
@@ -208,7 +216,7 @@ body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important} html{scroll-behavior:auto}}
 
-@media (max-width:900px){ .cards{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:900px){ .cards>.card,.cards:has(>.card:nth-child(4):last-child)>.card{flex-basis:calc((100% - 40px) / 2)} .cards:has(>.card:nth-child(4):last-child){max-width:none} }
 @media (max-width:760px){
   body{font-size:15.5px}
   .cover{padding-block:66px 46px}
@@ -219,7 +227,8 @@ body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
   .intro .photo{font-size:10px;box-shadow:0 0 0 4px var(--bg),0 0 0 5.5px color-mix(in srgb,var(--acc) 60%,transparent)}
   .intro .photo svg.i{width:18px;height:18px}
   .intro p{font-size:20px}
-  .cards{grid-template-columns:1fr;gap:44px}
+  .cards{gap:44px}
+  .cards>.card,.cards:has(>.card:nth-child(4):last-child)>.card{flex-basis:100%}
   .card h3{font-size:36px}
   .v2 .cover .cn{width:20px;height:20px}
   .v2 .cover .cn::after{width:9px;height:9px}
@@ -244,7 +253,7 @@ body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
 
 <div class="sw" role="group" aria-label="Try it">
   <div class="row"><span class="lab">About this site</span><button type="button" data-foot="1">1 · One line</button><button type="button" data-foot="2">2 · Two lines</button><button type="button" data-foot="3">3 · Tucked away</button></div>
-  <div class="row"><span class="lab">Ideas</span><button type="button" data-idea="paper">Paper</button><button type="button" data-idea="tilt">Tilted photos</button><button type="button" data-idea="ribbon">Bookmark ribbon</button><button type="button" data-idea="mini">Title on scroll</button><button type="button" data-idea="enter">Gentle entrance</button></div>
+  <div class="row"><span class="lab">Ideas</span><button type="button" data-idea="paper">Paper</button><button type="button" data-idea="stitch">Stitching</button><button type="button" data-idea="tilt">Tilted photos</button><button type="button" data-idea="ribbon">Bookmark ribbon</button><button type="button" data-idea="mini">Title on scroll</button><button type="button" data-idea="enter">Gentle entrance</button></div>
   <div class="row"><button type="button" id="more" aria-pressed="false">+ More places</button></div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -285,11 +294,11 @@ body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
   function h2(text,id){ return '<div class="h2"><h2'+(id?' id="'+id+'"':'')+'>'+text+'</h2><span class="rule"><i></i><b></b></span></div>'; }
 
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
-  var more=false, root=document.documentElement, userMode='light', foot=1;
+  var more=0, root=document.documentElement, userMode='light', foot=1;   // more: how many stand-in places to add (0–3), to show how the page grows
   try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; var f=+localStorage.getItem('jj-foot'); if(f>=1&&f<=3) foot=f; }catch(e){}
-  var IDEAS={paper:false,tilt:false,ribbon:false,mini:false,enter:false};
+  var IDEAS={paper:false,stitch:false,tilt:false,ribbon:false,mini:false,enter:false};
   try{ var si=JSON.parse(localStorage.getItem('jj-ideas')||'null'); if(si) for(var k in IDEAS) IDEAS[k]=!!si[k]; }catch(e){}
-  location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=true; if(w==='dark'||w==='light') userMode=w; var x=/^foot([123])$/.exec(w); if(x) foot=+x[1];
+  location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w; var x=/^foot([123])$/.exec(w); if(x) foot=+x[1];
     if(w==='plain') for(var k in IDEAS) IDEAS[k]=false; if(IDEAS.hasOwnProperty(w)) IDEAS[w]=true; });
 
   // About this site: the same plain facts, three quiet ways to show them (switch)
@@ -304,7 +313,7 @@ body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
   applyMode();
 
   function render(){
-    var list=more ? PLACES.concat(EXTRA) : PLACES, dark=userMode==='dark';
+    var list=PLACES.concat(EXTRA.slice(0,more)), dark=userMode==='dark';
     var h='<a class="skip" href="#contents">Skip to contents</a>'
       +'<header class="cover gut"><span class="cn tl"></span><span class="cn tr"></span><span class="cn bl"></span><span class="cn br"></span>'
       +'<button type="button" class="mode" data-mode-btn aria-pressed="'+dark+'" aria-label="Dark mode">'+ico(dark?'sun':'moon')+'</button>'
@@ -333,7 +342,8 @@ body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
     document.querySelectorAll('.sw [data-idea]').forEach(function(b){ b.setAttribute('aria-pressed', IDEAS[b.dataset.idea] ? 'true':'false'); });
     try{ localStorage.setItem('jj-ideas',JSON.stringify(IDEAS)); }catch(e){}
     onScroll();
-    document.getElementById('more').setAttribute('aria-pressed', more?'true':'false');
+    var mb=document.getElementById('more'); mb.setAttribute('aria-pressed', more?'true':'false'); mb.textContent = more ? 'Showing '+(3+more)+' places · add another' : '+ More places';
+    if(more===3) mb.textContent='Showing 6 places · back to 3';
     document.querySelectorAll('.sw [data-foot]').forEach(function(b){ b.setAttribute('aria-pressed', +b.dataset.foot===foot ? 'true':'false'); });
     try{ localStorage.setItem('jj-foot',String(foot)); }catch(e){}
   }
@@ -348,7 +358,7 @@ body.i-paper{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w
     var fb=e.target.closest('.sw [data-foot]'); if(fb){ foot=+fb.dataset.foot; render(); return; }
     var ib=e.target.closest('.sw [data-idea]'); if(ib){ IDEAS[ib.dataset.idea]=!IDEAS[ib.dataset.idea]; render(); return; }
     if(e.target.closest('[data-ribbon]')){ e.preventDefault(); var c=document.getElementById('contents'); if(c) c.scrollIntoView({behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto':'smooth', block:'start'}); return; }
-    if(e.target.closest('#more')){ more=!more; render(); return; }
+    if(e.target.closest('#more')){ more=(more+1)%4; render(); return; }
     if(e.target.closest('[data-top]')){ e.preventDefault(); window.scrollTo(0,0); return; }
     if(e.target.closest('[data-mode-btn]')){
       userMode = userMode==='dark' ? 'light' : 'dark';

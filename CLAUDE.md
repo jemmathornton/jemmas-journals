@@ -23,6 +23,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 - Library’s picture: the tilted wall of her covers. Sim World and Pokédex: a full map, nothing added on top. Which ones is open: she’ll supply a Sims picture; for Pokédex she’d like the combined Johto and Kanto painting (official HeartGold/SoulSilver art, PidgiWiki `File:Johto_and_Kanto_-_Pokemon_HeartGold_and_SoulSilver.jpg`; not on her PC yet).
 - No “Elsewhere” links (the Sims Gallery belongs in Sim World).
 - 20 Nov: the Improved version (gold corner brackets on the cover, serif section headings with a diamond rule, About photo in album corners, centred footer, Back to top), with About this site laid out across the footer. Not wanted: quick links, an empty slot, an edition mark.
+- 20 Nov (later): links say “Open My Sim World” etc. (she found “Open Sim World” odd beside “My Sim World”). About this site must be small and subtle (she hated the table-like band). A way back home in each app: **A**, a small “← Jemma’s Journals” link at the top of each app’s sidebar (subtle); not yet added to the apps (their own projects, and the link needs the home page’s online address).
 
 ## Where things are
 
