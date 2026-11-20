@@ -189,16 +189,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 
 @keyframes jj-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
-/* ---- the trial switch (bottom right; not part of the site) */
-.sw{position:fixed;z-index:50;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));display:grid;gap:6px;padding:8px;border-radius:16px;
-  background:var(--sw-bg);color:var(--sw-ink);border:1px solid var(--sw-line);box-shadow:0 10px 30px -8px rgba(0,0,0,.35);font-size:13px}
-.sw .row{display:flex;align-items:center;gap:3px}
-.sw .lab{color:var(--sw-mute);font-size:10px;padding:0 6px 0 4px}
-.sw button{border:0;background:none;padding:6px 11px;border-radius:99px;font-size:13px;font-weight:700;cursor:pointer;color:var(--sw-ink);white-space:nowrap}
-.sw button:hover{background:color-mix(in srgb,var(--sw-ink) 8%,transparent)}
-.sw button[aria-pressed="true"]{background:var(--sw-on);color:var(--sw-on-ink)}
-.sw #more{text-align:left}
-.sw #more[aria-pressed="true"]{background:color-mix(in srgb,var(--sw-ink) 12%,transparent);color:var(--sw-ink)}
 .toast{position:fixed;z-index:60;left:50%;bottom:calc(120px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--sw-on);color:var(--sw-on-ink);padding:10px 18px;border-radius:99px;font-size:13.5px;font-weight:700;box-shadow:0 10px 30px -8px rgba(0,0,0,.4);white-space:nowrap}
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important} html{scroll-behavior:auto}}
@@ -226,9 +216,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   .v2 .intro .mount .c{width:16px;height:16px}
   .v2 .intro .h2{margin:0 0 10px}
   .v2 .h2 h2{font-size:32px}
-  .sw{left:calc(14px + env(safe-area-inset-left,0px));max-width:none}
-  .sw .row{flex-wrap:wrap}
-  .sw button{padding:6px 9px;font-size:12.5px}
   .v2 .card h3{font-size:38px}
   .about-site{font-size:12px}
   .about-site .dot{display:none}
@@ -238,9 +225,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 
 <div id="page"></div>
 
-<div class="sw" role="group" aria-label="Try it">
-  <div class="row"><button type="button" id="more" aria-pressed="false">+ More places</button></div>
-</div>
 <div class="toast" id="toast" role="status" hidden></div>
 
 <script>
@@ -320,7 +304,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
       +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b>'+aboutSite()
       +'<a class="totop" href="#top" data-top>'+ico('arrow-up')+'Back to top</a></div></footer>';
     var page=document.getElementById('page'); page.className='v2'+(firstRender?' i-enter':''); firstRender=false; page.innerHTML=h;
-    var mb=document.getElementById('more'); mb.setAttribute('aria-pressed', more?'true':'false'); mb.textContent = more ? 'Showing '+(3+more)+' places · add another' : '+ More places';
     if(more===3) mb.textContent='Showing 6 places · back to 3';
   }
   // title on scroll: show the slim bar once the banner has scrolled out of sight
@@ -329,7 +312,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   var toast=document.getElementById('toast'), t;
   function say(m){ toast.textContent=m; toast.hidden=false; clearTimeout(t); t=setTimeout(function(){ toast.hidden=true; },1800); }
   document.addEventListener('click',function(e){
-    if(e.target.closest('#more')){ more=(more+1)%4; render(); return; }
     if(e.target.closest('[data-top]')){ e.preventDefault(); window.scrollTo(0,0); return; }
     if(e.target.closest('[data-mode-btn]')){
       userMode = userMode==='dark' ? 'light' : 'dark';

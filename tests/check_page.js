@@ -97,14 +97,16 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       await page.reload({ waitUntil: 'networkidle' });
       check(await page.evaluate(() => document.documentElement.getAttribute('data-mode')) === 'dark', tag + 'dark is remembered after reloading');
       await page.click('[data-mode-btn]');
-      // "More places" shows how it grows, still without sideways scrolling
-      await page.click('#more');
+      // how it grows when places are added (stand-ins via #more1 / #more2; the trial button is gone), still without sideways scrolling
+      const grow = async n => { await page.goto(HOST + '#more' + n, { waitUntil: 'networkidle' }); await page.reload({ waitUntil: 'networkidle' }); await page.evaluate(() => Promise.all(document.getAnimations().map(a => a.finished))); };
+      check(await page.evaluate(() => !document.querySelector('.sw') && !document.getElementById('more')), tag + 'the trial switch is gone');
+      await grow(1);
       const grown = await page.evaluate(() => ({ cards: document.querySelectorAll('.card').length, sideways: document.documentElement.scrollWidth - document.documentElement.clientWidth }));
       check(grown.cards === 4 && grown.sideways <= 0, tag + '"More places" adds a fourth without sideways scrolling');
       if (size.viewport.width >= 1280) {
         const four = await page.evaluate(() => { const r = [...document.querySelectorAll('.card')].map(c => c.getBoundingClientRect()); const first = r.filter(x => Math.round(x.top) === Math.round(r[0].top)).length; return { first, rows: new Set(r.map(x => Math.round(x.top))).size, sameSize: Math.abs(r[0].width - document.querySelector('.card').getBoundingClientRect().width) < 1 && r[0].width > 300 }; });
         check(four.first === 2 && four.rows === 2 && four.sameSize, tag + 'four places sit as 2 × 2 at full size (first row ' + four.first + ')');
-        await page.click('#more');
+        await grow(2);
         const five = await page.evaluate(() => { const ys = [...document.querySelectorAll('.card')].map(c => Math.round(c.getBoundingClientRect().top)); const first = ys.filter(y => y === ys[0]).length; const r = [...document.querySelectorAll('.card')].slice(3).map(c => c.getBoundingClientRect()); const mid = (r[0].left + r[r.length-1].right) / 2; return { first, centred: Math.abs(mid - innerWidth / 2) < 40 }; });
         check(five.first === 3 && five.centred, tag + 'five places sit as 3 + 2, centred');
       }

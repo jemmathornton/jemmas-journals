@@ -9,7 +9,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 - **British English**; **curly apostrophes** in shown text.
 - **No made-up text on the site:** her words, or an app’s own text word for word. Missing means a marked placeholder. Labels like “Contents” or “Open …” are fine.
 - **No AI-generated art.** Pictures come from her apps (maps by 20th Century Plumbob, the games’ region maps, publishers’ covers, her own screenshots). Icons: Lucide, or the sets her apps use; never a real logo.
-- **Show, don’t ask, for looks:** build each option into the page behind the bottom-right switch, screenshot at 1600 wide (her window) and at phone size, send them labelled. Words are fine for facts.
+- **Show, don’t ask, for looks:** build each option into the page (a trial switch, bottom right, added only while she is choosing and removed after), screenshot at 1600 wide (her window) and at phone size, send them labelled. Words are fine for facts.
 - **When asking her to choose, list every option** in the message (the two-button box hides choices).
 - **Label suggestions** as “my suggestion (not decided)”.
 - **Light mode by default** (her preference, 20 Nov): dark only when the button is pressed.
@@ -35,7 +35,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 
 ## Where things are
 
-- `concepts/index.html`: the page as it stands, with the trial switch (bottom right) and “+ More places”. The places are one list, `PLACES`, in its script. Published for her phone as a private Claude artifact: https://claude.ai/artifact/Ad37As365K3HDcR8iHw7HE (republish after changes).
+- `concepts/index.html`: the page as it stands; the trial switch was removed 20 Nov late (her ask). Stand-in places for checking growth: add `#more1`…`#more3` to the address. The places are one list, `PLACES`, in its script. Published for her phone as a private Claude artifact: https://claude.ai/artifact/Ad37As365K3HDcR8iHw7HE (republish after changes).
 - `concepts/img/`: pictures copied from her apps (`maps/` every Sims world and Pokémon region map, `wall/` 40 of her covers, `icons/` each app’s own icon). `concepts/fonts/`: Instrument Serif and Manrope (SIL OFL).
 - `for-jemma/concepts/`: screenshots of each round and the labelled choice sheets (older rounds in `round-1/` …).
 - `research/going-online.md`: hosting research (GitHub Pages and what each app needs, checked in each app’s code).
