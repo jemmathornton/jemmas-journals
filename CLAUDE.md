@@ -28,7 +28,9 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 - `concepts/index.html`: the page as it stands, with the trial switch (bottom right) and “+ More places”. The places are one list, `PLACES`, in its script. Published for her phone as a private Claude artifact: https://claude.ai/artifact/Ad37As365K3HDcR8iHw7HE (republish after changes).
 - `concepts/img/`: pictures copied from her apps (`maps/` every Sims world and Pokémon region map, `wall/` 40 of her covers, `icons/` each app’s own icon). `concepts/fonts/`: Instrument Serif and Manrope (SIL OFL).
 - `for-jemma/concepts/`: screenshots of each round and the labelled choice sheets (older rounds in `round-1/` …).
-- `research/going-online.md`: hosting research (GitHub Pages and what each app needs).
+- `research/going-online.md`: hosting research (GitHub Pages and what each app needs, checked in each app’s code).
+- `research/site-ideas.md`: ideas to make the site better, what was tried on the page, a checklist for going online. `research/drafts/`: draft head tags, robots.txt, manifest and a publishing workflow (none in use until she decides).
+- `concepts/404.html` (not-found page) and `concepts/img/share-preview.png` (link preview picture), for when it’s online. Pictures on the page are WebP at the size shown (`img/wall/*.webp`, `img/maps/*.webp`); the JPGs are the larger originals.
 - `tests/check_page.js`: checks the page in Edge at 1600, 1280 and 390 wide (run with `C:/Users/Jemma/Documents/SimTracker/.tools/node/node.exe tests/check_page.js`; uses Sim World’s Playwright). Run after every change.
 
 ## Git
