@@ -172,15 +172,9 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .about-site .cr{white-space:nowrap}   /* each credit stays in one piece when the line wraps */
 
 /* ================================================================ Ideas to try for the whole page (switch) */
+.i-noribbon .cover .ribbon{display:none}   /* trying the banner without the red ribbon */
 /* stitching round the cover (her pick, 20 Nov) */
 .cover::after{content:"";position:absolute;inset:7px max(calc(var(--frame) - 9px),5px);border:1.5px dashed rgba(228,192,114,.38);border-radius:3px;pointer-events:none}
-/* title on scroll: a slim navy bar with the title appears once the banner has gone by */
-.minibar{position:fixed;z-index:40;left:0;right:0;top:0;height:46px;display:flex;align-items:center;justify-content:space-between;gap:12px;background:var(--cover);box-shadow:inset 0 -1px 0 rgba(228,192,114,.4),0 6px 18px -10px rgba(0,0,0,.6);
-  transform:translateY(-110%);transition:transform .3s cubic-bezier(.2,.7,.2,1);padding-top:env(safe-area-inset-top,0px)}
-.minibar.show{transform:none}
-.minibar a{font:400 21px/1 var(--display);color:var(--label);text-decoration:none}
-.minibar a em{color:var(--gold)}
-.minibar .mode{position:static;width:32px;height:32px}
 /* gentle entrance: sections fade up softly as the page opens (not for anyone who has reduced motion turned on) */
 @media (prefers-reduced-motion: no-preference){
   .i-enter .intro,.i-enter .sec,.i-enter .card,.i-enter .end,.i-enter .foot{animation:jj-in .7s cubic-bezier(.2,.7,.2,1) both}
@@ -240,7 +234,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 <div id="page"></div>
 
 <div class="sw" role="group" aria-label="Try it">
-  <div class="row"><span class="lab">Ideas</span><button type="button" data-idea="mini">Title on scroll</button><button type="button" data-idea="enter">Gentle entrance</button></div>
+  <div class="row"><span class="lab">Ideas</span><button type="button" data-idea="noribbon">No ribbon</button><button type="button" data-idea="enter">Gentle entrance</button></div>
   <div class="row"><button type="button" id="more" aria-pressed="false">+ More places</button></div>
 </div>
 <div class="toast" id="toast" role="status" hidden></div>
@@ -283,7 +277,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
   var more=0, root=document.documentElement, userMode='light';   // more: how many stand-in places to add (0–3), to show how the page grows
   try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; localStorage.removeItem('jj-foot'); }catch(e){}
-  var IDEAS={mini:false,enter:false};
+  var IDEAS={noribbon:false,enter:false};
   try{ var si=JSON.parse(localStorage.getItem('jj-ideas')||'null'); if(si) for(var k in IDEAS) IDEAS[k]=!!si[k]; }catch(e){}
   location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w;
     if(w==='plain') for(var k in IDEAS) IDEAS[k]=false; if(IDEAS.hasOwnProperty(w)) IDEAS[w]=true; });
@@ -305,7 +299,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
       +'<div class="wrap"><h1>Jemma’s <em>Journals</em></h1></div>'
       +'<span class="ribbon"></span>'
       +'</header>'
-      +(IDEAS.mini ? '<div class="minibar gut" aria-hidden="true"><a href="#top" data-top tabindex="-1">Jemma’s <em>Journals</em></a></div>' : '')
       +'<main class="gut"><div class="wrap">';
     var INTRO='<p class="ph">Your introduction goes here, in your own words: a few sentences about you, what you keep in these journals, anything you’d like people to know.<span class="ph-tag">Placeholder</span></p>';
     h+='<section class="intro" aria-labelledby="about"><span class="mount">'+CORNERS+'<span class="photo">'+ico('image')+'Your photo</span></span><div>'+h2('About me','about')+INTRO+'</div></section>'
@@ -325,13 +318,10 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
     var page=document.getElementById('page'); page.className='v2'+Object.keys(IDEAS).filter(function(k){return IDEAS[k];}).map(function(k){return ' i-'+k;}).join(''); page.innerHTML=h;
     document.querySelectorAll('.sw [data-idea]').forEach(function(b){ b.setAttribute('aria-pressed', IDEAS[b.dataset.idea] ? 'true':'false'); });
     try{ localStorage.setItem('jj-ideas',JSON.stringify(IDEAS)); }catch(e){}
-    onScroll();
     var mb=document.getElementById('more'); mb.setAttribute('aria-pressed', more?'true':'false'); mb.textContent = more ? 'Showing '+(3+more)+' places · add another' : '+ More places';
     if(more===3) mb.textContent='Showing 6 places · back to 3';
   }
   // title on scroll: show the slim bar once the banner has scrolled out of sight
-  function onScroll(){ var bar=document.querySelector('.minibar'); if(!bar) return; var cov=document.querySelector('.cover'); bar.classList.toggle('show', cov && cov.getBoundingClientRect().bottom < 0); }
-  addEventListener('scroll', onScroll, {passive:true});
   render();
 
   var toast=document.getElementById('toast'), t;
