@@ -56,7 +56,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
           picturesWithoutWords: cards.filter(c => { const s = c.querySelector('.snap'); return !s.getAttribute('aria-label'); }).length,
           headings: cards.map(c => c.querySelector('h3').textContent),
           openLinksLevel: (() => { const ys = cards.map(c => Math.round(c.querySelector('.go').getBoundingClientRect().top)); return new Set(ys).size === 1 || window.innerWidth < 900; })(),
-          modeButton: !!document.querySelector('[data-mode-btn][aria-label]'),
+          modeButton: (() => { const b = document.querySelector('[data-mode-btn]'); return !!b && !!(b.getAttribute('aria-label') || b.textContent.trim()) && !document.querySelector('.cover [data-mode-btn]') && !!document.querySelector('.foot [data-mode-btn]'); })(),
           about: (document.querySelector('.foot .about-site') || {}).textContent || '',
           openWords: cards.map(c => c.querySelector('.go').textContent.trim()).join('|'),
           creditsShown: !!document.querySelector('.foot .credits') && getComputedStyle(document.querySelector('.foot .credits')).display !== 'none',
@@ -78,7 +78,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       check(r.picturesWithoutWords === 0, tag + 'every photo link says where it goes');
       check(r.headings.join('|') === 'My Sim World|My Library|My Pokédex', tag + 'names are My Sim World, My Library, My Pokédex (' + r.headings.join(', ') + ')');
       check(r.openLinksLevel, tag + '"Open" links line up across the row');
-      check(r.modeButton, tag + 'light/dark button has a label');
+      check(r.modeButton, tag + 'light/dark button is in the footer, not the banner, and says what it does');
       check(/Instrument Serif/.test(r.about) && /No cookies/.test(r.about), tag + 'About this site is in the footer');
       check(/Region maps/.test(r.about) && /Book covers/.test(r.about) && /Icons by Lucide/.test(r.about), tag + 'each credit starts with a capital (her ask, 20 Nov)');
       check(r.openWords === 'Open My Sim World|Open My Library|Open My Pokédex', tag + 'links say Open My … (' + r.openWords + ')');

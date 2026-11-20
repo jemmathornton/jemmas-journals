@@ -71,7 +71,10 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .mode-text{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:4px 2px;font:700 13px var(--body);color:var(--acc);cursor:pointer}
 .mode-text svg.i{width:14px;height:14px}
 .mode-text:hover{text-decoration:underline;text-underline-offset:3px}
-.foot-links{display:flex;gap:22px;justify-content:center;align-items:center;flex-wrap:wrap}
+.foot-links{display:flex;gap:26px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:6px}
+.v2 .foot-links .totop,.v2 .foot-links .mode-text{margin:0;padding:4px 2px;font:700 13px/1 var(--body);gap:6px}
+.foot-links .mode-text svg.i,.foot-links .totop svg.i{width:14px;height:14px}
+@media (min-width:761px){ .foot-links.fl3 .totop{display:none} }   /* 3: Back to top only where the page is long (phones) */
 .mode-float{position:fixed;z-index:40;right:calc(16px + env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));width:42px;height:42px;border-radius:50%;
   border:1px solid var(--line);background:var(--bg);color:var(--acc);display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 18px -8px rgba(0,0,0,.4)}
 .mode-float svg.i{width:18px;height:18px}
@@ -272,9 +275,9 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   function h2(text,id){ return '<div class="h2"><h2'+(id?' id="'+id+'"':'')+'>'+text+'</h2><span class="rule"><i></i><b></b></span></div>'; }
 
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
-  var more=0, root=document.documentElement, userMode='light', modeAt='cover';   // modeAt: where the dark mode button sits (cover / foot / float / below), to try   // more: how many stand-in places to add (0–3), to show how the page grows
+  var more=0, root=document.documentElement, userMode='light', modeAt='foot', footLinks=1;   // modeAt: the dark mode button sits in the footer (her pick, 20 Nov); footLinks: 1 both, 2 dark mode only, 3 Back to top on phones only (to try)   // more: how many stand-in places to add (0–3), to show how the page grows
   try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; localStorage.removeItem('jj-foot'); }catch(e){}
-  location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w; var ma=/^mode(foot|float|below)$/.exec(w); if(ma) modeAt=ma[1];
+  location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w; var ma=/^mode(foot|float|below|cover)$/.exec(w); if(ma) modeAt=ma[1]; var fl=/^links([123])$/.exec(w); if(fl) footLinks=+fl[1];
     });
 
   // About this site: two quiet lines (her pick, 20 Nov: option 2, each credit starting with a capital)
@@ -312,7 +315,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
     h+='</div></div></main>'
       +'<div class="end" aria-hidden="true"><i></i><b></b><i></i></div>'
       +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b>'+aboutSite()
-      +(modeAt==='foot' ? '<div class="foot-links"><a class="totop" href="#top" data-top>'+ico('arrow-up')+'Back to top</a>'+MODETEXT+'</div>' : '<a class="totop" href="#top" data-top>'+ico('arrow-up')+'Back to top</a>')+'</div></footer>'
+      +(modeAt==='foot' ? '<div class="foot-links fl'+footLinks+'">'+(footLinks===2 ? '' : '<a class="totop" href="#top" data-top>'+ico('arrow-up')+'Back to top</a>')+MODETEXT+'</div>' : '<a class="totop" href="#top" data-top>'+ico('arrow-up')+'Back to top</a>')+'</div></footer>'
       +(modeAt==='float' ? '<button type="button" class="mode-float" data-mode-btn aria-pressed="'+dark+'" aria-label="Dark mode">'+ico(dark?'sun':'moon')+'</button>' : '');
     var page=document.getElementById('page'); page.className='v2'+(firstRender?' i-enter':''); firstRender=false; page.innerHTML=h;
     if(more===3) mb.textContent='Showing 6 places · back to 3';
