@@ -56,7 +56,8 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
           headings: cards.map(c => c.querySelector('h3').textContent),
           openLinksLevel: (() => { const ys = cards.map(c => Math.round(c.querySelector('.go').getBoundingClientRect().top)); return new Set(ys).size === 1 || window.innerWidth < 900; })(),
           modeButton: !!document.querySelector('[data-mode-btn][aria-label]'),
-          about: [...document.querySelectorAll('dl.colo dt')].map(d => d.textContent).join('|'),
+          about: (document.querySelector('.foot .about-site') || {}).textContent || '',
+          openWords: cards.map(c => c.querySelector('.go').textContent.trim()).join('|'),
           creditsShown: !!document.querySelector('.foot .credits') && getComputedStyle(document.querySelector('.foot .credits')).display !== 'none',
           corners: document.querySelectorAll('.cover .cn').length,
         };
@@ -73,7 +74,8 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       check(r.headings.join('|') === 'My Sim World|My Library|My Pokédex', tag + 'names are My Sim World, My Library, My Pokédex (' + r.headings.join(', ') + ')');
       check(r.openLinksLevel, tag + '"Open" links line up across the row');
       check(r.modeButton, tag + 'light/dark button has a label');
-      check(r.about === 'Fonts|Icons|Pictures|Made with|Privacy', tag + 'About this site is in the footer (' + r.about + ')');
+      check(/Instrument Serif/.test(r.about) && /no cookies/.test(r.about), tag + 'About this site is in the footer');
+      check(r.openWords === 'Open My Sim World|Open My Library|Open My Pokédex', tag + 'links say Open My … (' + r.openWords + ')');
       check(!r.creditsShown, tag + 'the credits aren’t repeated above About this site');
       check(r.corners === 4, tag + 'the cover has its four gold corners (Improved)');
       // the dark button works and is remembered
