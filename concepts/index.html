@@ -2,9 +2,10 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="theme-color" content="#8E6520">
 <meta name="robots" content="noindex, noai, noimageai">   <!-- her choice, 20 Nov: keep out of search engines and AI -->
-<!-- Tab icon: drawn by Jemma on 20 Nov (book, gold corners, her two J’s); made by tools/draw-icon.html -->
-<link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48">
-<link rel="icon" href="img/icon/icon-192.png" type="image/png" sizes="192x192">
+<!-- Tab icon: drawn by Jemma (20 Nov, simpler redraw: cream square, old gold book, her two J’s); made by tools/draw-icon.html.
+     Light is the default; in dark mode the script swaps to the flipped version (icon-dark-*), colours swapped like the page. -->
+<link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48" data-dark="img/icon/icon-dark-32.png">
+<link rel="icon" href="img/icon/icon-192.png" type="image/png" sizes="192x192" data-dark="img/icon/icon-dark-192.png">
 <link rel="apple-touch-icon" href="img/icon/apple-touch-icon.png">
 <style>
 /* Jemma's Journals: home page. 20 Nov 2026 (morning): her picks are the Improved version and About this site (laid out across the footer).
@@ -289,7 +290,9 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
     return '<div class="about-site two"><p>No cookies, no tracking, no ads. Made with plain HTML and CSS, kept on GitHub.</p>'
       +'<p>'+['World maps by 20th Century Plumbob','Region maps from the Pokémon games','Book covers from their publishers','Fonts: Instrument Serif and Manrope','Icons by Lucide'].map(function(t){ return '<span class="cr">'+t+'</span>'; }).join(' '+DOT+' ')+'</p></div>';
   }
-  function applyMode(){ root.setAttribute('data-mode', userMode); }
+  function applyMode(){ root.setAttribute('data-mode', userMode);
+    document.querySelectorAll('link[rel="icon"][data-dark]').forEach(function(l){ if(!l.dataset.light) l.dataset.light=l.getAttribute('href'); l.setAttribute('href', userMode==='dark' ? l.dataset.dark : l.dataset.light); });   // the tab icon flips with the page
+  }
   applyMode();
 
   var firstRender=true;   // the gentle entrance plays once, when the page first opens

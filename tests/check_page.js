@@ -91,6 +91,9 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       // the dark button works and is remembered
       await page.click('[data-mode-btn]');
       check(await page.evaluate(() => document.documentElement.getAttribute('data-mode')) === 'dark', tag + 'dark button switches to dark');
+      const darkIcons = await page.evaluate(() => [...document.querySelectorAll('link[rel="icon"]')].map(l => l.getAttribute('href')));
+      check(darkIcons.every(h => /icon-dark-/.test(h)), tag + 'the tab icon flips to the dark version (' + darkIcons.join(', ') + ')');
+      check(darkIcons.every(h => fs.existsSync(path.join(ROOT, h))), tag + 'the dark tab icon files are there');
       await page.reload({ waitUntil: 'networkidle' });
       check(await page.evaluate(() => document.documentElement.getAttribute('data-mode')) === 'dark', tag + 'dark is remembered after reloading');
       await page.click('[data-mode-btn]');
