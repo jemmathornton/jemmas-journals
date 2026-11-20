@@ -32,7 +32,7 @@ button.on{background:#1C2540;color:#fff;border-color:#1C2540}
   <canvas id="c" width="800" height="800"></canvas>
   <div class="panel">
     <fieldset><legend>Background</legend>
-      <div class="row"><button data-bg="navy">Navy square</button><button data-bg="label">Cream label</button><button data-bg="none">Nothing</button></div>
+      <div class="row"><button data-bg="oldgold">Old gold</button><button data-bg="darkgold">Dark old gold</button><button data-bg="cream">Cream</button><button data-bg="black">Warm black</button><button data-bg="navy">Navy</button><button data-bg="label">Cream label on navy</button><button data-bg="none">Nothing</button></div>
     </fieldset>
     <fieldset class="add"><legend>Add a shape</legend>
       <div class="row" id="addrow"></div>
@@ -62,8 +62,10 @@ button.on{background:#1C2540;color:#fff;border-color:#1C2540}
   </div>
 </div>
 <script>
-var NAVY='#1C2540',CREAM='#F3EBDA',GOLD='#E4C072',INK='#1F2740',BRASS='#8E6A22',RED='#A23446';
-var COLS=[CREAM,GOLD,NAVY,BRASS,RED,'#FFFFFF'];
+var NAVY='#1C2540',CREAM='#F3EBDA',GOLD='#E4C072',INK='#1F2740',BRASS='#8E6A22',RED='#A23446',OLDGOLD='#8E6520',DARKGOLD='#6A4A17',WARMBLACK='#29221B';
+// the square's colour for each background choice (the site's colours, 20 Nov: old gold cover, cream label, warm black)
+var BGS={navy:NAVY,label:NAVY,oldgold:OLDGOLD,darkgold:DARKGOLD,cream:CREAM,black:WARMBLACK};
+var COLS=[CREAM,GOLD,OLDGOLD,BRASS,WARMBLACK,NAVY,RED,'#FFFFFF'];
 // Shapes are drawn in a 100 x 100 box centred on 50,50, in the style of Lucide's icons (lines with round ends).
 // fill: filled shape; otherwise drawn as lines. w,h: rough size for picking it with the mouse.
 var SHAPES={
@@ -89,7 +91,7 @@ function cur(){ return S.sel.k==='J'?S.J[S.sel.i]:S.shapes[S.sel.i]; }
 function drawJ(g,j,k){ g.save(); g.translate(j.x*k,j.y*k); g.rotate(j.angle*Math.PI/180);
   g.font=(j.italic?'italic ':'')+(j.size*k)+'px "Instrument Serif"'; g.textAlign='center'; g.textBaseline='alphabetic';
   var m=g.measureText('J'), dy=(m.actualBoundingBoxAscent-m.actualBoundingBoxDescent)/2, dx=(m.actualBoundingBoxLeft-m.actualBoundingBoxRight)/2;
-  if(j.cut){ g.lineWidth=j.size*k*.1; g.strokeStyle=S.bg==='label'?CREAM:NAVY; g.lineJoin='round'; g.strokeText('J',dx,dy); }
+  if(j.cut){ g.lineWidth=j.size*k*.1; g.strokeStyle=S.bg==='label'?CREAM:(BGS[S.bg]||NAVY); g.lineJoin='round'; g.strokeText('J',dx,dy); }
   g.fillStyle=j.col; g.fillText('J',dx,dy); g.restore(); }
 function drawShape(g,s,k){ var t=SHAPES[s.type]; g.save(); g.translate(s.x*k,s.y*k); g.rotate(s.angle*Math.PI/180);
   var sc=s.size/100, sx=sc*(s.wide||100)/100; g.scale(k*sx,k*sc); g.translate(-50,-50);
@@ -97,7 +99,7 @@ function drawShape(g,s,k){ var t=SHAPES[s.type]; g.save(); g.translate(s.x*k,s.y
   if(t.fill){ g.fillStyle=s.col; g.fill(p); } else { g.strokeStyle=s.col; g.lineWidth=s.lw/sc; g.lineCap='round'; g.lineJoin='round'; g.stroke(p); }
   g.restore(); }
 function render(g,k){ g.clearRect(0,0,100*k,100*k);
-  if(S.bg!=='none'){ g.fillStyle=NAVY; g.beginPath(); g.roundRect(0,0,100*k,100*k,22*k); g.fill(); }
+  if(S.bg!=='none'){ g.fillStyle=BGS[S.bg]||NAVY; g.beginPath(); g.roundRect(0,0,100*k,100*k,22*k); g.fill(); }
   if(S.bg==='label'){ g.fillStyle=CREAM; g.beginPath(); g.roundRect(16*k,16*k,68*k,68*k,6*k); g.fill(); }
   S.shapes.forEach(function(s){ if(!s.front) drawShape(g,s,k); });
   S.J.slice().sort(function(a,b){return (a.front?1:0)-(b.front?1:0);}).forEach(function(j){drawJ(g,j,k);});
