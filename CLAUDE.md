@@ -4,7 +4,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 
 ## Working rules (as for her other apps)
 
-- **Home is a landing space only:** a name, a picture and a way in for each place, plus About me. No figures, no “latest”, no dates. It must read like a website (header, sections, footer), not a screen of app icons.
+- **Home is a landing space only:** a name, a picture and a way in for each place, plus an Introduction. No figures, no “latest”, no dates. It must read like a website (header, sections, footer), not a screen of app icons.
 - **Never edit Jemma’s own files without asking** (Downloads, Documents, Pictures, her other projects). Copy into this project and work on the copy.
 - **British English**; **curly apostrophes** in shown text.
 - **No made-up text on the site:** her words, or an app’s own text word for word. Missing means a marked placeholder. Labels like “Contents” or “Open …” are fine.
@@ -30,7 +30,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 - 20 Nov (evening): **keep out of search engines and AI crawlers**: robots meta (noindex, noai, noimageai) on the pages and concepts/robots.txt. Going online: later.
 - 20 Nov (evening): page ideas: **stitching on the cover, yes** (always on now); **paper and tilted photos, no** (removed). Bookmark ribbon (as a link): no, removed. Title on scroll: no, removed. Red ribbon: removed (her pick). **Gentle entrance: yes** (plays once as the page opens; skipped for reduced motion). The Ideas row is gone from the switch.
 - 20 Nov (evening): pictures parked again: she will change them later (Pokédex whole-vs-fill not decided).
-- 20 Nov (late): **About me has no photo** (her ask), words only, lined up with Contents.
+- 20 Nov (late): the top section is an **Introduction** to the site (her pick; was “About me”), words only, no photo, lined up with Contents.
 - 20 Nov (late): **dark mode button moved to the footer**, level with Back to top (both kept; header clean).
 - 20 Nov (evening): dark mode: opens light; the footer’s Dark mode button switches and is remembered. Dark **swaps colours consistently** (her ask): page and title label the same warm black (#29221B), photo mats deeper warm black (#0D0A07) so photos stand out, photo corners cream.
 - 20 Nov (evening): **tab icon is her own design**, drawn in `concepts/tools/draw-icon.html` (redrawn simpler 20 Nov late): cream square, old gold book outline, warm black upright J in front with a cream gap, old gold slanted J just lower right; no corners. **Light icon is the default**; in dark mode the page swaps to a flipped version (img/icon/icon-dark-*: warm black square, cream J, bright gold book and slanted J), her rule 20 Nov. Files in `concepts/img/icon/` and `concepts/favicon.ico`, linked from the page. For looks she can’t describe, offer her that canvas rather than more guesses.

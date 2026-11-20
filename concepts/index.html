@@ -79,7 +79,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   box-shadow:0 10px 24px -12px rgba(0,0,0,.7);outline:1.5px solid rgba(41,34,27,.32);outline-offset:-8px}
 .cover h1 em{color:#8E6A22}
 
-/* ---- About me */
+/* ---- Introduction (was About me) */
 .intro{display:grid;grid-template-columns:180px minmax(0,1fr);gap:28px 48px;align-items:center;max-width:900px;margin:clamp(56px,6vw,80px) auto 0}
 .intro .photo{aspect-ratio:1;border-radius:50%;border:2px dashed color-mix(in srgb,var(--ink) 28%,transparent);color:var(--mute);display:grid;place-content:center;justify-items:center;gap:6px;font-size:12px;font-weight:700;
   box-shadow:0 0 0 6px var(--bg),0 0 0 7.5px color-mix(in srgb,var(--acc) 60%,transparent)}
@@ -152,7 +152,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .v2 .h2 .rule{flex:1;display:flex;align-items:center;gap:10px;color:var(--acc)}
 .v2 .h2 .rule i{flex:1;height:1px;background:linear-gradient(90deg,color-mix(in srgb,var(--acc) 55%,transparent),var(--line) 60%,transparent)}
 .v2 .h2 .rule b{width:7px;height:7px;transform:rotate(45deg);background:currentColor;flex:none}
-/* About me */
+/* Introduction */
 .v2 .intro{grid-template-columns:minmax(0,1fr);align-items:start;max-width:none}   /* words only, no photo (her ask, 20 Nov); lines up with Contents */
 .v2 .intro p{max-width:780px}
 .v2 .intro .mount{position:relative;display:block;aspect-ratio:4/5;background:var(--mat);padding:12px;box-shadow:0 14px 30px -18px rgba(0,0,0,.55);transform:rotate(-1.5deg)}
@@ -298,7 +298,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
       +'</header>'
       +'<main class="gut"><div class="wrap">';
     var INTRO='<p class="ph">An introduction to the site goes here, in your own words: what these journals are and what you’ll find in them.<span class="ph-tag">Placeholder</span></p>';
-    h+='<section class="intro" aria-labelledby="about"><div>'+h2('About me','about')+INTRO+'</div></section>'   // words only, no photo (her ask, 20 Nov)
+    h+='<section class="intro" aria-labelledby="intro"><div>'+h2('Introduction','intro')+INTRO+'</div></section>'   // Introduction to the site, words only (her picks, 20 Nov)
       +'<div class="sec">'+h2('Contents','contents')+'</div>'
       +'<div class="cards">';
     list.forEach(function(p){
