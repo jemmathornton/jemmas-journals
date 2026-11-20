@@ -152,8 +152,9 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .v2 .h2 .rule{flex:1;display:flex;align-items:center;gap:10px;color:var(--acc)}
 .v2 .h2 .rule i{flex:1;height:1px;background:linear-gradient(90deg,color-mix(in srgb,var(--acc) 55%,transparent),var(--line) 60%,transparent)}
 .v2 .h2 .rule b{width:7px;height:7px;transform:rotate(45deg);background:currentColor;flex:none}
-/* About me: the photo is mounted in album corners like the places */
-.v2 .intro{grid-template-columns:220px minmax(0,1fr);align-items:start}
+/* About me */
+.v2 .intro{grid-template-columns:minmax(0,1fr);align-items:start;max-width:none}   /* words only, no photo (her ask, 20 Nov); lines up with Contents */
+.v2 .intro p{max-width:780px}
 .v2 .intro .mount{position:relative;display:block;aspect-ratio:4/5;background:var(--mat);padding:12px;box-shadow:0 14px 30px -18px rgba(0,0,0,.55);transform:rotate(-1.5deg)}
 .v2 .intro .mount .photo{position:absolute;inset:12px;aspect-ratio:auto;border-radius:2px;box-shadow:none;border:2px dashed color-mix(in srgb,var(--ink) 22%,transparent);background:color-mix(in srgb,var(--mat) 92%,var(--ink))}
 .v2 .intro .h2{margin:6px 0 16px}
@@ -218,7 +219,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   .v2 .cover .cn::after{width:9px;height:9px}
   .v2 .cover .cn.tl,.v2 .cover .cn.tr{top:22px}.v2 .cover .cn.bl,.v2 .cover .cn.br{bottom:22px}
   .v2 .mode{top:calc(30px + env(safe-area-inset-top,0px));right:calc(var(--frame) + 34px)}
-  .v2 .intro{grid-template-columns:104px minmax(0,1fr);gap:16px 18px}
+  .v2 .intro{grid-template-columns:minmax(0,1fr);gap:16px 18px}
   .v2 .intro .mount{width:104px;padding:7px}
   .v2 .intro .mount .photo{inset:7px}
   .v2 .intro .mount .c{width:16px;height:16px}
@@ -297,7 +298,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
       +'</header>'
       +'<main class="gut"><div class="wrap">';
     var INTRO='<p class="ph">Your introduction goes here, in your own words: a few sentences about you, what you keep in these journals, anything you’d like people to know.<span class="ph-tag">Placeholder</span></p>';
-    h+='<section class="intro" aria-labelledby="about"><span class="mount">'+CORNERS+'<span class="photo">'+ico('image')+'Your photo</span></span><div>'+h2('About me','about')+INTRO+'</div></section>'
+    h+='<section class="intro" aria-labelledby="about"><div>'+h2('About me','about')+INTRO+'</div></section>'   // words only, no photo (her ask, 20 Nov)
       +'<div class="sec">'+h2('Contents','contents')+'</div>'
       +'<div class="cards">';
     list.forEach(function(p){
