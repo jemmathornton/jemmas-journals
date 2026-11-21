@@ -63,11 +63,11 @@
 
 /* shiny ones: a foil frame and a holo sheen across the art */
 .mock-p3b .card:has(.tk.s[aria-pressed="true"]) .pic{border:3px solid;border-image:var(--foil) 1;border-radius:0}
-.mock-p3b .card:has(.tk.s[aria-pressed="true"]) .pic::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;mix-blend-mode:multiply;opacity:.55;
-  background:repeating-linear-gradient(115deg,rgba(255,255,255,0) 0 5px,rgba(255,255,255,.6) 5px 6px),
-    linear-gradient(115deg,#ffd6ec 8%,#c9ecff 30%,#fff3b8 50%,#cdf5d9 68%,#e6d3ff 88%)}
+/* shiny art window, softer (her change, 21 Nov): the pastel rainbow fainter, no diagonal stripes; a faint gleam */
+.mock-p3b .card:has(.tk.s[aria-pressed="true"]) .pic::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;mix-blend-mode:multiply;opacity:.3;
+  background:linear-gradient(115deg,#ffd6ec 8%,#c9ecff 30%,#fff3b8 50%,#cdf5d9 68%,#e6d3ff 88%)}
 .mock-p3b .card:has(.tk.s[aria-pressed="true"]) .pic::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;
-  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.5) 42%,transparent 52%)}
+  background:linear-gradient(115deg,transparent 32%,rgba(255,255,255,.28) 42%,transparent 52%)}
 
 /* not caught yet: a faded print */
 .mock-p3b .card:not(.got):not(.informs){--frame:#BDB3AA}
