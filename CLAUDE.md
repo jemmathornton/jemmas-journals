@@ -37,6 +37,8 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 
 - 21 Nov: **My Travels added** (her yes). Picture: Travels’ own world map in its chosen Old Atlas look (`img/maps/travels-map.*`, from its Map page, redone 21 Nov). Its line is a placeholder. Four places sit 2 × 2; the checks now expect four. Screen: for-jemma/concepts/travels-added.jpg.
 
+- 21 Nov: **the family rules** (her decision): dark mode the same on every site and carried across (all open light; footer Dark mode button; shared localStorage key `jj-mode`), the same footer, the same Menu drawer under 900px. Written in `research/family-rules.md`; home now uses `jj-mode`. Sim World and Travels: she is fixing those herself.
+
 ## The apps’ own styles (21 Nov)
 
 She felt the three apps were too same-y (same sidebar, name style, hero, cards; only colour differs). Mock-ups (pictures only, apps unchanged) in `for-jemma/concepts/app-styles/`, compared with `compare.html` (launch config `app-styles`, port 8043); the CSS is in `research/app-styles/`.

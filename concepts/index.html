@@ -254,7 +254,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
   var more=0, root=document.documentElement, userMode='light';   // more: how many stand-in places to add (0–3), to show how the page grows
-  try{ var m=localStorage.getItem('jj-mode2'); if(m==='dark') userMode='dark'; localStorage.removeItem('jj-foot'); }catch(e){}
+  try{ var m=localStorage.getItem('jj-mode'); if(m===null){ m=localStorage.getItem('jj-mode2'); if(m) localStorage.setItem('jj-mode',m); } if(m==='dark') userMode='dark'; localStorage.removeItem('jj-mode2'); localStorage.removeItem('jj-foot'); }catch(e){}   // jj-mode: one setting shared by every site in the family (research/family-rules.md)
   location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w;
     });
 
@@ -304,7 +304,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
     if(e.target.closest('[data-top]')){ e.preventDefault(); window.scrollTo(0,0); var t=document.getElementById('top'); if(t) t.focus({preventScroll:true}); return; }
     if(e.target.closest('[data-mode-btn]')){
       userMode = userMode==='dark' ? 'light' : 'dark';
-      try{ localStorage.setItem('jj-mode2',userMode); }catch(err){}
+      try{ localStorage.setItem('jj-mode',userMode); }catch(err){}
       applyMode(); render(); document.querySelector('[data-mode-btn]').focus(); return;
     }
     var a=e.target.closest('a[data-open]'); if(!a) return;
