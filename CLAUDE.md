@@ -1,6 +1,6 @@
 # Jemma’s Journals
 
-The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimTracker`, “My Sim World”), her home library (`Documents\HomeLibrary`, “My Library”) and her Pokémon GO collection (`Documents\Pokedex`, “My Pokédex”). Not her Budget app. Started 19 Nov 2026. Public, but not advertised: it’s mostly for her, to reach everything from her phone or laptop. More places will be added, so the page must grow by adding one entry.
+The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimTracker`, “My Sim World”), her home library (`Documents\HomeLibrary`, “My Library”) and her Pokémon GO collection (`Documents\Pokedex`, “My Pokédex”) and her travel blog (`Documents\Travels`, “My Travels”, added 21 Nov with her yes). Not her Budget app. Started 19 Nov 2026. Public, but not advertised: it’s mostly for her, to reach everything from her phone or laptop. More places will be added, so the page must grow by adding one entry.
 
 ## Working rules (as for her other apps)
 
@@ -34,6 +34,8 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 - 20 Nov (late): **dark mode button moved to the footer**, level with Back to top (both kept; header clean).
 - 20 Nov (evening): dark mode: opens light; the footer’s Dark mode button switches and is remembered. Dark **swaps colours consistently** (her ask): page and title label the same warm black (#29221B), photo mats deeper warm black (#0D0A07) so photos stand out, photo corners cream.
 - 20 Nov (evening): **tab icon is her own design**, drawn in `concepts/tools/draw-icon.html` (redrawn simpler 20 Nov late): cream square, old gold book outline, warm black upright J in front with a cream gap, old gold slanted J just lower right; no corners. **Light icon is the default**; in dark mode the page swaps to a flipped version (img/icon/icon-dark-*: warm black square, cream J, bright gold book and slanted J), her rule 20 Nov. Files in `concepts/img/icon/` and `concepts/favicon.ico`, linked from the page. For looks she can’t describe, offer her that canvas rather than more guesses.
+
+- 21 Nov: **My Travels added** (her yes). Picture for now: Travels’ own dotted world map (`img/maps/travels-map.*`, from its Map page in look A), to redo once she picks Travels’ look. Its line is a placeholder. Four places sit 2 × 2; the checks now expect four. Screen: for-jemma/concepts/travels-added.jpg.
 
 ## Where things are
 

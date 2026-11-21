@@ -55,7 +55,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
           brokenImages: [...document.images].filter(i => !i.complete || i.naturalWidth === 0).map(i => i.getAttribute('src')),
           picturesWithoutWords: cards.filter(c => { const s = c.querySelector('.snap'); return !s.getAttribute('aria-label'); }).length,
           headings: cards.map(c => c.querySelector('h3').textContent),
-          openLinksLevel: (() => { const ys = cards.map(c => Math.round(c.querySelector('.go').getBoundingClientRect().top)); return new Set(ys).size === 1 || window.innerWidth < 900; })(),
+          openLinksLevel: (() => { const rows = {}; cards.forEach(c => { const k = Math.round(c.getBoundingClientRect().top); (rows[k] ||= []).push(Math.round(c.querySelector('.go').getBoundingClientRect().top)); }); return Object.values(rows).every(ys => new Set(ys).size === 1) || window.innerWidth < 900; })(),
           modeButton: (() => { const b = document.querySelector('[data-mode-btn]'); return !!b && !!(b.getAttribute('aria-label') || b.textContent.trim()) && !document.querySelector('.cover [data-mode-btn]') && !!document.querySelector('.foot [data-mode-btn]'); })(),
           about: (document.querySelector('.foot .about-site') || {}).textContent || '',
           openWords: cards.map(c => c.querySelector('.go').textContent.trim()).join('|'),
@@ -71,18 +71,22 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       check(r.sideways <= 0, tag + 'no sideways scrolling (' + r.sideways + 'px)');
       check(r.title === 'Jemma’s Journals', tag + 'title is Jemma’s Journals (got ' + r.title + ')');
       check(r.skip, tag + '"Skip to contents" link goes somewhere');
-      check(r.cards === 3, tag + 'three places (got ' + r.cards + ')');
+      check(r.cards === 4, tag + 'four places (got ' + r.cards + ')');
       check(r.linksPerCard.every(n => n === 2), tag + 'only the photo and "Open" are links in each card (' + r.linksPerCard + ')');
       check(r.linkKinds.every(k => k === 'snap,go'), tag + 'the links are the photo and "Open" (' + r.linkKinds.join(' | ') + ')');
       check(r.brokenImages.length === 0, tag + 'every picture loads (' + r.brokenImages.slice(0, 3).join(', ') + ')');
       check(r.picturesWithoutWords === 0, tag + 'every photo link says where it goes');
-      check(r.headings.join('|') === 'My Sim World|My Library|My Pokédex', tag + 'names are My Sim World, My Library, My Pokédex (' + r.headings.join(', ') + ')');
-      check(r.openLinksLevel, tag + '"Open" links line up across the row');
+      check(r.headings.join('|') === 'My Sim World|My Library|My Pokédex|My Travels', tag + 'names are My Sim World, My Library, My Pokédex, My Travels (' + r.headings.join(', ') + ')');
+      check(r.openLinksLevel, tag + '"Open" links line up across each row');
       check(r.modeButton, tag + 'light/dark button is in the footer, not the banner, and says what it does');
       check(/Instrument Serif/.test(r.about) && /No cookies/.test(r.about), tag + 'About this site is in the footer');
       check(/Region maps/.test(r.about) && /Book covers/.test(r.about) && /Icons by Lucide/.test(r.about), tag + 'each credit starts with a capital (her ask, 20 Nov)');
-      check(r.openWords === 'Open My Sim World|Open My Library|Open My Pokédex', tag + 'links say Open My … (' + r.openWords + ')');
+      check(r.openWords === 'Open My Sim World|Open My Library|Open My Pokédex|Open My Travels', tag + 'links say Open My … (' + r.openWords + ')');
       check(!r.creditsShown, tag + 'the credits aren’t repeated above About this site');
+      if (size.viewport.width >= 1280) {   // four places (Travels added 21 Nov): 2 × 2 at full size
+        const four = await page.evaluate(() => { const r = [...document.querySelectorAll('.card')].map(c => c.getBoundingClientRect()); return { first: r.filter(x => Math.round(x.top) === Math.round(r[0].top)).length, rows: new Set(r.map(x => Math.round(x.top))).size, wide: r[0].width > 300 }; });
+        check(four.first === 2 && four.rows === 2 && four.wide, tag + 'four places sit as 2 × 2 at full size (first row ' + four.first + ')');
+      }
       check(r.corners === 4, tag + 'the cover has its four gold corners (Improved)');
       check(r.entrance, tag + 'the gentle entrance is on when the page opens (her pick, 20 Nov)');
       check(r.stitched === 'dashed', tag + 'the cover has its stitching (her pick, 20 Nov)');
@@ -102,13 +106,13 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       check(await page.evaluate(() => !document.querySelector('.sw') && !document.getElementById('more')), tag + 'the trial switch is gone');
       await grow(1);
       const grown = await page.evaluate(() => ({ cards: document.querySelectorAll('.card').length, sideways: document.documentElement.scrollWidth - document.documentElement.clientWidth }));
-      check(grown.cards === 4 && grown.sideways <= 0, tag + '"More places" adds a fourth without sideways scrolling');
+      check(grown.cards === 5 && grown.sideways <= 0, tag + '"More places" adds a fifth without sideways scrolling');
       if (size.viewport.width >= 1280) {
-        const four = await page.evaluate(() => { const r = [...document.querySelectorAll('.card')].map(c => c.getBoundingClientRect()); const first = r.filter(x => Math.round(x.top) === Math.round(r[0].top)).length; return { first, rows: new Set(r.map(x => Math.round(x.top))).size, sameSize: Math.abs(r[0].width - document.querySelector('.card').getBoundingClientRect().width) < 1 && r[0].width > 300 }; });
-        check(four.first === 2 && four.rows === 2 && four.sameSize, tag + 'four places sit as 2 × 2 at full size (first row ' + four.first + ')');
-        await grow(2);
         const five = await page.evaluate(() => { const ys = [...document.querySelectorAll('.card')].map(c => Math.round(c.getBoundingClientRect().top)); const first = ys.filter(y => y === ys[0]).length; const r = [...document.querySelectorAll('.card')].slice(3).map(c => c.getBoundingClientRect()); const mid = (r[0].left + r[r.length-1].right) / 2; return { first, centred: Math.abs(mid - innerWidth / 2) < 40 }; });
         check(five.first === 3 && five.centred, tag + 'five places sit as 3 + 2, centred');
+        await grow(2);
+        const six = await page.evaluate(() => { const ys = [...document.querySelectorAll('.card')].map(c => Math.round(c.getBoundingClientRect().top)); return { first: ys.filter(y => y === ys[0]).length, rows: new Set(ys).size }; });
+        check(six.first === 3 && six.rows === 2, tag + 'six places sit as 3 + 3');
       }
       check(errors.length === 0, tag + 'no errors in the browser (' + errors.slice(0, 2).join(' / ') + ')');
       await ctx.close();
