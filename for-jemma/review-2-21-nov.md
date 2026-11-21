@@ -100,3 +100,13 @@ Screenshots: `for-jemma/concepts/app-styles/built/round2/`.
 - Pokédex: card art, region colour vs type colour.
 
 **Parked:** home pictures, Introduction words and place lines.
+
+## Built (21 Nov, late): things to check with the Try switch (bottom right)
+1. Home, Contents: place cards **As now** or **Widened** (http://localhost:8040).
+2. Sim World, a lot, Sim and household page: **As now** or **Town plan** (e.g. #l-willow-creek--crick-cabana, #s-dustin-broke, #h-willow-creek--goth on http://localhost:8045).
+3. Sim World: “Sim World” in the sidebar **Gold** or **Purple**.
+4. Library, Wild Boar (#b-to2ynr193y): big first letter after a quote mark **Kept** or **Skipped**.
+5. Library home: Display shelf card **Green** or **Like the others** (walnut brown, my suggestion, not decided).
+6. Pokédex, Kanto (#gen-1): Lucky box text **White** or **Dark**.
+7. Pokédex, Kanto: card art **Region colour** or **Type colour**.
+Also new to look at: Pokédex tabs in one row at 1280; more room under the tags on Pokémon pages (e.g. #p-6); Travels trip pages show the distance.
