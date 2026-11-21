@@ -1,0 +1,29 @@
+
+/* S1g · Town plan, cream: S1f's plan and details in S1e's warm cream palette; purple only as a small accent */
+:root{--paper:#F2ECDD;--surface:#FBF8F0;--ink:#1F2B33;--muted:#5D6668;--line:#D3C9AF;--soft:#E9E2CF;--brass:#A97C22;--neat:#8C7F5E;--plum:#4A3470}
+body{background:var(--paper)}
+.side{--nav:#E8E0CB;--on-deep:#1F2B33;--on-deep-mute:#666150;background:{{TOWN_SIDE_WARM}} 0 0/196px 294px repeat,#E8E0CB;border-right:1px solid var(--neat)}
+.brand{border-bottom:1px solid rgba(31,43,51,.18)}
+.search input{border-color:#B5A984;background:var(--surface)}
+.nav a:not(.soon):hover{background:rgba(31,43,51,.06)}
+.nav a.on{background:var(--surface);box-shadow:inset 0 0 0 1px var(--neat),inset 3px 0 0 var(--plum)}
+.subnav{border-left:1px dashed rgba(31,43,51,.3)}
+.hero{background:linear-gradient(180deg,#F1EBDB,#EAE1CC);border-bottom:1px solid var(--neat)}
+.hero::before{background:{{TOWN_WARM}} right -40px top -30px/1000px 512px no-repeat}
+.hero p{color:#3A464C}
+.hero-foot{border-top:1px solid rgba(31,43,51,.2)}
+.kicker i{color:var(--neat)}
+.figures{border-color:var(--neat);background:rgba(251,248,240,.92)}
+.figures div{border-left:1px solid rgba(31,43,51,.16)}
+.figures b{color:var(--ink)}
+.section-head{border-bottom:1px solid rgba(31,43,51,.22);background:linear-gradient(var(--plum),var(--plum)) left bottom/56px 3px no-repeat}
+.wt,.listing{background:var(--surface)}
+.listing{border-color:#BDB190;box-shadow:3px 4px 0 rgba(140,127,94,.22)}
+.wt{border-color:color-mix(in srgb,var(--k) 45%,#BDB190);box-shadow:3px 4px 0 color-mix(in srgb,var(--k) 22%,transparent)}
+.listing h3::before{background:radial-gradient(circle,#FBF8F0 0 1.7px,var(--plum) 2.2px)}
+.hero.mapped .figures{background:rgba(15,22,26,.38)}
+.chapters a{background:rgba(15,22,26,.28)}
+@media (max-width:900px){
+  .topbar{background:#E8E0CB;color:var(--ink);border-bottom:1px solid var(--neat)}
+  .topbar button{border-color:rgba(31,43,51,.35);color:var(--ink)}
+}

@@ -84,6 +84,8 @@ const vars = {
   TOWN: enc(townplan('rgba(61,42,92,.26)', 1600, 820, 7, { xs: [150, 420, 700, 980, 1260], ys: [110, 330, 560], street: 18, crescent: [1130, 720, 80] })),
   TOWN_LIGHT: enc(townplan('rgba(255,255,255,.30)', 1400, 700, 11, { xs: [260, 600, 940, 1250], ys: [150, 420], street: 24 })),
   TOWN_SIDE: enc(townplan('rgba(61,42,92,.07)', 280, 420, 3, { xs: [140], ys: [130, 300], street: 14 })),
+  TOWN_WARM: enc(townplan('rgba(94,76,52,.28)', 1600, 820, 7, { xs: [150, 420, 700, 980, 1260], ys: [110, 330, 560], street: 18, crescent: [1130, 720, 80] })),
+  TOWN_SIDE_WARM: enc(townplan('rgba(94,76,52,.08)', 280, 420, 3, { xs: [140], ys: [130, 300], street: 14 })),
   POSTMARK: enc(postmark('rgba(255,255,255,.88)')),
   POSTMARK_DARK: enc(postmark('rgba(43,36,32,.55)')),
 };
@@ -91,7 +93,7 @@ const fill = css => css.replace(/\{\{(\w+)\}\}/g, (_, k) => vars[k]);
 const RES = 'C:/Users/Jemma/Documents/JemmasJournals/research/app-styles/simworld/';
 const base = fs.readFileSync('s1.src.css', 'utf8');
 fs.writeFileSync(RES + 's1.css', fill(base));
-for (const v of ['s1a', 's1b', 's1c', 's1d', 's1e', 's1f']) {
+for (const v of ['s1a', 's1b', 's1c', 's1d', 's1e', 's1f', 's1g']) {
   const css = fill(base) + String.fromCharCode(10, 10) + fill(fs.readFileSync('v-' + v + '.css', 'utf8'));
   fs.writeFileSync(v + '.css', css); fs.writeFileSync(RES + v + '.css', css);
 }
