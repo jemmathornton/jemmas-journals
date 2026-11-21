@@ -2,9 +2,9 @@
   "version": "0.0.1",
   "configurations": [
     {
-      "name": "concepts",
+      "name": "home",
       "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
-      "runtimeArgs": ["-m", "http.server", "8040", "--bind", "127.0.0.1", "--directory", "concepts"],
+      "runtimeArgs": ["-m", "http.server", "8040", "--bind", "127.0.0.1", "--directory", "site"],
       "port": 8040
     },
     {

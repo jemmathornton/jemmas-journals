@@ -27,8 +27,8 @@ From the “slash pages” tradition ([slashpages.net](https://slashpages.net/))
 ## Small things websites often forget
 
 - **Tab and home-screen icon** (options made: `for-jemma/concepts/choice-tab-icon.png`).
-- **Share picture** for when the link is sent in a message (made from the banner: `concepts/img/share-preview.jpg`; it could instead be her own photo, e.g. of a real journal).
-- **A “page not found” page** in the same style (`concepts/404.html`).
+- **Share picture** for when the link is sent in a message (made from the banner: `site/img/share-preview.jpg`; it could instead be her own photo, e.g. of a real journal).
+- **A “page not found” page** in the same style (`site/404.html`).
 - **Not listed by search engines** (a `noindex` tag), if she prefers.
 
 ## Done overnight (no change to how it looks)
@@ -45,7 +45,7 @@ From the “slash pages” tradition ([slashpages.net](https://slashpages.net/))
 - `manifest.webmanifest`: lets “Add to Home Screen” open it like an app on Android and iPhone ([web.dev](https://web.dev/articles/add-manifest); since iOS 26 every Home Screen site opens as a web app, [WebKit](https://webkit.org/blog/17333/webkit-features-in-safari-26-0/)).
 - `robots.txt`: optional lines asking AI companies’ crawlers (OpenAI, Google’s AI, Anthropic, Apple’s AI, Common Crawl) not to collect the pages. Requests, not locks.
 - `noindex`: one line per page to ask search engines not to list it; each of her apps would need it too if they should stay unlisted ([Google](https://developers.google.com/search/docs/crawling-indexing/block-indexing)).
-- `concepts/404.html`: the not-found page (GitHub Pages uses `404.html` at the root; [GitHub](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-custom-404-page-for-your-github-pages-site)).
+- `site/404.html`: the not-found page (GitHub Pages uses `404.html` at the root; [GitHub](https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-custom-404-page-for-your-github-pages-site)).
 - After publishing: run [PageSpeed Insights](https://pagespeed.web.dev) on the phone tab (aim for 90+) and [WAVE](https://wave.webaim.org/extension/) for accessibility.
 - Counting visitors: not needed. If she ever wants it, GoatCounter is free and cookie-free; under the UK’s 2025 changes, simple analytics to improve a site needs a short privacy note with a way to opt out rather than a consent banner ([ICO](https://ico.org.uk/for-organisations/direct-marketing-and-privacy-and-electronic-communications/guidance-on-the-use-of-storage-and-access-technologies/what-are-the-exceptions/)). Not legal advice. Her saved light/dark choice is the kind of “appearance” setting the ICO allows without asking.
 

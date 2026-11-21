@@ -1,11 +1,11 @@
-// Checks the home page (concepts/index.html) in a real browser, at her laptop window, a smaller laptop and a phone.
+// Checks the home page (site/index.html) in a real browser, at her laptop window, a smaller laptop and a phone.
 // Run:  C:/Users/Jemma/Documents/SimTracker/.tools/node/node.exe tests/check_page.js
 // Uses the Playwright that her Sim World project already has (Microsoft Edge, no download). Changes nothing on disk.
 const path = require('path');
 const fs = require('fs');
 const { chromium } = require('C:/Users/Jemma/Documents/SimTracker/node_modules/playwright');
 
-const ROOT = path.join(__dirname, '..', 'concepts');
+const ROOT = path.join(__dirname, '..', 'site');
 const HOST = 'http://jj.test/';
 const TYPES = { '.html': 'text/html; charset=utf-8', '.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.woff2': 'font/woff2', '.svg': 'image/svg+xml' };
 // The published page is wrapped in a document skeleton; this does the same for the local file.

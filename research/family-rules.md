@@ -44,7 +44,7 @@ At the bottom of every page, centred, in the site’s own fonts and colours:
 ## 4. Small things every site does the same (added 21 Nov after the second review)
 
 - `<meta name="robots" content="noindex, noai, noimageai">` in every page’s head (her decision, 20 Nov: keep out of search engines and AI).
-- **No fonts or files from other sites** (the footer says “no tracking”): fonts are local copies (Instrument Serif and Manrope are in `Documents/JemmasJournals/concepts/fonts/`, SIL OFL).
+- **No fonts or files from other sites** (the footer says “no tracking”): fonts are local copies (Instrument Serif and Manrope are in `Documents/JemmasJournals/site/fonts/`, SIL OFL).
 - `data-mode` is always set (`light` or `dark`), and the old per-site mode key is removed once copied to `jj-mode`.
 - The “← Jemma’s Journals” link: at least 24px tall to tap.
 

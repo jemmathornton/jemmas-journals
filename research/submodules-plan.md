@@ -1,13 +1,13 @@
 # Plan: Jemma’s Journals as the parent, the four apps as submodules (21 Nov, not started)
 
-**Her choices (21 Nov):** friendly names `library`, `sim-world`, `pokedex`, `travels` (folders and web addresses); old folders kept for now, untouched; home’s folder renamed from `concepts/` to `site/` (so `site/family/` for the shared code; every path to `concepts/` updated, including the apps’ file links home).
+**Her choices (21 Nov):** friendly names `library`, `sim-world`, `pokedex`, `travels` (folders and web addresses); old folders kept for now, untouched; home’s folder renamed from `site/` to `site/` (so `site/family/` for the shared code; every path to `site/` updated, including the apps’ file links home).
 
 Her layout: Jemma’s Journals is the parent and holds all the shared code; Library, Sim World, Pokédex and Travels are submodules that use it. Nothing on GitHub changes: each app keeps its own repo. All public, which GitHub Pages needs ([docs](https://docs.github.com/en/pages/getting-started-with-github-pages/using-submodules-with-github-pages)).
 
 ```
 Documents\JemmasJournals\        (parent)
-  concepts\                       home page (served at /)
-  concepts\family\                shared code (later: dark mode, footer, Menu drawer, sidebar …), served at /family/
+  site\                       home page (served at /)
+  site\family\                shared code (later: dark mode, footer, Menu drawer, sidebar …), served at /family/
   library\        ← submodule (jemmathornton/library)
   sim-world\      ← submodule (jemmathornton/sim-tracker)
   pokedex\        ← submodule (jemmathornton/pokedex)
@@ -22,7 +22,7 @@ Documents\JemmasJournals\        (parent)
 - **Desktop shortcuts:** Jemma's Library, Jemma's Sim World, Jemma’s Pokédex.
 - **Shared tools:** Node and Playwright live in SimTracker (`.tools/`, `node_modules/`); the Travels and Journals tests use them from there.
 - **Files only on her PC (not in git):** Pokédex `go.json.lock`; Library `data/scanned.json`, `logs/`, old-cover pictures, `Jemma's Library.lnk`; Sim World `.tools/`, `node_modules/`, `logs/`, a save zip, `last-import-previous.json`; Travels `for-jemma/looks*`, `extras`, `templates`. Her Pokédex ticks and Library marks are in git and saved weekly, but anything since the last save is only on her PC.
-- **Hard-coded paths:** Pokédex `tools/forms_sheet.py`; Travels tests (Playwright path); the apps’ “← Jemma’s Journals” link when opened as a file (`../../JemmasJournals/concepts/index.html`); launch configs.
+- **Hard-coded paths:** Pokédex `tools/forms_sheet.py`; Travels tests (Playwright path); the apps’ “← Jemma’s Journals” link when opened as a file (`../../JemmasJournals/site/index.html`); launch configs.
 
 ## Steps
 
@@ -41,7 +41,7 @@ Documents\JemmasJournals\        (parent)
 
 **3. Re-point everything**
 - The three Windows tasks and three desktop shortcuts to the new folders.
-- Launch configs, `forms_sheet.py`, the test paths, and the “← Jemma’s Journals” file link (now `../../concepts/index.html`).
+- Launch configs, `forms_sheet.py`, the test paths, and the “← Jemma’s Journals” file link (now `../../site/index.html`).
 - Each app’s notes (CLAUDE.md) updated with its new place.
 
 **4. One local server for the whole family** (Jemma’s Journals `tools/serve_all.py`)
@@ -70,4 +70,4 @@ Documents\JemmasJournals\        (parent)
 
 1. **Folder and web names:** (a) friendly names, `library`, `sim-world`, `pokedex`, `travels` (my suggestion, not decided); (b) the GitHub repo names, `library`, `sim-tracker`, `pokedex`, `jemmas-travels`.
 2. **Old folders after the move:** (a) keep untouched for a week, then delete with her OK (my suggestion, not decided); (b) rename to “… (old)” straight away so nothing uses them by mistake; (c) delete once checked.
-3. **Home’s own folder:** (a) keep `concepts/` (my suggestion, not decided, least change); (b) rename to `site/` to match the apps.
+3. **Home’s own folder:** (a) keep `site/` (my suggestion, not decided, least change); (b) rename to `site/` to match the apps.

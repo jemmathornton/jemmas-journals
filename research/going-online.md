@@ -39,7 +39,7 @@ Checked again 21 Nov 2026 (third-party price trackers, so confirm on the registr
 
 - She’d like **her own domain** rather than a `github.io` address; hosting not chosen yet.
 - **Separate repos, no submodules**: one website to visitors, each app still updates on its own when pushed.
-- Already done in readiness: noindex + AI-crawler requests (`concepts/robots.txt`, meta tags), not-found page, share picture, tab icons, and the “← Jemma’s Journals” link in each app (it points at `/`, which is home when all four share one address).
+- Already done in readiness: noindex + AI-crawler requests (`site/robots.txt`, meta tags), not-found page, share picture, tab icons, and the “← Jemma’s Journals” link in each app (it points at `/`, which is home when all four share one address).
 
 ## Own domain on GitHub Pages: the steps (from GitHub’s docs, checked 21 Nov)
 
