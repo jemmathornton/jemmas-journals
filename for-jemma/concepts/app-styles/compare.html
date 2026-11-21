@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Compare app styles</title>
+<style>
+:root{--bg:#F4EEE3;--ink:#221D17;--mute:#6E6458;--line:#DDD3C3;--on:#221D17;--on-ink:#fff;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.4 system-ui,"Segoe UI",sans-serif}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);padding:12px 18px;display:flex;flex-wrap:wrap;gap:10px 22px;align-items:center}
+h1{font-size:17px;margin:0 8px 0 0}
+.group{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+.group .lab{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:var(--mute);margin-right:4px}
+button{font:600 13px system-ui,"Segoe UI",sans-serif;border:1px solid var(--line);background:var(--card);color:var(--ink);padding:6px 11px;border-radius:99px;cursor:pointer}
+button[aria-pressed="true"]{background:var(--on);color:var(--on-ink);border-color:var(--on)}
+.hint{font-size:12px;color:var(--mute)}
+main{padding:16px 18px 40px}
+.desc{margin:0 0 12px;color:var(--mute)}
+.single figure{margin:0}
+.single img{display:block;max-width:100%;height:auto;margin:0 auto;box-shadow:0 4px 20px rgba(0,0,0,.18);cursor:zoom-in}
+.single.full img{max-width:none;cursor:zoom-out}
+.single.full{overflow:auto}
+.side{display:grid;gap:14px;grid-template-columns:repeat(3,minmax(0,1fr))}
+.side figure{margin:0}
+.side img{display:block;width:100%;height:auto;box-shadow:0 3px 14px rgba(0,0,0,.18);cursor:pointer}
+figcaption{font-weight:700;margin:0 0 6px}
+figcaption span{font-weight:400;color:var(--mute)}
+.phone .single img{max-width:430px}
+.phone .side img{max-width:430px;margin:0 auto}
+</style>
+</head>
+<body>
+<header>
+  <h1>Compare app styles</h1>
+  <div class="group" id="apps"><span class="lab">App</span></div>
+  <div class="group" id="views"><span class="lab">View</span></div>
+  <div class="group" id="styles"><span class="lab">Style</span></div>
+  <div class="group"><span class="lab">Show</span><button id="mode-one" aria-pressed="true">One at a time</button><button id="mode-side" aria-pressed="false">Side by side</button></div>
+  <span class="hint">← → flick styles · 1 2 3 pick · click a picture to see it full size</span>
+</header>
+<main id="main"></main>
+<script>
+// Pictures only: each is the real app with extra styling laid over it for the screenshot. The apps themselves are unchanged.
+var APPS = {
+  library: { name: 'My Library',
+    styles: [['now','Now','as it is today'],['l1','L1 · Bound book','cloth-bound sidebar, paper pages, book plates, ornaments'],['l2','L2 · Bookshop shelf','shelves as spines, covers on shelf boards, brass labels']],
+    views: [['Laptop home', function(s){return 'library-'+s+'-laptop-home.jpg';}],['A book’s page', function(s){return 'library-'+s+'-laptop-book-page.jpg';}],['Phone', function(s){return 'library-'+s+'-phone-home.jpg';}, true]] },
+  simworld: { name: 'My Sim World',
+    styles: [['now','Now','as it is today'],['s1','S1 · Map','atlas paper, legend sidebar, map tiles and pins'],['s2','S2 · Postcards','sunset banner, stamps, worlds as postcards']],
+    views: [['Laptop home', function(s){return 'simworld-'+s+'-home-1600.jpg';}],['A neighbourhood', function(s){return 'simworld-'+s+'-inner-1600.jpg';}],['Phone', function(s){return 'simworld-'+s+'-home-phone.jpg';}, true]] },
+  pokedex: { name: 'My Pokédex',
+    styles: [['now','Now','as it is today'],['p1','P1 · Collector’s cards','printed cards, foil on shinies, set numbers'],['p2','P2 · Binder','binder cover and rings, clear pockets, empty ones not caught']],
+    views: [['Laptop home', function(s){return 'pokedex-'+s+'-laptop.jpg';}],['Galar', function(s){return 'pokedex-'+s+'-inner.jpg';}],['Phone top', function(s){return 'pokedex-'+s+'-phone.jpg';}, true],['Phone scrolled', function(s){return 'pokedex-'+s+'-phone-2.jpg';}, true]] }
+};
+var st = { app:'library', view:0, style:0, side:false, full:false };
+try { var saved = JSON.parse(localStorage.getItem('jj-compare') || 'null'); if (saved && APPS[saved.app]) st = Object.assign(st, saved, { full:false }); } catch(e) {}
+function save(){ try { localStorage.setItem('jj-compare', JSON.stringify(st)); } catch(e) {} }
+function buttons(id, items, current, onpick){
+  var g = document.getElementById(id); g.querySelectorAll('button').forEach(function(b){ b.remove(); });
+  items.forEach(function(it, i){ var b = document.createElement('button'); b.textContent = it.label; b.setAttribute('aria-pressed', it.key === current ? 'true' : 'false'); b.onclick = function(){ onpick(it.key); }; g.appendChild(b); });
+}
+function render(){
+  var a = APPS[st.app]; if (st.view >= a.views.length) st.view = 0;
+  buttons('apps', Object.keys(APPS).map(function(k){ return { key:k, label:APPS[k].name }; }), st.app, function(k){ st.app = k; st.full = false; render(); });
+  buttons('views', a.views.map(function(v, i){ return { key:i, label:v[0] }; }), st.view, function(k){ st.view = k; st.full = false; render(); });
+  buttons('styles', a.styles.map(function(s, i){ return { key:i, label:s[1] }; }), st.side ? -1 : st.style, function(k){ st.style = k; st.side = false; st.full = false; render(); });
+  document.getElementById('mode-one').setAttribute('aria-pressed', !st.side); document.getElementById('mode-side').setAttribute('aria-pressed', st.side);
+  var v = a.views[st.view], m = document.getElementById('main'); m.className = v[2] ? 'phone' : '';
+  if (st.side) {
+    m.innerHTML = '<div class="side">' + a.styles.map(function(s, i){ return '<figure><figcaption>'+s[1]+' <span>· '+s[2]+'</span></figcaption><img src="'+v[1](s[0])+'" alt="'+a.name+', '+s[1]+', '+v[0]+'" data-i="'+i+'"></figure>'; }).join('') + '</div>';
+    m.querySelectorAll('img').forEach(function(img){ img.onclick = function(){ st.side = false; st.style = +img.dataset.i; render(); }; });
+  } else {
+    var s = a.styles[st.style];
+    m.innerHTML = '<p class="desc"><b>'+s[1]+'</b> · '+s[2]+'</p><div class="single'+(st.full?' full':'')+'"><figure><img src="'+v[1](s[0])+'" alt="'+a.name+', '+s[1]+', '+v[0]+'"></figure></div>';
+    m.querySelector('img').onclick = function(){ st.full = !st.full; render(); };
+  }
+  save();
+}
+document.getElementById('mode-one').onclick = function(){ st.side = false; render(); };
+document.getElementById('mode-side').onclick = function(){ st.side = true; st.full = false; render(); };
+document.addEventListener('keydown', function(e){
+  var n = APPS[st.app].styles.length;
+  if (e.key === 'ArrowRight') { st.side = false; st.style = (st.style + 1) % n; render(); }
+  else if (e.key === 'ArrowLeft') { st.side = false; st.style = (st.style + n - 1) % n; render(); }
+  else if (/^[1-3]$/.test(e.key)) { st.side = false; st.style = +e.key - 1; render(); }
+});
+render();
+// load every picture once, so flicking between styles is instant
+Object.keys(APPS).forEach(function(k){ var a = APPS[k]; a.views.forEach(function(v){ a.styles.forEach(function(s){ new Image().src = v[1](s[0]); }); }); });
+</script>
+</body>
+</html>
