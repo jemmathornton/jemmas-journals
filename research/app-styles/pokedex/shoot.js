@@ -5,7 +5,7 @@ const fs = require('fs'), path = require('path');
 const SITE = 'C:/Users/Jemma/Documents/Pokedex/site';
 const COLL = 'C:/Users/Jemma/Documents/Pokedex/data/collection/go.json';
 const HERE = __dirname;
-const OUT = 'C:/Users/Jemma/Documents/JemmasJournals/for-jemma/concepts/app-styles';
+const OUT = process.env.OUT || 'C:/Users/Jemma/Documents/JemmasJournals/for-jemma/concepts/app-styles';
 const style = process.argv[2] || 'now', what = process.argv[3] || 'all';
 const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.svg': 'image/svg+xml', '.ico': 'image/x-icon', '.woff2': 'font/woff2', '.woff': 'font/woff', '.ttf': 'font/ttf', '.json': 'application/json' };
 const ORIGIN = 'http://pokedex.localhost';

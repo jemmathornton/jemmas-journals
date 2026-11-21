@@ -51,7 +51,8 @@ var APPS = {
       ['s1a','S1a · Plain paper','Map, with lines only on the sidebar and banner; plain paper behind the cards'],['s1b','S1b · Atlas plates','plain paper; cards as framed atlas plates, small captions'],['s1c','S1c · Legend colours','plain paper; each card keyed in its world’s colour'],['s1d','S1d · Old atlas','sepia and ink; aged sidebar and banner, sepia caption bands']],
     views: [['Laptop home', function(s){return 'simworld-'+s+'-home-1600.jpg';}],['A neighbourhood', function(s){return 'simworld-'+s+'-inner-1600.jpg';}],['Phone', function(s){return 'simworld-'+s+'-home-phone.jpg';}, true]] },
   pokedex: { name: 'My Pokédex',
-    styles: [['now','Now','as it is today'],['p1','P1 · Collector’s cards','printed cards, foil on shinies, set numbers'],['p2','P2 · Binder','binder cover and rings, clear pockets, empty ones not caught']],
+    styles: [['now','Now','as it is today'],['p1','P1 · Collector’s cards','printed cards, foil on shinies, set numbers'],['p2','P2 · Binder','binder cover and rings, clear pockets, empty ones not caught'],
+      ['p3','P3 · Cards in a binder','P1’s cards; P2’s binder gap (no rings) and tabs hanging from the banner'],['p4','P4 · Cards in a binder, quieter cover','as P3, plain red cover, wider gap showing page edges']],
     views: [['Laptop home', function(s){return 'pokedex-'+s+'-laptop.jpg';}],['Galar', function(s){return 'pokedex-'+s+'-inner.jpg';}],['Phone top', function(s){return 'pokedex-'+s+'-phone.jpg';}, true],['Phone scrolled', function(s){return 'pokedex-'+s+'-phone-2.jpg';}, true]] }
 };
 var st = { app:'library', view:0, style:0, side:false, full:false };
