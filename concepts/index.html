@@ -264,7 +264,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   // About this site: two quiet lines (her pick, 20 Nov: option 2, each credit starting with a capital)
   var DOT='<span class="dot" aria-hidden="true">·</span>';
   function aboutSite(){
-    return '<div class="about-site two"><p>No cookies, no tracking, no ads. Made with plain HTML and CSS, kept on GitHub.</p>'
+    return '<div class="about-site two"><p>No cookies, no tracking, no ads. Made with HTML, CSS and JavaScript, kept on GitHub.</p>'
       +'<p>'+['World maps by 20th Century Plumbob','Region maps from the Pokémon games','Country shapes from Natural Earth','Book covers from their publishers','Fonts: Instrument Serif and Manrope','Icons by Lucide'].map(function(t){ return '<span class="cr">'+t+'</span>'; }).join(' '+DOT+' ')+'</p></div>';
   }
   function applyMode(){ root.setAttribute('data-mode', userMode); var tc=document.querySelector('meta[name="theme-color"]'); if(tc) tc.setAttribute('content', userMode==='dark' ? '#6A4A17' : '#8E6520');
@@ -317,3 +317,21 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   });
 })();
 </script>
+<!-- TRIAL (21 Nov, temporary): place-card width, while she chooses. Remove this whole block after her pick. -->
+<style>
+.cards.wide:has(>.card:nth-child(4):last-child){max-width:none}
+#try{position:fixed;right:16px;bottom:16px;z-index:50;display:flex;gap:4px;align-items:center;padding:6px;border-radius:10px;background:var(--bg);border:1px solid var(--line);box-shadow:0 8px 24px -10px rgba(0,0,0,.5);font:600 13px/1 "Manrope",system-ui,sans-serif;color:var(--ink)}
+#try span{padding:0 6px;color:var(--mute)}
+#try button{font:inherit;padding:8px 12px;border-radius:7px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer;min-height:36px}
+#try button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--bg)}
+</style>
+<div id="try" role="group" aria-label="Try: place cards"><span>Try · cards</span><button type="button" data-w="0" aria-pressed="true">As now</button><button type="button" data-w="1" aria-pressed="false">Widened</button></div>
+<script>
+(function(){
+  var cards=document.querySelector('.cards'), bs=document.querySelectorAll('#try button');
+  function set(w){ cards.classList.toggle('wide', w==='1'); bs.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.w===w ? 'true':'false'); }); try{ sessionStorage.setItem('jj-try-cards', w); }catch(e){} }
+  bs.forEach(function(b){ b.addEventListener('click', function(){ set(b.dataset.w); }); });
+  var s='0'; try{ s=sessionStorage.getItem('jj-try-cards')||'0'; }catch(e){} set(s);
+})();
+</script>
+<!-- /TRIAL -->
