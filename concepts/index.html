@@ -3,6 +3,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="theme-color" content="#8E6520">
 <meta name="robots" content="noindex, noai, noimageai">   <!-- her choice, 20 Nov: keep out of search engines and AI -->
+<script>try{document.documentElement.setAttribute("data-mode",localStorage.getItem("jj-mode")==="dark"?"dark":"light")}catch(e){document.documentElement.setAttribute("data-mode","light")}</script>   <!-- family rules: set before the page draws -->
 <!-- Tab icon: drawn by Jemma (20 Nov, simpler redraw: cream square, old gold book, her two J’s); made by tools/draw-icon.html.
      Light is the default; in dark mode the script swaps to the flipped version (icon-dark-*), colours swapped like the page. -->
 <link rel="icon" href="favicon.ico" sizes="16x16 32x32 48x48" data-dark="img/icon/icon-dark-32.png">
@@ -168,7 +169,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 /* ================================================================ About this site (her pick, 20 Nov: two short lines, small and quiet) */
 .about-site{max-width:760px;font-size:12.5px;line-height:1.7;color:var(--mute)}
 .about-site .dot{margin:0 3px;color:color-mix(in srgb,var(--acc) 60%,transparent)}
-.about-site.two p{margin:0}
+.about-site.two p{margin:0;text-wrap:balance}
 .foot .about-site.two{max-width:none}
 .about-site .cr{white-space:nowrap}   /* each credit stays in one piece when the line wraps */
 
@@ -184,7 +185,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 
 @keyframes jj-in{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
-.toast{position:fixed;z-index:60;left:50%;bottom:calc(120px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--sw-on);color:var(--sw-on-ink);padding:10px 18px;border-radius:99px;font-size:13.5px;font-weight:700;box-shadow:0 10px 30px -8px rgba(0,0,0,.4);white-space:nowrap}
+.toast{position:fixed;z-index:60;left:50%;bottom:calc(120px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-size:13.5px;font-weight:700;box-shadow:0 10px 30px -8px rgba(0,0,0,.4);white-space:nowrap}
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important} html{scroll-behavior:auto}}
 
@@ -205,7 +206,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   .v2 .intro .h2{margin:0 0 10px}
   .v2 .h2 h2{font-size:32px}
   .v2 .card h3{font-size:38px}
-  .about-site{font-size:12px}
+  .about-site{font-size:12.5px}
   .about-site .dot{display:none}
   .about-site .cr{display:block}
 }
@@ -227,7 +228,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
     {name:"Pokédex", title:"My Pokédex", pc:"#7E2530", pic:{img:"img/maps/region-johto-kanto.webp", map:true, alt:"Map of Johto and Kanto"},
      about:null},
     {name:"Travels", title:"My Travels", pc:"#1D7A69", pic:{img:"img/maps/travels-map.webp", map:true, alt:"Map of the places on my trips"},
-     about:null}   // added 21 Nov (her yes); the picture is Travels' own map (look A) until she picks a look
+     about:null}   // added 21 Nov (her yes); the picture is Travels' own map in its chosen Old Atlas look
   ];
   // Only for "More places": stand-ins to show how it grows. Not real places.
   var EXTRA=[{name:"New place",title:"New place",pc:"#35606F",demo:true},{name:"New place",title:"New place",pc:"#8A6A3A",demo:true},{name:"New place",title:"New place",pc:"#5A5F73",demo:true}];

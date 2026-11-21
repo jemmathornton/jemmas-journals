@@ -9,7 +9,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 - **British English**; **curly apostrophes** in shown text.
 - **No made-up text on the site:** her words, or an app’s own text word for word. Missing means a marked placeholder. Labels like “Contents” or “Open …” are fine.
 - **No AI-generated art.** Pictures come from her apps (maps by 20th Century Plumbob, the games’ region maps, publishers’ covers, her own screenshots). Icons: Lucide, or the sets her apps use; never a real logo.
-- **Show, don’t ask, for looks:** build each option into the page (a trial switch, bottom right, added only while she is choosing and removed after), screenshot at 1600 wide (her window) and at phone size, send them labelled. Words are fine for facts.
+- **Show, don’t ask, for looks:** build each option into the running page or app (a trial switch, bottom right, added only while she is choosing and removed after) and **open it in the browser pane for her to click through** (her ask, 21 Nov: screenshots in chat are blurry and comparison pages are harder to check). Screenshots at 1600 and phone size only as a record. Words are fine for facts.
 - **When asking her to choose, list every option** in the message (the two-button box hides choices).
 - **Label suggestions** as “my suggestion (not decided)”.
 - **Light mode by default** (her preference, 20 Nov): dark only when the button is pressed.

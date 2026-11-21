@@ -124,6 +124,30 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       await ctx.close();
     }
   }
+  // the family rules (research/family-rules.md): dark set on another site carries here and to the 404 page, which has the family footer
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 }, colorScheme: 'dark' });
+    await ctx.addInitScript(() => { try { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('jj-mode', 'dark'); sessionStorage.setItem('seeded', '1'); } } catch (e) {} });
+    const page = await ctx.newPage(); const errors = [];
+    page.on('pageerror', e => errors.push(e.message));
+    await page.route(HOST + '**', route => {
+      const url = new URL(route.request().url());
+      if (url.pathname === '/' || url.pathname === '/index.html') return route.fulfill({ body: wrap(), contentType: TYPES['.html'] });
+      const file = path.join(ROOT, decodeURIComponent(url.pathname));
+      if (!file.startsWith(ROOT) || !fs.existsSync(file)) return route.fulfill({ status: 404, body: 'missing' });
+      route.fulfill({ body: fs.readFileSync(file), contentType: TYPES[path.extname(file)] || 'application/octet-stream' });
+    });
+    await page.goto(HOST, { waitUntil: 'networkidle' });
+    check(await page.evaluate(() => document.documentElement.getAttribute('data-mode')) === 'dark', 'family: home opens dark when jj-mode is already dark');
+    await page.goto(HOST + '404.html', { waitUntil: 'networkidle' });
+    const nf = await page.evaluate(() => ({ mode: document.documentElement.getAttribute('data-mode'), foot: (document.querySelector('footer') || {}).innerText || '', btn: (document.getElementById('modeBtn') || {}).textContent || '' }));
+    check(nf.mode === 'dark', 'family: the 404 page opens dark when jj-mode is dark');
+    check(/No cookies, no tracking, no ads/.test(nf.foot) && /Back to top/.test(nf.foot) && nf.btn === 'Light mode', 'family: the 404 page has the family footer with the mode button');
+    await page.click('#modeBtn');
+    check(await page.evaluate(() => localStorage.getItem('jj-mode')) === 'light' && await page.evaluate(() => document.documentElement.getAttribute('data-mode')) === 'light', 'family: the 404 page’s button switches and saves jj-mode');
+    check(errors.length === 0, 'family: no errors on the 404 page (' + errors.slice(0, 2).join(' / ') + ')');
+    await ctx.close();
+  }
   await browser.close();
   console.log(passes + ' checks passed, ' + failures + ' failed');
   process.exit(failures ? 1 : 0);
