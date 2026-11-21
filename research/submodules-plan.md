@@ -1,5 +1,7 @@
 # Plan: Jemma’s Journals as the parent, the four apps as submodules (21 Nov, not started)
 
+**Her choices (21 Nov):** friendly names `library`, `sim-world`, `pokedex`, `travels` (folders and web addresses); old folders kept for now, untouched; home’s folder renamed from `concepts/` to `site/` (so `site/family/` for the shared code; every path to `concepts/` updated, including the apps’ file links home).
+
 Her layout: Jemma’s Journals is the parent and holds all the shared code; Library, Sim World, Pokédex and Travels are submodules that use it. Nothing on GitHub changes: each app keeps its own repo. All public, which GitHub Pages needs ([docs](https://docs.github.com/en/pages/getting-started-with-github-pages/using-submodules-with-github-pages)).
 
 ```
