@@ -2,3 +2,6 @@ __pycache__/
 *.pyc
 *.tmp
 *.lnk
+# shared test tools for every site (portable Node, Playwright), moved here from Sim World (21 Nov)
+.tools/
+node_modules/

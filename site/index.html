@@ -220,16 +220,16 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 (function(){
   // The places. A new one is one more line here. "about" is a line from that app's own home page; null means a space for her words.
   // Pictures are parked for now (her call, 20 Nov): Sim World and Pokédex show a full map until she chooses.
-  // online, all sites share one address: home at the root, each app under its GitHub repo name (research/going-online.md); set HOME_DOMAIN if she buys her own
-  var HOME_DOMAIN='', ONLINE=/github\.io$/.test(location.hostname) || (HOME_DOMAIN && location.hostname===HOME_DOMAIN);
+  // all sites share one address: home at the root, each app under its folder name in Jemma’s Journals (her names, 21 Nov); online, or on her PC through tools/serve_all.py (port 8050); set HOME_DOMAIN if she buys her own
+  var HOME_DOMAIN='', ONLINE=/github\.io$/.test(location.hostname) || (HOME_DOMAIN && location.hostname===HOME_DOMAIN) || (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && location.port==='8050');
   var PLACES=[
-    {name:"Sim World", url:"/sim-tracker/", title:"My Sim World", pc:"#4E3182", pic:{img:"img/maps/sims-willow-creek.webp", map:true, alt:"Map of Willow Creek"},
+    {name:"Sim World", url:"/sim-world/", title:"My Sim World", pc:"#4E3182", pic:{img:"img/maps/sims-willow-creek.webp", map:true, alt:"Map of Willow Creek"},
      about:"Every world in the game, rebuilt one lot at a time. Wander the neighbourhoods, look around the homes and venues, and meet the households who live in them."},
     {name:"Library", url:"/library/", title:"My Library", pc:"#6E4524", pic:{wall:true, alt:"Covers of books from my shelves"},
      about:"Every book on the shelves at home, and everything you read."},
     {name:"Pokédex", url:"/pokedex/", title:"My Pokédex", pc:"#7E2530", pic:{img:"img/maps/region-johto-kanto.webp", map:true, alt:"Map of Johto and Kanto"},
      about:null},
-    {name:"Travels", url:"/jemmas-travels/", title:"My Travels", pc:"#1D7A69", pic:{img:"img/maps/travels-map.webp", map:true, alt:"Map of the places on my trips"},
+    {name:"Travels", url:"/travels/", title:"My Travels", pc:"#1D7A69", pic:{img:"img/maps/travels-map.webp", map:true, alt:"Map of the places on my trips"},
      about:null}   // added 21 Nov (her yes); the picture is Travels' own map in its chosen Old Atlas look
   ];
   // Only for "More places": stand-ins to show how it grows. Not real places.

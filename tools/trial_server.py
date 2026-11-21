@@ -13,7 +13,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 PROJECT = os.path.dirname(HERE)
 APPS = {
     # app: (her app's site folder, port, [(style file or "", label)])
-    "simworld": (r"C:\Users\Jemma\Documents\SimTracker\site", 8044, [
+    "simworld": (r"C:\Users\Jemma\Documents\JemmasJournals\sim-world\site", 8044, [
         ("", "Now"),
         ("s1fa.css", "Town plan (your pick)"),
     ]),

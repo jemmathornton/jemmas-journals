@@ -1,6 +1,6 @@
 # Jemma’s Journals
 
-The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimTracker`, “My Sim World”), her home library (`Documents\HomeLibrary`, “My Library”) and her Pokémon GO collection (`Documents\Pokedex`, “My Pokédex”) and her travel blog (`Documents\Travels`, “My Travels”, added 21 Nov with her yes). Not her Budget app. Started 19 Nov 2026. Public, but not advertised: it’s mostly for her, to reach everything from her phone or laptop. More places will be added, so the page must grow by adding one entry.
+The home page that links Jemma’s other sites: her Sims 4 save (`Documents\JemmasJournals\sim-world`, “My Sim World”), her home library (`Documents\JemmasJournals\library`, “My Library”) and her Pokémon GO collection (`Documents\JemmasJournals\pokedex`, “My Pokédex”) and her travel blog (`Documents\JemmasJournals\travels`, “My Travels”, added 21 Nov with her yes). Not her Budget app. Started 19 Nov 2026. Public, but not advertised: it’s mostly for her, to reach everything from her phone or laptop. More places will be added, so the page must grow by adding one entry.
 
 ## Working rules (as for her other apps)
 
@@ -56,7 +56,7 @@ She felt the three apps were too same-y (same sidebar, name style, hero, cards; 
 - `research/going-online.md`: hosting research (GitHub Pages and what each app needs, checked in each app’s code).
 - `research/site-ideas.md`: ideas to make the site better, what was tried on the page, a checklist for going online. `research/drafts/`: draft head tags, robots.txt, manifest and a publishing workflow, for going online (the robots and noindex choices are made and already on the page; `site/robots.txt` is the live copy).
 - `site/404.html` (not-found page) and `site/img/share-preview.jpg` (link preview picture), for when it’s online. Pictures on the page are WebP at the size shown (`img/wall/*.webp`, `img/maps/*.webp`); the JPGs are the larger originals.
-- `tests/check_page.js`: checks the page in Edge at 1600, 1280 and 390 wide (run with `C:/Users/Jemma/Documents/SimTracker/.tools/node/node.exe tests/check_page.js`; uses Sim World’s Playwright). Run after every change.
+- `tests/check_page.js`: checks the page in Edge at 1600, 1280 and 390 wide (run with `C:/Users/Jemma/Documents/JemmasJournals/.tools/node/node.exe tests/check_page.js`; uses the shared Playwright in node_modules/). Run after every change.
 
 ## Git
 
@@ -71,3 +71,12 @@ Answers in `for-jemma/review-2-21-nov.md`. All built and the Try switches remove
 - **Library:** Display shelf walnut brown (was green); big first letter kept after a quote mark; EB Garamond shrunk to WOFF2; read-only without its server. The Library’s “no green” line was removed at her ask (not a rule to keep).
 - **Pokédex:** card art tinted by the first type; Lucky box stays white; tabs one row at 1280 (8.5px floor); Hide off on opening; search ignores Hide; 32px under the chips on Pokémon pages.
 - **Travels:** Favourite month removed; neutral wording; distance on trip pages; writing from a phone: option 5, draft on the phone and publish from the PC (her pick; options in its `research/write-from-phone.md`).
+
+## The family layout (21 Nov, late: her decision)
+
+Jemma’s Journals is the **parent**; the apps are **submodules** in it: `library/`, `sim-world/`, `pokedex/`, `travels/` (their own repos on GitHub unchanged; plan and checks in `research/submodules-plan.md`). Home’s own folder is `site/` (was `concepts/`). Shared code goes in Jemma’s Journals (next job: dark mode, footer, Menu drawer, sidebar into `site/family/`, one app at a time); the apps keep their own looks.
+- **One address for all:** `tools/serve_all.py` (launch config `family`, http://localhost:8050): `/` home, `/library/`, `/sim-world/`, `/pokedex/`, `/travels/`; saves are passed on to each app’s own server (Library 8020, Pokédex 8030, Travels 8041), which still does the saving. Home’s Open links work there; dark mode carries.
+- **Shared test tools:** Node in `.tools/node`, Playwright in `node_modules/` (both git-ignored), moved here from Sim World.
+- **Re-pointed 21 Nov:** the three weekly tasks, the desktop and Start-menu shortcuts and the Library server’s Startup shortcut now use the new folders. The old folders (`Documents\HomeLibrary`, `SimTracker`, `Pokedex`, `Travels`) are kept untouched for now (her choice); delete only with her OK.
+- **After committing in an app:** commit the new version in the parent too (`git add <app>`), and push both.
+- **Still to do:** copy each app’s Claude memory to its new folder; she starts each app’s chats from its new folder.

@@ -1,9 +1,9 @@
 // Checks the home page (site/index.html) in a real browser, at her laptop window, a smaller laptop and a phone.
-// Run:  C:/Users/Jemma/Documents/SimTracker/.tools/node/node.exe tests/check_page.js
+// Run:  C:/Users/Jemma/Documents/JemmasJournals/.tools/node/node.exe tests/check_page.js
 // Uses the Playwright that her Sim World project already has (Microsoft Edge, no download). Changes nothing on disk.
 const path = require('path');
 const fs = require('fs');
-const { chromium } = require('C:/Users/Jemma/Documents/SimTracker/node_modules/playwright');
+const { chromium } = require('playwright');
 
 const ROOT = path.join(__dirname, '..', 'site');
 const HOST = 'http://jj.test/';
