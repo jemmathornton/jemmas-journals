@@ -1,0 +1,32 @@
+/* S1d · Old atlas — sepia and ink: parchment main area (plain), aged sidebar and banner with contour lines, sepia caption bands */
+:root{--paper:#EADFC6;--surface:#F4ECD9;--ink:#33241A;--muted:#6E5A44;--line:#CDBB98;--soft:#E2D4B5;--brass:#80571A;--neat:#6B4E2E;--water:#5C4128;
+  --grid:linear-gradient(rgba(92,65,40,.11) 1px,transparent 1px),linear-gradient(90deg,rgba(92,65,40,.11) 1px,transparent 1px);
+  --grid-major:linear-gradient(rgba(92,65,40,.15) 1px,transparent 1px),linear-gradient(90deg,rgba(92,65,40,.15) 1px,transparent 1px)}
+body{background:var(--paper) radial-gradient(130% 90% at 50% 40%,transparent 55%,rgba(110,80,40,.10));background-attachment:fixed}
+.side{--nav:#D8C49B;--on-deep:#33241A;--on-deep-mute:#6A5236;background-color:#D8C49B;box-shadow:inset -5px 0 0 #D8C49B,inset -6px 0 0 var(--neat)}
+.search input{background:#EFE4CB;border-color:#A88E62}
+.nav a.on{background:#EFE4CB}
+.hero{background:{{CONTOURS_SEPIA}} right -80px top -40px/1400px 620px no-repeat,var(--grid-major),var(--grid),radial-gradient(120% 120% at 30% 30%,#E0CCA2,#CDB283);
+  background-size:1400px 620px,160px 160px,32px 32px,auto;box-shadow:inset 0 -5px 0 #CDB283,inset 0 -6px 0 var(--neat)}
+.hero::before{background:{{COMPASS_SEPIA}} center/contain no-repeat;opacity:.7}
+.hero p{color:#4A3726}
+.figures{background:rgba(244,236,217,.85);box-shadow:3px 3px 0 rgba(107,78,46,.3)}
+.hero:not(.mapped) .hero-foot::after{background:repeating-linear-gradient(90deg,var(--ink) 0 30px,#F4ECD9 30px 60px)}
+.hero.mapped::before{background:linear-gradient(rgba(255,240,210,.14) 1px,transparent 1px),linear-gradient(90deg,rgba(255,240,210,.14) 1px,transparent 1px),linear-gradient(rgba(120,80,30,.30),rgba(120,80,30,.30));background-size:120px 120px,120px 120px,auto;mix-blend-mode:multiply}
+.hero.mapped::before{mix-blend-mode:normal}
+.hero.mapped::after{border-color:rgba(244,230,200,.6)}
+.credit{background:rgba(244,236,217,.92)}
+/* cards: plate with a sepia caption band */
+.wt,.listing{background:var(--surface);padding:7px 7px 0;border:1px solid #A88E62;box-shadow:3px 4px 0 rgba(107,78,46,.25);gap:0;border-radius:1px}
+.wt .photo.pic::before,.listing .photo::before{display:none}
+.listing .photo.shot::before{display:block;background:linear-gradient(180deg,rgba(0,0,0,.12),transparent 35%,transparent 62%,rgba(0,0,0,.40))}
+.wt .photo,.listing .photo{filter:sepia(.22) saturate(.92)}
+.wt h3,.listing h3{margin:7px -7px 0;padding:10px 14px 2px;background:#5C4128;color:#F4E8CF;font-size:18px}
+.wt h3::before,.listing h3::before{background:radial-gradient(circle,#5C4128 0 1.7px,#E9C98A 2.2px)}
+.wt .meta,.listing .meta{margin:0 -7px;padding:2px 14px 11px 35px;background:#5C4128;color:#D9C6A2;border-top:0}
+.listing .meta b{color:#F4E8CF}
+.listing .meta svg{color:#D9C6A2}
+.photo .type{background:#F4ECD9;color:#33241A;border-color:#33241A}
+a.wt:hover h3,.listing:hover h3{color:#fff}
+.wt.off .photo{filter:grayscale(1)}
+@media (max-width:900px){ .topbar{background:#D8C49B} }

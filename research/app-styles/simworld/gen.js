@@ -50,9 +50,19 @@ const vars = {
   CONTOURS: enc(contours('rgba(122,98,52,.30)')),
   CONTOURS_LIGHT: enc(contours('rgba(255,255,255,.22)')),
   COMPASS: enc(compass('#2C3A42')),
+  CONTOURS_SEPIA: enc(contours('rgba(92,62,30,.34)')),
+  COMPASS_SEPIA: enc(compass('#4A3420')),
   POSTMARK: enc(postmark('rgba(255,255,255,.88)')),
   POSTMARK_DARK: enc(postmark('rgba(43,36,32,.55)')),
 };
+const fill = css => css.replace(/\{\{(\w+)\}\}/g, (_, k) => vars[k]);
+const RES = 'C:/Users/Jemma/Documents/JemmasJournals/research/app-styles/simworld/';
+const base = fs.readFileSync('s1.src.css', 'utf8');
+fs.writeFileSync(RES + 's1.css', fill(base));
+for (const v of ['s1a', 's1b', 's1c', 's1d']) {
+  const css = fill(base) + String.fromCharCode(10, 10) + fill(fs.readFileSync('v-' + v + '.css', 'utf8'));
+  fs.writeFileSync(v + '.css', css); fs.writeFileSync(RES + v + '.css', css);
+}
 for (const f of ['s1', 's2']) {
   if (!fs.existsSync(f + '.src.css')) continue;
   let css = fs.readFileSync(f + '.src.css', 'utf8');
