@@ -37,6 +37,14 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 
 - 21 Nov: **My Travels added** (her yes). Picture for now: Travels’ own dotted world map (`img/maps/travels-map.*`, from its Map page in look A), to redo once she picks Travels’ look. Its line is a placeholder. Four places sit 2 × 2; the checks now expect four. Screen: for-jemma/concepts/travels-added.jpg.
 
+## The apps’ own styles (21 Nov)
+
+She felt the three apps were too same-y (same sidebar, name style, hero, cards; only colour differs). Mock-ups (pictures only, apps unchanged) in `for-jemma/concepts/app-styles/`, compared with `compare.html` (launch config `app-styles`, port 8043); the CSS is in `research/app-styles/`.
+- **Library: L1 · Bound book**, as mocked, no notes (cloth-bound sidebar with gilt rules, paper pages with a gutter, title-page banner with a plate of covers, ornaments, book-face reading text; needs EB Garamond). Also gives the Library a phone layout (sidebar as a top band).
+- **Sim World: S1 · Map** is the direction, not final: grid/contour lines only on the sidebar and banner, plain paper behind the cards. Variants S1a–S1d being mocked.
+- **Pokédex: a mix**: P1’s collector’s cards (Pokémon, regions, other cards) + P2’s binder gap between sidebar and page (no metal rings/silver) + P2’s index tabs hanging from the banner. Being mocked as P3.
+- Building any of these into the apps is separate work in each app’s own project, with her go-ahead.
+
 ## Where things are
 
 - `concepts/index.html`: the page as it stands; the trial switch was removed 20 Nov late (her ask). Stand-in places for checking growth: add `#more1`…`#more3` to the address. The places are one list, `PLACES`, in its script. Published for her phone as a private Claude artifact: https://claude.ai/artifact/Ad37As365K3HDcR8iHw7HE (republish after changes).
