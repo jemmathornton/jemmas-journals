@@ -1,0 +1,97 @@
+/* S1 · Map — atlas / town-planner mock-up (injected over site.css) */
+:root{
+  --paper:#F2ECDD; --surface:#FBF8F0; --ink:#1F2B33; --muted:#5D6668; --line:#D3C9AF; --soft:#E9E2CF;
+  --brass:#A97C22; --neat:#8C7F5E; --water:#3E6E8E;
+  --grid:linear-gradient(rgba(62,110,142,.075) 1px,transparent 1px),linear-gradient(90deg,rgba(62,110,142,.075) 1px,transparent 1px);
+  --grid-major:linear-gradient(rgba(62,110,142,.10) 1px,transparent 1px),linear-gradient(90deg,rgba(62,110,142,.10) 1px,transparent 1px);
+}
+body{background-color:var(--paper);background-image:var(--grid-major),var(--grid);background-size:160px 160px,32px 32px;background-attachment:fixed}
+
+/* sidebar: a map's legend panel, light paper with a double neatline */
+.side{--nav:#E8E0CB;--on-deep:#1F2B33;--on-deep-mute:#666150;background-color:#E8E0CB;background-image:var(--grid);background-size:32px 32px;
+  color:var(--on-deep);border-right:1px solid var(--neat);box-shadow:inset -5px 0 0 #E8E0CB,inset -6px 0 0 var(--neat)}
+.home-link{color:var(--on-deep-mute)}
+.brand{border-bottom:1px solid rgba(31,43,51,.2)}
+.brand b em{color:var(--brass)}
+.search input{background:var(--surface);border:1px solid #B5A984;border-radius:3px;color:var(--ink)}
+.search input:focus{background:#fff}
+.nav{scrollbar-color:rgba(31,43,51,.25) transparent}
+.nav a{border-radius:3px}
+.nav a:not(.soon):hover{background:rgba(31,43,51,.06)}
+.nav a.on{background:var(--surface);box-shadow:inset 0 0 0 1px var(--neat)}
+.dot{width:10px;height:10px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 0 0 1px rgba(31,43,51,.28);
+  background:radial-gradient(circle,#FBF8F0 0 1.6px,var(--c) 2.1px)}
+.nav a.soon{color:rgba(31,43,51,.45)}
+.subnav{border-left:1px dashed rgba(31,43,51,.3)}
+.subnav a.cur,.subnav a:not(.sublabel-link):hover,.subnav button:hover,.subnav button.cur{color:var(--ink)!important;background:rgba(31,43,51,.07)}
+.subnav .bld-label.path{color:var(--ink)}
+
+/* home banner: survey sheet with contour lines, compass rose and a legend */
+.hero{--on-deep:#1F2B33;--on-deep-mute:#5D6668;color:var(--ink);
+  background:{{CONTOURS}} right -80px top -40px/1400px 620px no-repeat,var(--grid-major),var(--grid),#EFE7D3;
+  background-size:1400px 620px,160px 160px,32px 32px,auto;border-bottom:1px solid var(--neat);box-shadow:inset 0 -5px 0 #EFE7D3,inset 0 -6px 0 var(--neat)}
+.hero::before{opacity:.55;right:56px;top:40px;width:200px;height:200px;transform:none;mask-image:none;-webkit-mask-image:none;background:{{COMPASS}} center/contain no-repeat}
+.hero h1 em{color:var(--brass)}
+.hero p{color:#3A464C}
+.kicker .label{color:var(--muted);letter-spacing:.2em;font-variant-numeric:tabular-nums}
+.kicker i{width:14px;height:14px;border-radius:50%;background:linear-gradient(currentColor,currentColor) center/1px 100% no-repeat,linear-gradient(currentColor,currentColor) center/100% 1px no-repeat;box-shadow:inset 0 0 0 1.5px currentColor;color:var(--water)}
+.hero-foot{border-top:1px solid rgba(31,43,51,.22)}
+.figures{gap:0;border:1px solid var(--neat);background:rgba(251,248,240,.88);padding:12px 0;box-shadow:3px 3px 0 rgba(140,127,94,.25)}
+.figures div{padding:0 26px;border-left:1px dotted rgba(31,43,51,.35)}
+.figures div:first-child{border-left:0}
+.figures b{font-size:40px}
+.figures span{text-transform:uppercase;letter-spacing:.12em;font-size:10.5px;font-weight:700}
+.hero:not(.mapped) .hero-foot::after{content:"";align-self:flex-end;width:240px;height:9px;margin-bottom:6px;border:1px solid var(--ink);
+  background:repeating-linear-gradient(90deg,var(--ink) 0 30px,var(--surface) 30px 60px)}
+
+/* section headings: neatline rule */
+.section-head{border-bottom:3px double var(--neat)}
+.section-head .count{color:var(--muted)}
+
+/* world cards and lot cards: folded map tiles */
+.wt,.listing{background:var(--surface);padding:8px 8px 14px;border:1px solid #BDB190;border-radius:2px;box-shadow:3px 4px 0 rgba(140,127,94,.22);gap:10px}
+.wt .photo,.listing .photo{border-radius:1px;box-shadow:inset 0 0 0 1px rgba(31,43,51,.35)}
+.wt .photo.pic::before,.listing .photo::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(90deg,rgba(255,255,255,.10) 0 49.7%,rgba(0,0,0,.20) 49.7% 50%,rgba(255,255,255,.34) 50% 50.35%,rgba(0,0,0,.07) 50.35% 100%),
+             linear-gradient(180deg,transparent 0 49.6%,rgba(0,0,0,.14) 49.6% 50%,rgba(255,255,255,.26) 50% 50.4%,transparent 50.4%)}
+.listing .photo.shot::before{background:linear-gradient(90deg,rgba(255,255,255,.08) 0 49.7%,rgba(0,0,0,.20) 49.7% 50%,rgba(255,255,255,.30) 50% 50.35%,rgba(0,0,0,.06) 50.35% 100%),
+             linear-gradient(180deg,rgba(0,0,0,.12),transparent 35%,transparent 62%,rgba(0,0,0,.40))}
+.photo .type{border-radius:0;background:var(--surface);color:var(--ink);border:1px solid var(--ink);font-size:10px;letter-spacing:.14em;text-transform:uppercase;padding:4px 8px;left:10px;top:10px;z-index:2}
+.wt h3,.listing h3{display:flex;align-items:center;gap:10px;padding:0 4px;font-size:20px;line-height:1.1;text-transform:uppercase;letter-spacing:.11em}
+.wt h3::before,.listing h3::before{content:"";flex:none;width:11px;height:11px;margin-top:-3px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+  background:radial-gradient(circle,#FBF8F0 0 1.7px,var(--c,var(--h)) 2.2px)}
+.wt .meta,.listing .meta{padding:6px 4px 0;margin:0 0 0 0;border-top:1px dashed var(--line);font-size:11px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;font-variant-numeric:tabular-nums}
+.wt .meta{margin-top:-2px}
+.wt.off{box-shadow:none;background:transparent;border-style:dashed}
+a.wt:hover h3,.listing:hover h3{text-decoration:none;color:var(--water)}
+
+/* inner page banner: map sheet with neatline and grid */
+.hero.mapped{box-shadow:none;border-bottom:0}
+.hero.mapped::before{display:block;content:"";inset:0;width:auto;height:auto;right:0;top:0;opacity:1;transform:none;mask-image:none;-webkit-mask-image:none;
+  background:linear-gradient(rgba(255,255,255,.13) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.13) 1px,transparent 1px);background-size:120px 120px}
+.hero.mapped::after{content:"";position:absolute;inset:16px;border:1px solid rgba(255,255,255,.55);outline:1px solid rgba(255,255,255,.3);outline-offset:4px;pointer-events:none}
+.hero.mapped{--on-deep:#F4F1E8;--on-deep-mute:rgba(244,241,232,.78);color:var(--on-deep)}
+.hero.mapped p{color:rgba(244,241,232,.92)}
+.hero.mapped h1{text-transform:uppercase;letter-spacing:.09em;font-size:clamp(48px,6.2vw,96px);line-height:.95}
+.hero.mapped .kicker i{color:#F4F1E8}
+.hero.mapped .figures{background:rgba(15,22,26,.38);border-color:rgba(255,255,255,.45);box-shadow:none}
+.hero.mapped .figures div{border-left-color:rgba(255,255,255,.35)}
+.hero.mapped .hero-foot{border-top-color:rgba(255,255,255,.25)}
+.credit{border-radius:2px;background:rgba(251,248,240,.9);color:var(--ink);top:30px;right:calc(clamp(16px,4vw,56px) + 10px)}
+.chapters a{border-radius:2px;display:inline-flex;align-items:center;gap:8px;background:rgba(15,22,26,.28);border-color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:.08em;font-size:11.5px}
+.chapters a::before{content:"";width:8px;height:8px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:radial-gradient(circle,rgba(0,0,0,.4) 0 1.2px,#F4F1E8 1.6px)}
+.hood-head .label{letter-spacing:.2em}
+.photo .size{left:10px;bottom:10px;background:rgba(251,248,240,.92);color:var(--ink);border:1px solid var(--ink);font:700 11px/1 var(--body);letter-spacing:.1em;padding:5px 7px;font-style:normal;opacity:1;font-variant-numeric:tabular-nums}
+.photo .status span{border-radius:2px}
+.dot-key span{border-radius:2px}
+
+/* phones */
+@media (max-width:900px){
+  .topbar{background:#E8E0CB;color:var(--ink);border-bottom:3px double var(--neat)}
+  .topbar button{border-color:rgba(31,43,51,.35);color:var(--ink);border-radius:3px}
+  .hero::before{width:120px;height:120px;right:14px;top:58px;opacity:.4}
+  .figures{padding:10px 0}
+  .figures div{padding:4px 16px}
+  .figures b{font-size:32px}
+}
+@media (max-width:440px){ .hero:not(.mapped) .hero-foot::after{width:180px} .figures div:nth-child(4){border-left:0} }

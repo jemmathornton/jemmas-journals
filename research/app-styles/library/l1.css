@@ -1,0 +1,130 @@
+@import url("https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400&display=swap");
+/* L1 · Bound book: cloth-bound sidebar with gilt rules, the main area as a printed page */
+:root{
+  --paper:#F3EAD5; --surface:#FAF4E6; --ink:#2B2017; --muted:#7A6A52; --line:#D9C9A6; --soft:#EADFC6;
+  --cloth:#4A2A1A; --gilt:#C9A24E; --gilt-2:#E2C47A;
+  --read:"EB Garamond","Palatino Linotype",Georgia,serif;
+  --grain:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .33 0 0 0 0 .18 0 0 0 .09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --weave:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(0,0,0,.09) 0 1px,transparent 1px 3px);
+}
+body{background:var(--paper) var(--grain)}
+
+/* ---- sidebar: a cloth binding, gilt rules ---- */
+.side{background:var(--weave),linear-gradient(90deg,#3A2014,var(--cloth) 18%,#55301D 70%,#3E2216);
+  box-shadow:inset -1px 0 0 rgba(255,255,255,.06)}
+.brand{margin:10px 18px 0;padding:16px 10px 16px!important;text-align:center;border:0;
+  border-top:3px double var(--gilt);border-bottom:3px double var(--gilt)}
+.brand b{font-size:33px}
+.brand b em{color:var(--gilt-2)}
+.brand small{font:italic 400 15px/1.2 var(--read);letter-spacing:.02em;text-transform:none;color:color-mix(in srgb,var(--gilt-2) 75%,#fff);margin-top:8px}
+.home-link{color:color-mix(in srgb,var(--gilt-2) 70%,transparent)}
+.search input{border-radius:3px;background:rgba(0,0,0,.18);border-color:color-mix(in srgb,var(--gilt) 45%,transparent);font-family:var(--read);font-size:15.5px}
+.nav-group .label{font:italic 400 15px/1 var(--read);letter-spacing:.03em;text-transform:none;color:var(--gilt-2);display:flex;align-items:center;gap:8px}
+.nav-group .label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,color-mix(in srgb,var(--gilt) 55%,transparent),transparent)}
+.nav a{font:500 16.5px/1.35 var(--read);border-radius:2px}
+.shelves-nav a{font-size:17px}
+.nav a.on{background:rgba(201,162,78,.16);box-shadow:inset 2px 0 0 var(--gilt)}
+.nav .n{font:italic 400 14px var(--read);color:color-mix(in srgb,var(--gilt-2) 70%,transparent)}
+.dot{box-shadow:0 0 0 1.5px color-mix(in srgb,var(--gilt) 60%,transparent)}
+.nav-group.minor{border-top:1px solid color-mix(in srgb,var(--gilt) 30%,transparent)}
+.nav-group.minor a{font-size:15px}
+
+/* ---- the main area as a page: the gutter by the sidebar, page edges on the right ---- */
+main{box-shadow:inset 28px 0 30px -22px rgba(60,36,16,.45)}
+main::after{content:"";position:fixed;top:0;bottom:0;right:0;width:7px;pointer-events:none;
+  background:repeating-linear-gradient(90deg,#E6D8B8 0 1px,#F8F1DF 1px 2px);box-shadow:-2px 0 4px rgba(60,36,16,.12)}
+
+/* ---- the banner as a title page with a tipped-in plate of covers ---- */
+.hero.shelved{background:transparent;color:var(--ink);padding-top:58px;padding-bottom:40px;
+  border-bottom:0}
+.hero.shelved::after{display:none}
+.hero .hero-shelf{top:40px;bottom:auto;right:max(56px,calc((100cqw - 1180px)/2 + 56px));width:31%;transform:none;overflow:hidden;
+  grid-template-columns:repeat(6,minmax(0,1fr));gap:6px;padding:12px;background:#FBF6EA;
+  outline:1px solid var(--line);outline-offset:-6px;border:1px solid #E3D5B5;box-shadow:0 1px 2px rgba(0,0,0,.08),0 14px 30px -18px rgba(60,36,16,.5)}
+.hero-shelf img{filter:sepia(.18) saturate(.9);border-radius:1px}
+.hero-shelf img:nth-child(n+19){display:none}
+.hero .kicker,.hero .kicker .label{color:var(--muted)}
+.kicker .label{font:italic 400 17px/1 var(--read);letter-spacing:.02em;text-transform:none}
+.kicker i{display:none}
+.kicker::before{content:"❧";font-size:20px;color:var(--gilt);line-height:1}
+.hero h1{color:var(--ink);max-width:64%;font-size:112px}
+.hero h1 em{color:#9A7022}
+.hero p{color:var(--ink);font:italic 400 21px/1.45 var(--read);max-width:34ch}
+.figures{border-top:0;margin-top:30px;padding-top:0;gap:0;max-width:58%}
+.figures div{padding:12px 26px 10px;border-left:1px solid var(--line);text-align:center}
+.figures div:first-child{border-left:0;padding-left:0;text-align:left}
+.figures b{color:var(--ink);font-variant-numeric:oldstyle-nums;font-size:42px}
+.figures span{color:var(--muted);font:italic 400 15px/1.2 var(--read)}
+.figures{border-top:3px double var(--line);border-bottom:1px solid var(--line)}
+
+/* ---- section headings: centred, with a printer’s ornament ---- */
+.section-head{position:relative;justify-content:center;border-bottom:0;padding-bottom:26px;margin-top:58px}
+.section-head::after{content:"❦";position:absolute;left:50%;bottom:0;transform:translateX(-50%);font-size:18px;line-height:1;color:var(--gilt);padding:0 14px;background:var(--paper)}
+.section-head::before{content:"";position:absolute;left:0;right:0;bottom:9px;height:1px;background:linear-gradient(90deg,transparent,var(--line) 20%,var(--line) 80%,transparent)}
+.section-head h2{font-size:42px;text-align:center}
+.section-head h2 em{color:#9A7022}
+.section-head .pick-open,.section-head .more{position:absolute;right:0;top:50%;transform:translateY(-70%)}
+.section-head .more{font:italic 400 17px var(--read)}
+.book-body .section-head{justify-content:flex-start}
+.book-body .section-head h2{text-align:left}
+
+/* buttons as small gilt-edged labels */
+.btn.pick-open{background:transparent;border:1px solid var(--gilt);color:#7A5418;border-radius:2px;font:italic 400 16px var(--read);padding:6px 14px}
+.btn.pick-open .i{color:var(--gilt)}
+
+/* ---- covers sit on the page like plates; captions set in a book face ---- */
+.cover{border-radius:1px 3px 3px 1px;box-shadow:0 1px 1px rgba(0,0,0,.18),0 10px 18px -12px rgba(50,30,10,.55)}
+.bk h3{font-size:20px}
+.bk .by{font:italic 400 15px var(--read);margin-top:-7px}
+
+/* ---- shelf cards as cloth-bound volumes, title gilt-stamped ---- */
+.shelf-card{border-radius:2px 5px 5px 2px;border:0;
+  background:var(--weave),linear-gradient(160deg,color-mix(in srgb,var(--c) 72%,#3A2414),color-mix(in srgb,var(--c) 45%,#1E120A));
+  box-shadow:inset 7px 0 0 rgba(0,0,0,.16),inset 8px 0 0 rgba(255,255,255,.06),0 2px 3px rgba(0,0,0,.18),0 12px 22px -14px rgba(40,20,5,.6)}
+.shelf-card .fan{background:transparent;margin:10px 10px 0 16px;border-bottom:1px solid color-mix(in srgb,var(--gilt) 55%,transparent)}
+.shelf-card .txt{flex-direction:column;align-items:center;gap:2px;padding:9px 10px 13px 16px;text-align:center}
+.shelf-card h3{color:var(--gilt-2);font-size:21px;text-shadow:0 1px 0 rgba(0,0,0,.35)}
+.shelf-card .txt span{font:italic 400 15px var(--read);color:color-mix(in srgb,var(--gilt-2) 70%,#fff 10%)}
+
+/* ---- book page: a title page, a plate, and the blurb set as reading text ---- */
+.hero.book-hero{background:transparent;color:var(--ink);padding-top:50px;padding-bottom:20px;
+  margin-inline:0;padding-inline:0}
+.hero.book-hero::before{display:none}
+.book-top{align-items:center}
+.book-top .cover{border-radius:0;margin:14px;overflow:hidden;
+  box-shadow:0 0 0 6px #FBF6EA,0 0 0 7px var(--line),0 0 0 13px #FBF6EA,0 0 0 14px #E0D0AE,0 26px 40px -16px rgba(60,36,16,.55)}
+.book-top h1{color:var(--ink);font-size:84px}
+.book-top .authors{font:italic 400 22px var(--read)}
+.book-top .authors a{font-weight:400;border-bottom-color:var(--gilt)}
+.book-top>div:not(.cover){border-top:3px double var(--line);border-bottom:1px solid var(--line);padding:22px 0 26px}
+.book-body{margin-top:34px}
+.desc{font:400 19px/1.62 var(--read);text-align:justify;hyphens:auto;max-width:62ch;color:#2E241A}
+.desc::first-letter{float:left;font:400 78px/.8 var(--display);color:#9A7022;padding:7px 10px 0 0}
+.panel{border-radius:0;background:var(--surface);border:1px solid #E3D5B5;outline:1px solid var(--line);outline-offset:-6px;padding:24px 26px;gap:12px;box-shadow:0 10px 20px -18px rgba(60,36,16,.5)}
+.panel h2{text-align:center;font-size:27px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.panel h2::after{content:"❦";display:block;font-size:14px;color:var(--gilt);margin-top:6px}
+.sg-status{font-family:var(--read);font-size:22px;justify-content:center}
+.sg-dates{font:italic 400 17px var(--read);text-align:center}
+.facts{font:400 16.5px var(--read)}
+.facts dt{font-weight:400;font-variant:small-caps;letter-spacing:.04em;font-size:17px}
+.facts dd{font-weight:500}
+.facts select{font-family:var(--read)}
+.review{font:400 18px/1.6 var(--read);border-left:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);border-radius:0;background:transparent;font-style:italic}
+
+/* phone: the plate of covers sits above the title as a frontispiece; the figures two by two */
+@media (max-width:700px){
+  .hero .hero-shelf{position:relative;inset:auto;width:auto;height:auto;opacity:1;margin-bottom:26px;grid-template-columns:repeat(6,minmax(0,1fr));padding:8px;gap:4px}
+  .hero-shelf img:nth-child(n+13){display:none}
+  .hero h1{max-width:none;font-size:72px}
+  .hero p{font-size:18px}
+  .nav-group .label{display:none}
+  .figures{max-width:none;display:grid;grid-template-columns:1fr 1fr}
+  .figures div,.figures div:first-child{padding:10px 8px;text-align:center;border-left:0}
+  .figures div:nth-child(even){border-left:1px solid var(--line)}
+  .figures div:nth-child(n+3){border-top:1px solid var(--line)}
+  .figures b{font-size:36px}
+  .section-head{flex-direction:column;align-items:center}
+  .section-head .pick-open,.section-head .more{position:static;transform:none;order:2;margin-top:4px}
+  .section-head h2{font-size:34px}
+  main::after{width:4px}
+}

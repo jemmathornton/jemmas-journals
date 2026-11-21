@@ -1,0 +1,27 @@
+/* ---- phone (both directions): the Library has no phone layout yet; here the sidebar becomes a band at the top ---- */
+@media (max-width:700px){
+  .side{position:relative;inset:auto;width:auto;display:block}
+  main{margin-left:0}
+  .home-link{display:inline-block;margin:12px 0 0 18px}
+  .brand{padding:6px 18px 12px}
+  .brand b{font-size:30px}
+  .brand small{font-size:10.5px}
+  .search{margin:12px 14px 6px}
+  .nav{flex-direction:row;overflow-x:auto;gap:6px;padding:8px 14px 14px;scrollbar-width:none}
+  .nav-group{display:flex;gap:6px;flex:none}
+  .nav-group .label{display:none}
+  .nav-group.minor{margin-top:0;padding-top:0;border-top:0}
+  .nav a{white-space:nowrap;flex:none}
+  .wrap{padding-inline:16px}
+  .hero{padding:38px 16px 26px;margin-inline:-16px}
+  .hero h1{font-size:62px}
+  .hero p{font-size:16px}
+  .figures{gap:10px 26px;margin-top:24px}
+  .figures b{font-size:34px}
+  .hero .hero-shelf{width:100%;opacity:.55}
+  .section-head{margin-top:40px}
+  .section-head h2{font-size:32px}
+  .books.row{--ch:150px}
+  .books{--ch:150px;gap:24px 14px}
+  .shelves{grid-template-columns:1fr 1fr;gap:12px}
+}

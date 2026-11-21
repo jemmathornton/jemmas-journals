@@ -1,0 +1,89 @@
+/* P1 · Collector’s cards (mock-up only): every Pokémon a collectable card with a printed border, card-stock grain,
+   a foil sheen on the shiny ones and its number printed like a set number. Same sidebar, search, name and layout. */
+:root.mock-p1{
+  --stock:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .27 0 0 0 0 .18 0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --foil:linear-gradient(115deg,#d8dde6 0%,#f6d7ec 18%,#cfe9f7 34%,#f3f0c9 50%,#d6f0de 66%,#e4d3f5 82%,#d8dde6 100%);
+  --paper:#ECE7E0; --line:#DCD3C8;
+}
+.mock-p1 body{background:var(--stock),linear-gradient(#EFEAE3,#E8E2DA);background-attachment:fixed}
+
+/* sidebar: same place and contents; a printed card-back look (fine cross-hatch) with a foil edge */
+.mock-p1 .side{background:repeating-linear-gradient(45deg,rgba(255,255,255,.045) 0 1px,transparent 1px 7px),repeating-linear-gradient(-45deg,rgba(255,255,255,.045) 0 1px,transparent 1px 7px),linear-gradient(180deg,#4E1620,#2F0D14)!important;
+  box-shadow:inset -5px 0 0 0 transparent}
+.mock-p1 .side::before{content:"";position:absolute;top:0;bottom:0;right:0;width:5px;background:var(--foil);opacity:.9;z-index:2}
+.mock-p1 .side::after{display:none}
+.mock-p1 .search input{border-radius:6px}
+.mock-p1 .nav a{border-radius:6px}
+.mock-p1 .nav a.on{background:linear-gradient(90deg,color-mix(in srgb,var(--rc) 80%,#1D1419),color-mix(in srgb,var(--rc) 55%,#1D1419))!important;box-shadow:inset 3px 0 0 #F2C14E!important}
+
+/* banner: the map kept; the totals as a row of small cards */
+.mock-p1 .hero .stat{background:var(--stock),#FFFBF2!important;border:3px solid var(--sc)!important;border-radius:7px!important;color:#2B1A1C;backdrop-filter:none!important;
+  box-shadow:0 3px 8px rgba(0,0,0,.3)}
+.mock-p1 .hero .stat .sl,.mock-p1 .hero .stat b small{color:#6A5552!important}
+.mock-p1 .hero .stat b{color:#2B1A1C}
+.mock-p1 .hero .sbar{background:rgba(0,0,0,.08)}
+.mock-p1 .hero .sbar i{filter:none}
+
+/* Pokémon cards */
+.mock-p1 .grid{grid-template-columns:repeat(auto-fill,minmax(176px,1fr));gap:16px}
+.mock-p1 .card{--frame:color-mix(in srgb,var(--rc) 82%,#2B1A1C);
+  background:var(--stock),#FFFBF2;border:7px solid var(--frame);border-radius:12px;padding:8px 8px 26px;align-items:stretch;text-align:left;
+  box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 10px 18px -12px rgba(40,20,10,.55),0 1px 2px rgba(40,20,10,.25)}
+.mock-p1 .card.got{background:var(--stock),#FFFBF2;border-color:var(--frame);box-shadow:0 10px 18px -12px rgba(40,20,10,.55),0 1px 2px rgba(40,20,10,.25)}
+.mock-p1 .card:hover{border-color:var(--frame)}
+/* name bar at the top, like a card */
+.mock-p1 .card .nm{order:-2;margin:0 0 0 2px;font:400 21px/1.05 var(--display);letter-spacing:-.01em;padding-right:64px;min-height:22px}
+.mock-p1 .card small.fm{order:-1;margin:0 0 4px 2px;font-size:11px;font-weight:700;letter-spacing:.04em;min-height:0}
+.mock-p1 .card .flags{top:5px;right:6px}
+.mock-p1 .card .flags span{background:var(--foil);color:#4b3b45;border:1px solid rgba(0,0,0,.08)}
+/* the art window */
+.mock-p1 .pic{width:auto;height:124px;margin:2px 0 0;border:2px solid color-mix(in srgb,var(--frame) 30%,#C9A85A);border-radius:4px;display:grid;place-items:center;overflow:hidden;
+  background:radial-gradient(circle,rgba(0,0,0,.07) 1px,transparent 1.4px) 0 0/6px 6px,radial-gradient(circle at 50% 60%,#fff,color-mix(in srgb,var(--rc) 16%,#F7EFE2));
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.7),inset 0 4px 10px rgba(0,0,0,.08)}
+.mock-p1 .pic img{position:relative;z-index:1;width:120px;height:120px;filter:drop-shadow(0 4px 4px rgba(0,0,0,.18))}
+.mock-p1 .pic .flips{right:4px;top:4px}
+.mock-p1 .pic .flip{width:22px;height:22px;background:rgba(255,255,255,.85)}
+/* the number printed bottom right like a set number, with a small mark */
+.mock-p1 .card .no{left:auto;right:6px;top:auto;bottom:4px;font:700 10px/1 var(--body);letter-spacing:.12em;color:#8a7671;display:flex;align-items:center;gap:5px}
+.mock-p1 .card .no::before{content:"";width:7px;height:7px;border-radius:50%;background:#2B1A1C;opacity:.7}
+.mock-p1 .card:has(.flags span) .no::before{border-radius:0;width:8px;height:8px;clip-path:polygon(50% 0,61% 35%,98% 35%,68% 57%,79% 91%,50% 70%,21% 91%,32% 57%,2% 35%,39% 35%);opacity:.85}
+.mock-p1 .card .boxgrid{margin-top:8px}
+.mock-p1 .card .tk{border-radius:5px}
+.mock-p1 .card .formsbtn{align-self:center}
+
+/* shiny ones: a foil frame and a holo sheen across the art */
+.mock-p1 .card:has(.tk.s[aria-pressed="true"]) .pic{border:3px solid;border-image:var(--foil) 1;border-radius:0}
+.mock-p1 .card:has(.tk.s[aria-pressed="true"]) .pic::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;mix-blend-mode:multiply;opacity:.55;
+  background:repeating-linear-gradient(115deg,rgba(255,255,255,0) 0 5px,rgba(255,255,255,.6) 5px 6px),
+    linear-gradient(115deg,#ffd6ec 8%,#c9ecff 30%,#fff3b8 50%,#cdf5d9 68%,#e6d3ff 88%)}
+.mock-p1 .card:has(.tk.s[aria-pressed="true"]) .pic::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:2;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.5) 42%,transparent 52%)}
+
+/* not caught yet: a faded print */
+.mock-p1 .card:not(.got):not(.informs){--frame:#BDB3AA}
+.mock-p1 .card:not(.got):not(.informs) .pic img{filter:grayscale(1) opacity(.45)}
+.mock-p1 .card:not(.got):not(.informs) .nm{color:#8a7671}
+
+/* Home: each region a set card, framed in its colour, its three Pokémon in an art window */
+.mock-p1 .gens{gap:16px}
+.mock-p1 .gen{background:var(--stock),#FFFBF2;border:7px solid color-mix(in srgb,var(--rc,#7E2530) 82%,#2B1A1C);border-radius:12px;padding:10px 12px 12px;display:flex;flex-direction:column;
+  box-shadow:0 10px 18px -12px rgba(40,20,10,.55),0 1px 2px rgba(40,20,10,.25)}
+.mock-p1 .gen:hover{border-color:color-mix(in srgb,var(--rc,#7E2530) 82%,#2B1A1C)}
+.mock-p1 .gen h3{order:-1;font-size:26px;line-height:1.05}
+.mock-p1 .gen .label{order:-1;margin-top:2px}
+.mock-p1 .genart{position:static;order:0;justify-content:center;margin-top:8px;height:84px;align-items:center;overflow:hidden;border:2px solid color-mix(in srgb,var(--rc,#7E2530) 30%,#C9A85A);border-radius:4px;
+  background:radial-gradient(circle,rgba(0,0,0,.07) 1px,transparent 1.4px) 0 0/6px 6px,radial-gradient(circle at 50% 60%,#fff,color-mix(in srgb,var(--rc,#7E2530) 16%,#F7EFE2))}
+.mock-p1 .genart img{width:76px;height:76px;margin:0 2px;filter:drop-shadow(0 3px 3px rgba(0,0,0,.18))}
+.mock-p1 .gen .rows{order:1}
+.mock-p1 .gen[style*="span 2"] .genart{justify-content:flex-start;padding-left:12px}
+.mock-p1 .section h2{font-size:32px}
+
+/* filter line: tabs like card edges */
+.mock-p1 .toolbar{background:color-mix(in srgb,#ECE7E0 92%,transparent)}
+.mock-p1 .worktab{border-radius:5px;background:#FFFBF2}
+
+@media (max-width:700px){
+  .mock-p1 .hero .stat{border-width:2px!important;padding:5px 3px 6px!important}
+  .mock-p1 .hero .stat b{font-size:15px!important}.mock-p1 .hero .stat b small{font-size:9px!important}
+  .mock-p1 .side::before{top:auto;left:0;width:auto;height:4px;bottom:0}
+}

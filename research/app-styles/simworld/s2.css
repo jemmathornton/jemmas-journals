@@ -1,0 +1,97 @@
+/* S2 · Postcards — travel-brochure mock-up (injected over site.css) */
+:root{
+  --paper:#F6EEE0; --surface:#FFFCF6; --ink:#2B2420; --muted:#78685A; --line:#E6D8C2; --soft:#EFE4D2;
+  --sea:#17505A; --sea-2:#1F6B74; --sun:#F4BE45; --coral:#D9603F; --brass:#F2C14E;
+  --airmail:repeating-linear-gradient(-45deg,#D9603F 0 9px,#FFFCF6 9px 15px,#2E5E9C 15px 24px,#FFFCF6 24px 30px);
+}
+body{background:var(--paper) radial-gradient(1200px 700px at 100% 0%,rgba(244,190,69,.16),transparent 60%) fixed}
+
+/* sidebar: deep sea blue-green with an airmail edge */
+.side{--nav:var(--sea);--on-deep:#FFF7EA;--on-deep-mute:rgba(255,247,234,.68);background:linear-gradient(180deg,#1B5A64 0%,var(--sea) 45%,#123F47 100%);border-right:0}
+.side::after{content:"";position:absolute;top:0;bottom:0;right:0;width:7px;background:var(--airmail)}
+.brand{border-bottom:1px dashed rgba(255,247,234,.25)}
+.brand b em{color:var(--sun)}
+.search input{border-radius:99px;background:rgba(255,252,246,.1);border-color:rgba(255,247,234,.22)}
+.nav a{border-radius:99px}
+.nav a.on{background:rgba(255,247,234,.13);box-shadow:inset 0 0 0 1px rgba(244,190,69,.55)}
+.dot{box-shadow:0 0 0 2px rgba(255,247,234,.85)}
+
+/* home banner: sea with a low sun and faint sunburst */
+.hero{background:
+   radial-gradient(circle at 84% 34%,#FFE08A 0 70px,rgba(255,200,90,.85) 72px,rgba(244,160,70,.35) 150px,transparent 330px),
+   repeating-conic-gradient(from 0deg at 84% 34%,rgba(255,224,140,.09) 0 6deg,transparent 6deg 15deg),
+   linear-gradient(170deg,#E9915A 0%,#C9674A 28%,#2A6670 62%,var(--sea) 100%);
+  --on-deep:#FFF7EA;--on-deep-mute:rgba(255,247,234,.78);padding-bottom:60px}
+.hero::before{display:block;content:"";position:absolute;left:0;right:0;top:auto;bottom:-1px;width:auto;height:26px;opacity:1;transform:none;mask-image:none;-webkit-mask-image:none;
+  background:radial-gradient(circle at 13px -4px,transparent 14px,var(--paper) 14.5px) 0 0/26px 26px repeat-x}
+.hero h1{text-shadow:0 3px 24px rgba(60,20,10,.25)}
+.hero h1 em{color:var(--sun)}
+.hero p{color:#FFF7EA}
+.hero-foot{border-top:1px dashed rgba(255,247,234,.35)}
+.kicker i{background:var(--sun);height:2px}
+/* figures as a strip of stamps */
+.figures{gap:14px}
+.figures{filter:drop-shadow(0 2px 3px rgba(40,20,10,.32))}
+.figures div{--r:3px;background:#FFF6E2;box-shadow:inset 0 0 0 7px var(--surface),inset 0 0 0 8px rgba(217,96,63,.35);padding:13px 18px 12px;color:var(--ink);min-width:92px;
+  -webkit-mask:radial-gradient(var(--r),#0000 97%,#000) round calc(-1.5*var(--r)) calc(-1.5*var(--r))/calc(3*var(--r)) calc(3*var(--r)),linear-gradient(#000 0 0) no-repeat 50%/calc(100% - 3*var(--r)) calc(100% - 3*var(--r));
+          mask:radial-gradient(var(--r),#0000 97%,#000) round calc(-1.5*var(--r)) calc(-1.5*var(--r))/calc(3*var(--r)) calc(3*var(--r)),linear-gradient(#000 0 0) no-repeat 50%/calc(100% - 3*var(--r)) calc(100% - 3*var(--r))}
+.figures div:nth-child(odd){transform:rotate(-1.5deg)}.figures div:nth-child(even){transform:rotate(1.2deg)}
+.figures b{color:var(--coral);font-size:38px}
+.figures span{color:var(--muted);text-transform:uppercase;letter-spacing:.1em;font-size:10px;font-weight:700}
+
+/* section headings with an airmail rule */
+.section-head{margin:52px 0 30px;border-bottom:0;padding-bottom:18px;background:var(--airmail) left bottom/100% 5px no-repeat}
+.section-head h2 em{color:var(--coral)}
+.section-head .count{color:var(--muted)}
+
+/* worlds and lots as postcards */
+.worlds{gap:34px 22px}.listings{gap:34px 26px}
+.wt,.listing{background:var(--surface);padding:10px 10px 14px;border-radius:2px;gap:10px;--tilt:-1.3deg;transform:rotate(var(--tilt));
+  box-shadow:0 1px 2px rgba(70,40,20,.14),0 14px 26px -14px rgba(70,40,20,.45)}
+.wt:nth-child(4n+2),.listing:nth-child(3n+2){--tilt:.9deg}.wt:nth-child(4n+3),.listing:nth-child(3n+3){--tilt:-.5deg}.wt:nth-child(4n+4){--tilt:1.4deg}
+.wt:hover,.listing:hover{transform:rotate(0) translateY(-3px)}
+.wt .photo,.listing .photo{border-radius:0}
+/* pack badge and lot type as a stamp, top right, with a postmark crossing it */
+.photo .type{--r:2.5px;left:auto;right:10px;top:10px;z-index:3;max-width:104px;text-align:center;line-height:1.15;border-radius:0;
+  padding:11px 11px 10px;font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--sea);
+  background:#FCE7B4;box-shadow:inset 0 0 0 5px var(--surface);transform:rotate(2.5deg);
+  -webkit-mask:radial-gradient(var(--r),#0000 97%,#000) round calc(-1.5*var(--r)) calc(-1.5*var(--r))/calc(3*var(--r)) calc(3*var(--r)),linear-gradient(#000 0 0) no-repeat 50%/calc(100% - 3*var(--r)) calc(100% - 3*var(--r));
+          mask:radial-gradient(var(--r),#0000 97%,#000) round calc(-1.5*var(--r)) calc(-1.5*var(--r))/calc(3*var(--r)) calc(3*var(--r)),linear-gradient(#000 0 0) no-repeat 50%/calc(100% - 3*var(--r)) calc(100% - 3*var(--r))}
+.wt .photo.pic::before,.listing .photo::before{content:"";position:absolute;right:70px;top:30px;width:112px;height:48px;opacity:.85;z-index:4;pointer-events:none;
+  background:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27140%27%20height%3D%2760%27%20viewBox%3D%270%200%20140%2060%27%3E%3Cg%20fill%3D%27none%27%20stroke%3D%27rgba(255%2C255%2C255%2C.88)%27%20stroke-linecap%3D%27round%27%3E%3Ccircle%20cx%3D%27110%27%20cy%3D%2730%27%20r%3D%2725%27%20stroke-width%3D%272%27%2F%3E%3Ccircle%20cx%3D%27110%27%20cy%3D%2730%27%20r%3D%2720%27%20stroke-width%3D%271%27%2F%3E%3Cpath%20d%3D%27M14%2C21%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%27%20stroke-width%3D%271.8%27%2F%3E%3Cpath%20d%3D%27M14%2C30%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%27%20stroke-width%3D%271.8%27%2F%3E%3Cpath%20d%3D%27M14%2C39%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%20q6%2C-4%2012%2C0%27%20stroke-width%3D%271.8%27%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E") right center/contain no-repeat;filter:drop-shadow(0 0 1px rgba(0,0,0,.35))}
+.listing .photo.shot::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.12),transparent 30%,transparent 65%,rgba(0,0,0,.35));pointer-events:none}
+.wt h3,.listing h3{font-style:italic;font-size:27px;padding:2px 4px 0}
+.wt .meta,.listing .meta{padding:0 4px;font-size:11.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--muted)}
+.wt .meta span::before{content:"";display:inline-block;width:18px;height:2px;background:var(--coral);vertical-align:middle;margin-right:8px}
+.wt.off{transform:none;box-shadow:none;background:transparent;outline:1.5px dashed var(--line)}
+.wt.off .photo::before{display:none}
+a.wt:hover h3{text-decoration-color:var(--coral)}
+.photo .size{left:12px;bottom:10px;font-size:19px;z-index:2}
+.photo .status{z-index:2}
+.photo .status span.yes{color:var(--coral)}
+
+/* inner page banner: the map framed as a big postcard */
+.hero.mapped{box-shadow:inset 0 0 0 14px var(--surface),inset 0 0 0 15px var(--line);padding-bottom:56px}
+.hero.mapped::before{display:none}
+.hero.mapped h1{font-style:italic;color:var(--sun);text-shadow:0 3px 0 rgba(23,80,90,.55),0 6px 26px rgba(0,0,0,.35)}
+.credit{top:28px;right:calc(clamp(16px,4vw,56px) + 6px)}
+.chapters a{background:var(--surface);color:var(--sea);border:0;border-radius:4px;box-shadow:0 2px 6px rgba(0,0,0,.25)}
+.chapters a:hover{background:#FCE7B4}
+.hero.mapped .figures div{filter:drop-shadow(0 2px 4px rgba(0,0,0,.4))}
+.hood-head .label{color:var(--coral)}
+.hood-head .label::before{background:var(--airmail);height:4px;width:30px}
+.hood-head h2 em{color:var(--coral)}
+.hood-head .count{color:var(--muted)}
+
+/* phones */
+@media (max-width:900px){
+  .topbar{background:var(--sea);box-shadow:inset 0 -5px 0 0 transparent;border-bottom:5px solid;border-image:var(--airmail) 1}
+  .hero{background:
+     radial-gradient(circle at 82% 16%,#FFE08A 0 40px,rgba(255,200,90,.85) 42px,rgba(244,160,70,.35) 90px,transparent 200px),
+     repeating-conic-gradient(from 0deg at 82% 16%,rgba(255,224,140,.09) 0 6deg,transparent 6deg 15deg),
+     linear-gradient(170deg,#E9915A 0%,#C9674A 25%,#2A6670 60%,var(--sea) 100%)}
+  .figures{gap:10px}
+  .figures div{min-width:0;padding:6px 10px}
+  .figures b{font-size:30px}
+  .wt,.listing{--tilt:-.8deg}.wt:nth-child(even),.listing:nth-child(even){--tilt:.7deg}
+}
