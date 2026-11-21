@@ -33,6 +33,13 @@
       "autoPort": false
     },
     {
+      "name": "travels-view",
+      "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
+      "runtimeArgs": ["-m", "http.server", "8046", "--bind", "127.0.0.1", "--directory", "C:/Users/Jemma/Documents/Travels/site"],
+      "port": 8046,
+      "autoPort": false
+    },
+    {
       "name": "simworld-trial",
       "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
       "runtimeArgs": ["-I", "tools/trial_server.py", "simworld"],

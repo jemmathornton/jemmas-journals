@@ -75,3 +75,28 @@ Screenshots: `for-jemma/concepts/app-styles/built/round2/`.
 21. Should home list all trips?
 22. Distances by place?
 23. Writing from your phone.
+
+## Your answers (21 Nov, late)
+
+**Decided, to do**
+- Footer line 1 on every site: “No cookies, no tracking, no ads. Made with HTML, CSS and JavaScript, kept on GitHub.”
+- Helper-written credits: no preference, left as they are.
+- Pokédex tabs at 1280: one row, smaller text allowed (below 10px).
+- Pokédex “Hide ones I have”: always off when the app opens.
+- Pokédex search: shows everything matching, even with Hide on.
+- Pokédex foil: only once the Shiny box is ticked.
+- Library font: install fontTools and shrink EB Garamond (2.5 MB to about 0.3 MB).
+- Library with no server: read-only, quietly (edit buttons hidden).
+- Travels: remove “Favourite month”; neutral wording instead of “you”; home keeps every trip; total distance on each trip’s page; look into writing from a phone (research only).
+- Sim World: world titles stay as they are (fade + shadow); phone calendar stays as it is.
+
+**Show me both (a Try switch in the running app, opened in the browser)**
+- Home: place cards as now vs widened to the headings. **Reminder: still to check.**
+- Sim World: lot, Sim and household pages with the town-plan look. **Reminder: on the to-do list.**
+- Sim World: the italic name in the bar, purple vs gold.
+- Library: big first letter after a quote mark, skipped vs kept.
+- Library: Display shelf card green vs matching the others.
+- Pokédex: Lucky box, white vs dark text.
+- Pokédex: card art, region colour vs type colour.
+
+**Parked:** home pictures, Introduction words and place lines.
