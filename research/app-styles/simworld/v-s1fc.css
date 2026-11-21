@@ -52,7 +52,7 @@ body{background:var(--paper)}
   background:linear-gradient(#fff,#fff) center/100% 1.5px no-repeat;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
 /* inner banner: the map with a faint plot overlay and a single frame */
 .hero.mapped{border-bottom:0}
-.hero.mapped::before{display:block;inset:0;width:auto;-webkit-mask-image:none;mask-image:none;background:{{TOWN_LIGHT}} center/1000px 500px repeat;opacity:.4}
+.hero.mapped::before{display:block;inset:0;width:auto;-webkit-mask-image:none;mask-image:none;background:{{TOWN_LIGHT}} center/1000px 500px repeat;opacity:.18}
 .hero.mapped::after{outline:0;inset:16px;border-color:rgba(255,255,255,.45)}
 .hero.mapped .figures{background:rgba(42,29,64,.45);border-color:rgba(255,255,255,.4)}
 .hero.mapped .figures b{color:#fff}

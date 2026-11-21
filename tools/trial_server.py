@@ -15,9 +15,7 @@ APPS = {
     # app: (her app's site folder, port, [(style file or "", label)])
     "simworld": (r"C:\Users\Jemma\Documents\SimTracker\site", 8044, [
         ("", "Now"),
-        ("s1fa.css", "S1f-a · world colour"),
-        ("s1fb.css", "S1f-b · lot type"),
-        ("s1fc.css", "S1f-c · purple"),
+        ("s1fa.css", "Town plan (your pick)"),
     ]),
 }
 
