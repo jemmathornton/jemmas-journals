@@ -62,8 +62,12 @@ She felt the three apps were too same-y (same sidebar, name style, hero, cards; 
 
 Repo on `main`, pushed to https://github.com/jemmathornton/jemmas-journals (**public**). Commit after each piece of work and push with `git -c "credential.helper=!'C:/Program Files/GitHub CLI/gh.exe' auth git-credential" push`. Name and email are set in this repo’s own git config (copied from her Library project).
 
-## To do / remind her (21 Nov, late)
+## Her picks after the second review (21 Nov, late)
 
-Her answers to the second review are in `for-jemma/review-2-21-nov.md` (“Your answers”). Remind her of these until checked:
-- **Home:** place cards as now vs widened to the headings (show both in the running page).
-- **Sim World:** lot, Sim and household pages in the town-plan look (show options in Sim World).
+Answers in `for-jemma/review-2-21-nov.md`. All built and the Try switches removed:
+- **Home:** the four places span the full width, lined up with the headings.
+- **All sites:** footer line 1 “Made with HTML, CSS and JavaScript, kept on GitHub.” (family rule updated).
+- **Sim World:** town-plan look on lot, Sim and household pages; “Sim World” in the sidebar purple.
+- **Library:** Display shelf walnut brown (was green); big first letter kept after a quote mark; EB Garamond shrunk to WOFF2; read-only without its server. The Library’s “no green” line was removed at her ask (not a rule to keep).
+- **Pokédex:** card art tinted by the first type; Lucky box stays white; tabs one row at 1280 (8.5px floor); Hide off on opening; search ignores Hide; 32px under the chips on Pokémon pages.
+- **Travels:** Favourite month removed; neutral wording; distance on trip pages; phone-writing options in its `research/write-from-phone.md`.
