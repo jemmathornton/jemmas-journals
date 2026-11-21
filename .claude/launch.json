@@ -24,6 +24,12 @@
       "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
       "runtimeArgs": ["-m", "http.server", "8043", "--bind", "127.0.0.1", "--directory", "for-jemma/concepts/app-styles"],
       "port": 8043
+    },
+    {
+      "name": "simworld-trial",
+      "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
+      "runtimeArgs": ["-I", "tools/trial_server.py", "simworld"],
+      "port": 8044
     }
   ]
 }
