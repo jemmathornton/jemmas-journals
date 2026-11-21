@@ -39,7 +39,7 @@
 :root[data-mode="dark"] .cover h1{outline-color:rgba(243,235,218,.22)}
 :root[data-mode="dark"] .cover h1 em{color:var(--gold)}
 :root[data-mode="dark"] .c{background:#F3EBDA;box-shadow:0 1px 2px rgba(0,0,0,.6)}
-:root[data-mode="dark"] .snap,:root[data-mode="dark"] .v2 .intro .mount{box-shadow:0 14px 30px -14px rgba(0,0,0,.9),0 0 0 1px rgba(243,235,218,.08)}
+:root[data-mode="dark"] .snap{box-shadow:0 14px 30px -14px rgba(0,0,0,.9),0 0 0 1px rgba(243,235,218,.08)}
 
 *{box-sizing:border-box}
 html{background:var(--bg);scroll-behavior:smooth}
@@ -53,7 +53,6 @@ p{text-wrap:pretty}   /* no lonely last word on a line */
 svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:1.75;stroke-linecap:round;stroke-linejoin:round}
 :focus-visible{outline:2px solid var(--acc);outline-offset:3px;border-radius:4px}
 .gut{padding-left:max(var(--g),env(safe-area-inset-left,0px));padding-right:max(var(--g),env(safe-area-inset-right,0px))}
-.lab{font:700 11px/1.2 var(--body);letter-spacing:.16em;text-transform:uppercase}
 .wrap{max-width:1160px;margin:0 auto}
 .skip{position:absolute;left:-999px;top:10px;z-index:100;padding:10px 16px;border-radius:8px;background:var(--label);color:var(--label-ink);font-weight:700;text-decoration:none}
 .skip:focus{left:max(var(--g),env(safe-area-inset-left,0px))}
@@ -64,10 +63,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
     radial-gradient(110% 120% at 30% 0%,color-mix(in srgb,var(--cover) 82%,var(--cover-hi,#4a5a8a)),var(--cover) 60%,color-mix(in srgb,var(--cover) 80%,#000));
   box-shadow:inset 0 -2px 0 rgba(0,0,0,.25),0 18px 30px -22px rgba(0,0,0,.7)}
 .cover::before{content:"";position:absolute;inset:16px var(--frame);border:1.5px solid color-mix(in srgb,var(--deco,var(--gold)) 50%,transparent);border-radius:4px;pointer-events:none}
-.mode{position:absolute;z-index:6;top:calc(30px + env(safe-area-inset-top,0px));right:calc(var(--frame) + 14px);width:38px;height:38px;border-radius:50%;border:1px solid color-mix(in srgb,var(--deco,var(--gold)) 40%,transparent);background:none;display:grid;place-items:center;cursor:pointer;color:var(--deco,var(--gold))}
-.mode:hover{border-color:var(--gold)}
-.mode:focus-visible{outline-color:var(--gold)}
-.mode svg.i{width:17px;height:17px}
 /* the dark mode button sits in the footer beside Back to top (her pick, 20 Nov: keep the header clean) */
 .mode-text{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:4px 2px;font:700 13px var(--body);color:var(--acc);cursor:pointer}
 .mode-text svg.i{width:14px;height:14px}
@@ -81,17 +76,12 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 
 /* ---- Introduction (was About me) */
 .intro{display:grid;grid-template-columns:180px minmax(0,1fr);gap:28px 48px;align-items:center;max-width:900px;margin:clamp(56px,6vw,80px) auto 0}
-.intro .photo{aspect-ratio:1;border-radius:50%;border:2px dashed color-mix(in srgb,var(--ink) 28%,transparent);color:var(--mute);display:grid;place-content:center;justify-items:center;gap:6px;font-size:12px;font-weight:700;
-  box-shadow:0 0 0 6px var(--bg),0 0 0 7.5px color-mix(in srgb,var(--acc) 60%,transparent)}
-.intro .photo svg.i{width:24px;height:24px}
-.intro .lab{display:block;color:var(--acc);margin-bottom:12px}
 .intro p{font:400 clamp(22px,2.2vw,27px)/1.45 var(--display)}
 .ph{color:var(--mute);font-style:italic}
 .ph-tag{display:inline-block;font:700 10px/1 var(--body);letter-spacing:.08em;text-transform:uppercase;padding:4px 7px;border-radius:99px;border:1px dashed var(--mute);color:var(--mute);vertical-align:middle;margin-left:8px;font-style:normal}
 
 /* ---- Contents: the places */
 .sec{display:flex;align-items:center;gap:16px;margin:clamp(56px,6vw,80px) 0 34px}
-.sec .lab{color:var(--acc)}
 .sec i{flex:1;height:1px;background:var(--line)}
 /* the places: three to a row; as more are added the rows stay tidy (4 = 2×2, 5 = 3 + 2 centred, 6 = 3 + 3) */
 .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:52px 40px}
@@ -129,7 +119,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .foot{margin-top:clamp(72px,8vw,110px);border-top:1px solid var(--line)}
 .foot .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:8px 24px;flex-wrap:wrap;padding-block:26px 150px;font-size:12px;color:var(--mute)}
 .foot b{font:400 20px/1 var(--display);color:var(--ink)}
-.credits span+span::before{content:" · "}
 .totop{display:none}
 
 /* ================================================================ Improved (v2): refinements to try, beside "As now" */
@@ -144,7 +133,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .v2 .cover .cn.tr::after{top:5px;right:5px;border-top:1px solid;border-right:1px solid}
 .v2 .cover .cn.bl::after{bottom:5px;left:5px;border-bottom:1px solid;border-left:1px solid}
 .v2 .cover .cn.br::after{bottom:5px;right:5px;border-bottom:1px solid;border-right:1px solid}
-.v2 .mode{top:calc(46px + env(safe-area-inset-top,0px));right:calc(var(--frame) + 46px)}
 /* section headings: a proper heading with a gold diamond rule, like a chapter title */
 .v2 .h2{display:flex;align-items:center;gap:16px;flex:1}
 .v2 .sec{display:flex}
@@ -155,8 +143,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 /* Introduction */
 .v2 .intro{grid-template-columns:minmax(0,1fr);align-items:start;max-width:none}   /* words only, no photo (her ask, 20 Nov); lines up with Contents */
 .v2 .intro p{max-width:780px}
-.v2 .intro .mount{position:relative;display:block;aspect-ratio:4/5;background:var(--mat);padding:12px;box-shadow:0 14px 30px -18px rgba(0,0,0,.55);transform:rotate(-1.5deg)}
-.v2 .intro .mount .photo{position:absolute;inset:12px;aspect-ratio:auto;border-radius:2px;box-shadow:none;border:2px dashed color-mix(in srgb,var(--ink) 22%,transparent);background:color-mix(in srgb,var(--mat) 92%,var(--ink))}
 .v2 .intro .h2{margin:6px 0 16px}
 .v2 .intro p{color:var(--soft-ink)}
 .v2 .intro p.ph{color:var(--mute)}
@@ -179,7 +165,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .v2 .totop svg.i{width:14px;height:14px}
 
 /* ================================================================ About this site (her pick, 20 Nov: two short lines, small and quiet) */
-.foot .credits{display:none}
 .about-site{max-width:760px;font-size:12.5px;line-height:1.7;color:var(--mute)}
 .about-site .dot{margin:0 3px;color:color-mix(in srgb,var(--acc) 60%,transparent)}
 .about-site.two p{margin:0}
@@ -206,11 +191,8 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 @media (max-width:760px){
   body{font-size:15.5px}
   .cover{padding-block:66px 46px}
-  .mode{top:calc(26px + env(safe-area-inset-top,0px))}
   .cover h1{font-size:40px;padding:.22em .45em .24em;outline-offset:-6px}
   .intro{grid-template-columns:96px minmax(0,1fr);gap:18px 20px;align-items:start}
-  .intro .photo{font-size:10px;box-shadow:0 0 0 4px var(--bg),0 0 0 5.5px color-mix(in srgb,var(--acc) 60%,transparent)}
-  .intro .photo svg.i{width:18px;height:18px}
   .intro p{font-size:20px}
   .cards{gap:44px}
   .cards>.card,.cards:has(>.card:nth-child(4):last-child)>.card{flex-basis:100%}
@@ -218,11 +200,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   .v2 .cover .cn{width:20px;height:20px}
   .v2 .cover .cn::after{width:9px;height:9px}
   .v2 .cover .cn.tl,.v2 .cover .cn.tr{top:22px}.v2 .cover .cn.bl,.v2 .cover .cn.br{bottom:22px}
-  .v2 .mode{top:calc(30px + env(safe-area-inset-top,0px));right:calc(var(--frame) + 34px)}
   .v2 .intro{grid-template-columns:minmax(0,1fr);gap:16px 18px}
-  .v2 .intro .mount{width:104px;padding:7px}
-  .v2 .intro .mount .photo{inset:7px}
-  .v2 .intro .mount .c{width:16px;height:16px}
   .v2 .intro .h2{margin:0 0 10px}
   .v2 .h2 h2{font-size:32px}
   .v2 .card h3{font-size:38px}
