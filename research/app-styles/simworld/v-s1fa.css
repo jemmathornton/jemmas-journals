@@ -1,0 +1,76 @@
+/* S1c · Legend colours — plain paper; each card keyed with its world's colour like a map legend */
+body{background:var(--paper);background-image:none}
+.wt,.listing{--k:var(--c,var(--h));position:relative;padding-top:18px;border-color:color-mix(in srgb,var(--k) 45%,#BDB190);box-shadow:3px 4px 0 color-mix(in srgb,var(--k) 22%,transparent)}
+/* graduated map-edge strip along the top, in the world's colour */
+.wt::before,.listing::before{content:"";position:absolute;left:-1px;right:-1px;top:-1px;height:9px;border:1px solid color-mix(in srgb,var(--k) 70%,#1F2B33);
+  background:repeating-linear-gradient(90deg,var(--k) 0 28px,color-mix(in srgb,var(--k) 35%,#FBF8F0) 28px 56px)}
+.wt .photo.pic::before,.listing .photo::before{display:none}
+.listing .photo.shot::before{display:block;background:linear-gradient(180deg,rgba(0,0,0,.12),transparent 35%,transparent 62%,rgba(0,0,0,.40))}
+/* legend swatch in the badge */
+.photo .type{display:inline-flex;align-items:center;gap:7px}
+.photo .type::before{content:"";width:10px;height:10px;background:var(--k,var(--c,var(--h)));box-shadow:0 0 0 1px rgba(31,43,51,.55)}
+.wt .photo .type{--k:var(--c)}
+.wt h3::before,.listing h3::before{width:13px;height:13px;background:radial-gradient(circle,#FBF8F0 0 2px,var(--k) 2.6px);box-shadow:0 0 0 1px rgba(31,43,51,.3)}
+.wt .meta,.listing .meta{border-top:1px solid color-mix(in srgb,var(--k) 35%,var(--line))}
+.wt.off::before{opacity:.35}
+
+/* S1f · Town plan: street grid and plot outlines instead of atlas cues; Sim World purple as the ink */
+:root{--paper:#F4F2EE;--surface:#FFFFFF;--ink:#2A1D40;--muted:#625A6E;--line:#DCD6E2;--soft:#ECE8F0;--brass:#A47A24;--neat:#6B5A8A;--water:#5B4BB0;--plum:#3D2A5C}
+body{background:var(--paper)}
+/* sidebar: pale drafting sheet with a faint estate plan, purple ink, single rule */
+.side{--nav:#EEEAF2;--on-deep:#2A1D40;--on-deep-mute:#6A6078;background:{{TOWN_SIDE}} 0 0/196px 294px repeat,#EEEAF2;border-right:1px solid var(--neat);box-shadow:none}
+.brand{border-bottom:1px solid rgba(61,42,92,.18)}
+.search input{border-color:#C6BCD3;border-radius:4px}
+.nav a:not(.soon):hover{background:rgba(61,42,92,.07)}
+.nav a.on{background:#fff;box-shadow:inset 0 0 0 1px var(--neat),inset 3px 0 0 var(--plum)}
+.subnav{border-left:1px dashed rgba(61,42,92,.3)}
+/* home banner: an estate plan drawn in purple, fading in from the right; no compass, no scale bar */
+.hero{background:linear-gradient(180deg,#F7F5FA,#EFEBF4);box-shadow:none;border-bottom:1px solid rgba(61,42,92,.35)}
+.hero::before{opacity:1;inset:0 0 0 auto;width:72%;height:auto;right:0;top:0;transform:none;
+  background:{{TOWN}} right -40px top -30px/1000px 512px no-repeat;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 40%);mask-image:linear-gradient(90deg,transparent,#000 40%)}
+.hero:not(.mapped) .hero-foot::after{display:none}
+.kicker i{color:var(--plum)}
+.hero p{color:#4A4057}
+.hero-foot{border-top:1px solid rgba(61,42,92,.18)}
+.figures{border-color:var(--neat);background:rgba(255,255,255,.9);box-shadow:none}
+.figures div{border-left:1px solid rgba(61,42,92,.18)}
+.figures b{color:var(--plum)}
+/* section rule: single line with a purple start */
+.section-head{border-bottom:1px solid rgba(61,42,92,.25);background:linear-gradient(var(--plum),var(--plum)) left bottom/56px 3px no-repeat}
+/* cards: plain white plates with a soft purple-grey edge */
+.wt,.listing{background:#fff}
+.listing{border-color:#CFC7DA;box-shadow:3px 4px 0 rgba(61,42,92,.12)}
+.wt{border-color:color-mix(in srgb,var(--k) 45%,#CFC7DA);box-shadow:3px 4px 0 color-mix(in srgb,var(--k) 18%,transparent)}
+.wt .meta,.listing .meta{border-top:1px dashed var(--line)}
+.listing h3::before{background:radial-gradient(circle,#fff 0 1.7px,var(--plum) 2.2px)}
+.photo .type{border-color:var(--ink);color:var(--ink)}
+/* lot photos: a dashed setback line, and the size as a dimension mark */
+.listing .photo{outline:1px dashed rgba(255,255,255,.65);outline-offset:-9px}
+.photo .size{display:flex;align-items:center;gap:6px;background:none;border:0;color:#fff;padding:0;left:16px;bottom:16px;font:700 11.5px/1 var(--body);letter-spacing:.06em;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.photo .size::before,.photo .size::after{content:"";width:22px;height:9px;border-inline:1.5px solid #fff;
+  background:linear-gradient(#fff,#fff) center/100% 1.5px no-repeat;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5))}
+/* inner banner: the map with a faint plot overlay and a single frame */
+.hero.mapped{border-bottom:0}
+.hero.mapped::before{display:block;inset:0;width:auto;-webkit-mask-image:none;mask-image:none;background:{{TOWN_LIGHT}} center/1000px 500px repeat;opacity:.4}
+.hero.mapped::after{outline:0;inset:16px;border-color:rgba(255,255,255,.45)}
+.hero.mapped .figures{background:rgba(42,29,64,.45);border-color:rgba(255,255,255,.4)}
+.hero.mapped .figures b{color:#fff}
+.chapters a{background:rgba(42,29,64,.4)}
+.credit{color:var(--ink)}
+@media (max-width:900px){
+  .topbar{background:#EEEAF2;color:var(--ink);border-bottom:1px solid var(--neat)}
+  .topbar button{border-color:rgba(61,42,92,.35);color:var(--ink)}
+  .hero::before{width:100%;background-position:right -360px top -40px;opacity:.6}
+}
+
+/* S1f-a/b/c · lot cards on neighbourhood pages built exactly like the home world cards */
+.listings{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:26px 22px}
+.listing{--k:var(--h);padding:18px 8px 14px;gap:10px;border-color:color-mix(in srgb,var(--k) 45%,#CFC7DA);box-shadow:3px 4px 0 color-mix(in srgb,var(--k) 18%,transparent)}
+.listing::before{display:block}
+.listing .photo{aspect-ratio:16/10;outline:0}
+.listing .photo .type::before{display:block}
+.listing h3::before{background:radial-gradient(circle,#FBF8F0 0 1.7px,var(--k) 2.2px);box-shadow:0 0 0 1px rgba(31,43,51,.3)}
+.listing .meta{border-top:1px dashed var(--line)}
+.listing .photo .size::before,.listing .photo .size::after{width:14px}
+.listing .photo .size{left:12px;bottom:13px}

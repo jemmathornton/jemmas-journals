@@ -1,0 +1,11 @@
+
+/* S1f-a/b/c · lot cards on neighbourhood pages built exactly like the home world cards */
+.listings{grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:26px 22px}
+.listing{--k:var(--h);padding:18px 8px 14px;gap:10px;border-color:color-mix(in srgb,var(--k) 45%,#CFC7DA);box-shadow:3px 4px 0 color-mix(in srgb,var(--k) 18%,transparent)}
+.listing::before{display:block}
+.listing .photo{aspect-ratio:16/10;outline:0}
+.listing .photo .type::before{display:block}
+.listing h3::before{background:radial-gradient(circle,#FBF8F0 0 1.7px,var(--k) 2.2px);box-shadow:0 0 0 1px rgba(31,43,51,.3)}
+.listing .meta{border-top:1px dashed var(--line)}
+.listing .photo .size::before,.listing .photo .size::after{width:14px}
+.listing .photo .size{left:12px;bottom:13px}

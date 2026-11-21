@@ -93,7 +93,7 @@ const fill = css => css.replace(/\{\{(\w+)\}\}/g, (_, k) => vars[k]);
 const RES = 'C:/Users/Jemma/Documents/JemmasJournals/research/app-styles/simworld/';
 const base = fs.readFileSync('s1.src.css', 'utf8');
 fs.writeFileSync(RES + 's1.css', fill(base));
-for (const v of ['s1a', 's1b', 's1c', 's1d', 's1e', 's1f', 's1g']) {
+for (const v of ['s1a', 's1b', 's1c', 's1d', 's1e', 's1f', 's1g', 's1fa', 's1fb', 's1fc']) {
   const css = fill(base) + String.fromCharCode(10, 10) + fill(fs.readFileSync('v-' + v + '.css', 'utf8'));
   fs.writeFileSync(v + '.css', css); fs.writeFileSync(RES + v + '.css', css);
 }

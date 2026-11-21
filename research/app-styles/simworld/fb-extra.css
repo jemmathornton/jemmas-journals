@@ -1,0 +1,8 @@
+
+/* S1f-b · strip and square by lot type (colours from the app's own neighbourhood palette, no blues or greens) */
+.listing[data-kind="home"]{--k:#B4573E}
+.listing[data-kind="rental"]{--k:#B98A2E}
+.listing[data-kind="food"]{--k:#AE5578}
+.listing[data-kind="shop"]{--k:#8C7A3A}
+.listing[data-kind="community"]{--k:#6A5A9E}
+.listing[data-kind="other"]{--k:#8A7F76}
