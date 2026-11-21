@@ -61,3 +61,9 @@ She felt the three apps were too same-y (same sidebar, name style, hero, cards; 
 ## Git
 
 Repo on `main`, pushed to https://github.com/jemmathornton/jemmas-journals (**public**). Commit after each piece of work and push with `git -c "credential.helper=!'C:/Program Files/GitHub CLI/gh.exe' auth git-credential" push`. Name and email are set in this repo’s own git config (copied from her Library project).
+
+## To do / remind her (21 Nov, late)
+
+Her answers to the second review are in `for-jemma/review-2-21-nov.md` (“Your answers”). Remind her of these until checked:
+- **Home:** place cards as now vs widened to the headings (show both in the running page).
+- **Sim World:** lot, Sim and household pages in the town-plan look (show options in Sim World).
