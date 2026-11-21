@@ -88,7 +88,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 /* the places: three to a row; as more are added the rows stay tidy (4 = 2×2, 5 = 3 + 2 centred, 6 = 3 + 3) */
 .cards{display:flex;flex-wrap:wrap;justify-content:center;gap:52px 40px}
 .cards>.card{flex:0 0 calc((100% - 80px) / 3)}
-.cards:has(>.card:nth-child(4):last-child){max-width:calc((100% - 80px) / 3 * 2 + 40px);margin-inline:auto}
+/* four places: two to a row across the full width, lined up with the headings (her pick, 21 Nov) */
 .cards:has(>.card:nth-child(4):last-child)>.card{flex-basis:calc((100% - 40px) / 2)}
 .card{display:flex;flex-direction:column;min-width:0}
 .card h3{font:400 40px/1.05 var(--display);margin-bottom:10px}
@@ -189,7 +189,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 
 @media (prefers-reduced-motion: reduce){*{transition:none!important} html{scroll-behavior:auto}}
 
-@media (max-width:900px){ .cards>.card,.cards:has(>.card:nth-child(4):last-child)>.card{flex-basis:calc((100% - 40px) / 2)} .cards:has(>.card:nth-child(4):last-child){max-width:none} }
+@media (max-width:900px){ .cards>.card,.cards:has(>.card:nth-child(4):last-child)>.card{flex-basis:calc((100% - 40px) / 2)} }
 @media (max-width:760px){
   body{font-size:15.5px}
   .cover{padding-block:66px 46px}
@@ -317,21 +317,3 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   });
 })();
 </script>
-<!-- TRIAL (21 Nov, temporary): place-card width, while she chooses. Remove this whole block after her pick. -->
-<style>
-.cards.wide:has(>.card:nth-child(4):last-child){max-width:none}
-#try{position:fixed;right:16px;bottom:16px;z-index:50;display:flex;gap:4px;align-items:center;padding:6px;border-radius:10px;background:var(--bg);border:1px solid var(--line);box-shadow:0 8px 24px -10px rgba(0,0,0,.5);font:600 13px/1 "Manrope",system-ui,sans-serif;color:var(--ink)}
-#try span{padding:0 6px;color:var(--mute)}
-#try button{font:inherit;padding:8px 12px;border-radius:7px;border:1px solid var(--line);background:none;color:var(--ink);cursor:pointer;min-height:36px}
-#try button[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:var(--bg)}
-</style>
-<div id="try" role="group" aria-label="Try: place cards"><span>Try · cards</span><button type="button" data-w="0" aria-pressed="true">As now</button><button type="button" data-w="1" aria-pressed="false">Widened</button></div>
-<script>
-(function(){
-  var cards=document.querySelector('.cards'), bs=document.querySelectorAll('#try button');
-  function set(w){ cards.classList.toggle('wide', w==='1'); bs.forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.w===w ? 'true':'false'); }); try{ sessionStorage.setItem('jj-try-cards', w); }catch(e){} }
-  bs.forEach(function(b){ b.addEventListener('click', function(){ set(b.dataset.w); }); });
-  var s='0'; try{ s=sessionStorage.getItem('jj-try-cards')||'0'; }catch(e){} set(s);
-})();
-</script>
-<!-- /TRIAL -->
