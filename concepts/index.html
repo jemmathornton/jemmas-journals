@@ -58,6 +58,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .skip:focus{left:max(var(--g),env(safe-area-inset-left,0px))}
 
 /* ---- the banner: a navy cloth journal cover with a title label */
+.cover:focus{outline:none}
 .cover{position:relative;padding-block:clamp(54px,6vw,84px) clamp(50px,5.4vw,72px);text-align:center;
   background:repeating-linear-gradient(0deg,rgba(255,255,255,.018) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(0,0,0,.035) 0 1px,transparent 1px 3px),
     radial-gradient(110% 120% at 30% 0%,color-mix(in srgb,var(--cover) 82%,var(--cover-hi,#4a5a8a)),var(--cover) 60%,color-mix(in srgb,var(--cover) 80%,#000));
@@ -68,7 +69,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .mode-text svg.i{width:14px;height:14px}
 .mode-text:hover{text-decoration:underline;text-underline-offset:3px}
 .foot-links{display:flex;gap:26px;justify-content:center;align-items:center;flex-wrap:wrap;margin-top:6px}
-.v2 .foot-links .totop,.v2 .foot-links .mode-text{margin:0;padding:4px 2px;font:700 13px/1 var(--body);gap:6px}
+.v2 .foot-links .totop,.v2 .foot-links .mode-text{margin:0;padding:4px 2px;min-height:44px;font:700 13px/1 var(--body);gap:6px}
 .foot-links .mode-text svg.i,.foot-links .totop svg.i{width:14px;height:14px}
 .cover h1{display:inline-block;font:400 clamp(44px,6.6vw,96px)/1 var(--display);letter-spacing:-.025em;background:var(--label);color:var(--label-ink);padding:.2em .5em .22em;border-radius:4px;
   box-shadow:0 10px 24px -12px rgba(0,0,0,.7);outline:1.5px solid rgba(41,34,27,.32);outline-offset:-8px}
@@ -117,7 +118,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .pic.blank{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--pc) 88%,#fff) 0 14px,var(--pc) 14px 28px)}
 
 .foot{margin-top:clamp(72px,8vw,110px);border-top:1px solid var(--line)}
-.foot .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:8px 24px;flex-wrap:wrap;padding-block:26px 150px;font-size:12px;color:var(--mute)}
+.foot .wrap{display:flex;justify-content:space-between;align-items:baseline;gap:8px 24px;flex-wrap:wrap;padding-block:26px 56px;font-size:12px;color:var(--mute)}
 .foot b{font:400 20px/1 var(--display);color:var(--ink)}
 .totop{display:none}
 
@@ -247,7 +248,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
     if(q.wall) return '<span class="pic" role="img" aria-label="'+esc(q.alt)+'"><span class="wall">'+WALL+'</span></span>';
     return '<span class="pic'+(q.map?' map':'')+'"><img class="bg" src="'+q.img+'" alt="'+esc(q.alt||'')+'" loading="lazy" decoding="async"></span>';
   }
-  function aboutPlace(p){ return p.about ? '<p>'+esc(p.about)+'</p>' : '<p class="ph">A line or two about '+(p.demo?'it':esc(p.name))+', in your own words.</p>'; }
+  function aboutPlace(p){ return p.about ? '<p>'+esc(p.about)+'</p>' : '<p class="ph">A line or two about '+(p.demo?'it':esc(p.name))+', in your own words.<span class="ph-tag">Placeholder</span></p>'; }
   var CORNERS='<span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>';
   function h2(text,id){ return '<div class="h2"><h2'+(id?' id="'+id+'"':'')+'>'+text+'</h2><span class="rule"><i></i><b></b></span></div>'; }
 
@@ -261,9 +262,9 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   var DOT='<span class="dot" aria-hidden="true">·</span>';
   function aboutSite(){
     return '<div class="about-site two"><p>No cookies, no tracking, no ads. Made with plain HTML and CSS, kept on GitHub.</p>'
-      +'<p>'+['World maps by 20th Century Plumbob','Region maps from the Pokémon games','Book covers from their publishers','Fonts: Instrument Serif and Manrope','Icons by Lucide'].map(function(t){ return '<span class="cr">'+t+'</span>'; }).join(' '+DOT+' ')+'</p></div>';
+      +'<p>'+['World maps by 20th Century Plumbob','Region maps from the Pokémon games','Country shapes from Natural Earth','Book covers from their publishers','Fonts: Instrument Serif and Manrope','Icons by Lucide'].map(function(t){ return '<span class="cr">'+t+'</span>'; }).join(' '+DOT+' ')+'</p></div>';
   }
-  function applyMode(){ root.setAttribute('data-mode', userMode);
+  function applyMode(){ root.setAttribute('data-mode', userMode); var tc=document.querySelector('meta[name="theme-color"]'); if(tc) tc.setAttribute('content', userMode==='dark' ? '#6A4A17' : '#8E6520');
     document.querySelectorAll('link[rel="icon"][data-dark]').forEach(function(l){ if(!l.dataset.light) l.dataset.light=l.getAttribute('href'); l.setAttribute('href', userMode==='dark' ? l.dataset.dark : l.dataset.light); });   // the tab icon flips with the page
   }
   applyMode();
@@ -273,7 +274,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
     var list=PLACES.concat(EXTRA.slice(0,more)), dark=userMode==='dark';
     var MODETEXT='<button type="button" class="mode-text" data-mode-btn aria-pressed="'+dark+'">'+ico(dark?'sun':'moon')+(dark?'Light mode':'Dark mode')+'</button>';
     var h='<a class="skip" href="#contents">Skip to contents</a>'
-      +'<header class="cover gut"><span class="cn tl"></span><span class="cn tr"></span><span class="cn bl"></span><span class="cn br"></span>'
+      +'<header class="cover gut" id="top" tabindex="-1"><span class="cn tl"></span><span class="cn tr"></span><span class="cn bl"></span><span class="cn br"></span>'
       +'<div class="wrap"><h1>Jemma’s <em>Journals</em></h1></div>'
       +'</header>'
       +'<main class="gut"><div class="wrap">';
@@ -293,7 +294,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
       +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b>'+aboutSite()
       +'<div class="foot-links"><a class="totop" href="#top" data-top>'+ico('arrow-up')+'Back to top</a>'+MODETEXT+'</div>'+'</div></footer>';
     var page=document.getElementById('page'); page.className='v2'+(firstRender?' i-enter':''); firstRender=false; page.innerHTML=h;
-    if(more===3) mb.textContent='Showing 6 places · back to 3';
   }
   // title on scroll: show the slim bar once the banner has scrolled out of sight
   render();
@@ -301,7 +301,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   var toast=document.getElementById('toast'), t;
   function say(m){ toast.textContent=m; toast.hidden=false; clearTimeout(t); t=setTimeout(function(){ toast.hidden=true; },1800); }
   document.addEventListener('click',function(e){
-    if(e.target.closest('[data-top]')){ e.preventDefault(); window.scrollTo(0,0); return; }
+    if(e.target.closest('[data-top]')){ e.preventDefault(); window.scrollTo(0,0); var t=document.getElementById('top'); if(t) t.focus({preventScroll:true}); return; }
     if(e.target.closest('[data-mode-btn]')){
       userMode = userMode==='dark' ? 'light' : 'dark';
       try{ localStorage.setItem('jj-mode2',userMode); }catch(err){}

@@ -114,6 +114,11 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
         const six = await page.evaluate(() => { const ys = [...document.querySelectorAll('.card')].map(c => Math.round(c.getBoundingClientRect().top)); return { first: ys.filter(y => y === ys[0]).length, rows: new Set(ys).size }; });
         check(six.first === 3 && six.rows === 2, tag + 'six places sit as 3 + 3');
       }
+      // the most stand-ins (#more3) must still work, and Back to top must move focus to the top (review, 21 Nov)
+      await grow(3);
+      check(await page.evaluate(() => document.querySelectorAll('.card').length) === 7, tag + '#more3 shows seven places');
+      await page.click('[data-top]');
+      check(await page.evaluate(() => document.activeElement && document.activeElement.id === 'top'), tag + 'Back to top moves focus to the top');
       check(errors.length === 0, tag + 'no errors in the browser (' + errors.slice(0, 2).join(' / ') + ')');
       await ctx.close();
     }
