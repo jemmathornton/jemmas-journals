@@ -1,4 +1,4 @@
-# Plan: Jemma’s Journals as the parent, the four apps as submodules (21 Nov, not started)
+# Plan: Jemma’s Journals as the parent, the four apps as submodules (21 Nov: done the same night, apart from moving the shared code)
 
 **Her choices (21 Nov):** friendly names `library`, `sim-world`, `pokedex`, `travels` (folders and web addresses); old folders kept for now, untouched; home’s folder renamed from `site/` to `site/` (so `site/family/` for the shared code; every path to `site/` updated, including the apps’ file links home).
 

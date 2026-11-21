@@ -79,4 +79,4 @@ Jemma’s Journals is the **parent**; the apps are **submodules** in it: `librar
 - **Shared test tools:** Node in `.tools/node`, Playwright in `node_modules/` (both git-ignored), moved here from Sim World.
 - **Re-pointed 21 Nov:** the three weekly tasks, the desktop and Start-menu shortcuts and the Library server’s Startup shortcut now use the new folders. The old folders (`Documents\HomeLibrary`, `SimTracker`, `Pokedex`, `Travels`) are kept untouched for now (her choice); delete only with her OK.
 - **After committing in an app:** commit the new version in the parent too (`git add <app>`), and push both.
-- **Still to do:** copy each app’s Claude memory to its new folder; she starts each app’s chats from its new folder.
+- **Claude memory** for each app was copied to its new folder (21 Nov); she starts each app’s chats from its new folder. Repos renamed on GitHub to `sim-world` and `travels` (her ask); old addresses forward.
