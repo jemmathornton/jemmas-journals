@@ -1,0 +1,22 @@
+/* S1c · Legend colours — plain paper; each card keyed with its world's colour like a map legend */
+body{background:var(--paper);background-image:none}
+.wt,.listing{--k:var(--c,var(--h));position:relative;padding-top:18px;border-color:color-mix(in srgb,var(--k) 45%,#BDB190);box-shadow:3px 4px 0 color-mix(in srgb,var(--k) 22%,transparent)}
+/* graduated map-edge strip along the top, in the world's colour */
+.wt::before,.listing::before{content:"";position:absolute;left:-1px;right:-1px;top:-1px;height:9px;border:1px solid color-mix(in srgb,var(--k) 70%,#1F2B33);
+  background:repeating-linear-gradient(90deg,var(--k) 0 28px,color-mix(in srgb,var(--k) 35%,#FBF8F0) 28px 56px)}
+.wt .photo.pic::before,.listing .photo::before{display:none}
+.listing .photo.shot::before{display:block;background:linear-gradient(180deg,rgba(0,0,0,.12),transparent 35%,transparent 62%,rgba(0,0,0,.40))}
+/* legend swatch in the badge */
+.photo .type{display:inline-flex;align-items:center;gap:7px}
+.photo .type::before{content:"";width:10px;height:10px;background:var(--k,var(--c,var(--h)));box-shadow:0 0 0 1px rgba(31,43,51,.55)}
+.wt .photo .type{--k:var(--c)}
+.wt h3::before,.listing h3::before{width:13px;height:13px;background:radial-gradient(circle,#FBF8F0 0 2px,var(--k) 2.6px);box-shadow:0 0 0 1px rgba(31,43,51,.3)}
+.wt .meta,.listing .meta{border-top:1px solid color-mix(in srgb,var(--k) 35%,var(--line))}
+.wt.off::before{opacity:.35}
+
+/* S1e · lot cards on neighbourhood pages: plain plates, no world-colour keys (all one world) */
+.listing{padding-top:8px;border-color:#BDB190;box-shadow:3px 4px 0 rgba(140,127,94,.22)}
+.listing::before{display:none}
+.listing .photo .type::before{display:none}
+.listing h3::before{background:radial-gradient(circle,#FBF8F0 0 1.7px,var(--ink) 2.2px);box-shadow:none}
+.listing .meta{border-top:1px dashed var(--line)}

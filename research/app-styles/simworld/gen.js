@@ -46,12 +46,44 @@ function postmark(col) {
   for (const y of [21, 30, 39]) { let d = `M14,${y}`; for (let x = 14; x < 80; x += 12) d += ` q6,-4 12,0`; s += `<path d='${d}' stroke-width='1.8'/>`; }
   return s + `</g></svg>`;
 }
+
+// --- town / estate plan: streets, blocks split into plots, a few house footprints, a crescent and a cul-de-sac
+function townplan(col, W, H, seed, opts = {}) {
+  let s = seed; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+  const sw = opts.street || 20, xs = opts.xs, ys = opts.ys;
+  let out = `<svg xmlns='http://www.w3.org/2000/svg' width='${W}' height='${H}' viewBox='0 0 ${W} ${H}'><g fill='none' stroke='${col}' stroke-width='1'>`;
+  // street edges
+  for (const y of ys) out += `<path d='M0,${y}H${W}M0,${y + sw}H${W}'/>`;
+  for (const x of xs) out += `<path d='M${x},0V${H}M${x + sw},0V${H}'/>`;
+  const bx = [-sw, ...xs, W], by = [-sw, ...ys, H];
+  for (let i = 0; i < bx.length - 1; i++) for (let j = 0; j < by.length - 1; j++) {
+    const x0 = bx[i] + sw + 6, x1 = bx[i + 1] - 6, y0 = by[j] + sw + 6, y1 = by[j + 1] - 6;
+    if (x1 - x0 < 60 || y1 - y0 < 50) continue;
+    const mid = (y0 + y1) / 2;
+    for (const [ya, yb, front] of [[y0, mid, 'top'], [mid, y1, 'bottom']]) {
+      let x = x0;
+      while (x < x1 - 30) {
+        const w = Math.min(x1 - x, 34 + Math.floor(rnd() * 40));
+        out += `<rect x='${x.toFixed(1)}' y='${ya.toFixed(1)}' width='${w.toFixed(1)}' height='${(yb - ya).toFixed(1)}'/>`;
+        if (rnd() < .55) { const hw = w * (.45 + rnd() * .2), hh = (yb - ya) * (.35 + rnd() * .15), hx = x + (w - hw) / 2, hy = front === 'top' ? ya + 7 : yb - 7 - hh;
+          out += `<rect x='${hx.toFixed(1)}' y='${hy.toFixed(1)}' width='${hw.toFixed(1)}' height='${hh.toFixed(1)}' fill='${col}' fill-opacity='.35'/>`; }
+        x += w;
+      }
+    }
+  }
+  if (opts.crescent) { const [cx, cy, r] = opts.crescent; out += `<circle cx='${cx}' cy='${cy}' r='${r}'/><circle cx='${cx}' cy='${cy}' r='${r - sw}'/>`;
+    for (let a = 0; a < 360; a += 30) { const t = a * Math.PI / 180; out += `<path d='M${(cx + Math.cos(t) * r).toFixed(1)},${(cy + Math.sin(t) * r).toFixed(1)}L${(cx + Math.cos(t) * (r + 46)).toFixed(1)},${(cy + Math.sin(t) * (r + 46)).toFixed(1)}'/>`; } }
+  return out + `</g></svg>`;
+}
 const vars = {
   CONTOURS: enc(contours('rgba(122,98,52,.30)')),
   CONTOURS_LIGHT: enc(contours('rgba(255,255,255,.22)')),
   COMPASS: enc(compass('#2C3A42')),
   CONTOURS_SEPIA: enc(contours('rgba(92,62,30,.34)')),
   COMPASS_SEPIA: enc(compass('#4A3420')),
+  TOWN: enc(townplan('rgba(61,42,92,.26)', 1600, 820, 7, { xs: [150, 420, 700, 980, 1260], ys: [110, 330, 560], street: 18, crescent: [1130, 720, 80] })),
+  TOWN_LIGHT: enc(townplan('rgba(255,255,255,.30)', 1400, 700, 11, { xs: [260, 600, 940, 1250], ys: [150, 420], street: 24 })),
+  TOWN_SIDE: enc(townplan('rgba(61,42,92,.07)', 280, 420, 3, { xs: [140], ys: [130, 300], street: 14 })),
   POSTMARK: enc(postmark('rgba(255,255,255,.88)')),
   POSTMARK_DARK: enc(postmark('rgba(43,36,32,.55)')),
 };
@@ -59,7 +91,7 @@ const fill = css => css.replace(/\{\{(\w+)\}\}/g, (_, k) => vars[k]);
 const RES = 'C:/Users/Jemma/Documents/JemmasJournals/research/app-styles/simworld/';
 const base = fs.readFileSync('s1.src.css', 'utf8');
 fs.writeFileSync(RES + 's1.css', fill(base));
-for (const v of ['s1a', 's1b', 's1c', 's1d']) {
+for (const v of ['s1a', 's1b', 's1c', 's1d', 's1e', 's1f']) {
   const css = fill(base) + String.fromCharCode(10, 10) + fill(fs.readFileSync('v-' + v + '.css', 'utf8'));
   fs.writeFileSync(v + '.css', css); fs.writeFileSync(RES + v + '.css', css);
 }

@@ -1,0 +1,7 @@
+
+/* S1e · lot cards on neighbourhood pages: plain plates, no world-colour keys (all one world) */
+.listing{padding-top:8px;border-color:#BDB190;box-shadow:3px 4px 0 rgba(140,127,94,.22)}
+.listing::before{display:none}
+.listing .photo .type::before{display:none}
+.listing h3::before{background:radial-gradient(circle,#FBF8F0 0 1.7px,var(--ink) 2.2px);box-shadow:none}
+.listing .meta{border-top:1px dashed var(--line)}

@@ -41,8 +41,8 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\SimT
 
 She felt the three apps were too same-y (same sidebar, name style, hero, cards; only colour differs). Mock-ups (pictures only, apps unchanged) in `for-jemma/concepts/app-styles/`, compared with `compare.html` (launch config `app-styles`, port 8043); the CSS is in `research/app-styles/`.
 - **Library: L1 · Bound book**, as mocked, no notes (cloth-bound sidebar with gilt rules, paper pages with a gutter, title-page banner with a plate of covers, ornaments, book-face reading text; needs EB Garamond). Also gives the Library a phone layout (sidebar as a top band).
-- **Sim World: S1 · Map** is the direction, not final: grid/contour lines only on the sidebar and banner, plain paper behind the cards. Variants S1a–S1d mocked (plain paper, atlas plates, legend colours, old atlas); her pick pending.
-- **Pokédex: a mix**: P1’s collector’s cards (Pokémon, regions, other cards) + P2’s binder gap between sidebar and page (no metal rings/silver) + P2’s index tabs hanging from the banner. Mocked as P3 (cards in a binder) and P4 (same, quieter plain cover, wider gap); her pick pending.
+- **Sim World: S1 · Map** is the direction, not final: grid/contour lines only on the sidebar and banner, plain paper behind the cards. Variants S1a–S1d mocked; she liked S1c’s home but not the repeated colour on neighbourhood pages, and Sim World must not look like her new Travels site (world maps, pale blue/green, atlas frames, airmail, postcards, parchment). Then S1e (S1c home, plain inside) and S1f (town plan: street-and-plot lines, lot sizes as plot measurements, Sim World purple). Her pick pending.
+- **Pokédex: a mix**: P1’s collector’s cards (Pokémon, regions, other cards) + P2’s binder gap between sidebar and page (no metal rings/silver) + P2’s index tabs hanging from the banner. She picked **P3 · Cards in a binder**; P3b removes the stitching that crossed the sidebar items (her note). Confirm P3b.
 - Building any of these into the apps is separate work in each app’s own project, with her go-ahead.
 
 ## Where things are

@@ -12,6 +12,10 @@ ROWS = {'first': [
  ('s1b', 'S1b · Atlas plates', 'Plain paper; cards as atlas plates in a thin double rule, no fold lines; names as small spaced captions under the picture.'),
  ('s1c', 'S1c · Legend colours', 'Plain paper; each card keyed in its world’s colour: a map-edge strip along the top, a legend swatch in the badge, a pin in that colour.'),
  ('s1d', 'S1d · Old atlas', 'Sepia and ink: plain parchment main area, aged sidebar and banner with contour lines, cards with a sepia caption band.'),
+], 'plan': [
+ ('s1c', 'S1c · Legend colours (as before)', 'World-colour keys on every card, lot cards included.'),
+ ('s1e', 'S1e · Legend colours, plain inside', 'World-colour keys on the home page only; lot cards on neighbourhood pages are plain plates with map-label names.'),
+ ('s1f', 'S1f · Town plan', 'As S1e, but the sidebar and banner show a faint street and plot plan in Sim World purple; lot sizes as dimension marks, dashed plot lines on lot photos.'),
 ]}
 rows = ROWS[sys.argv[2] if len(sys.argv) > 2 else 'first']
 F = 'C:/Windows/Fonts/'

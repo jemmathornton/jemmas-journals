@@ -48,11 +48,13 @@ var APPS = {
     views: [['Laptop home', function(s){return 'library-'+s+'-laptop-home.jpg';}],['A book’s page', function(s){return 'library-'+s+'-laptop-book-page.jpg';}],['Phone', function(s){return 'library-'+s+'-phone-home.jpg';}, true]] },
   simworld: { name: 'My Sim World',
     styles: [['now','Now','as it is today'],['s1','S1 · Map','atlas paper, legend sidebar, map tiles and pins (grid behind everything)'],['s2','S2 · Postcards','sunset banner, stamps, worlds as postcards'],
-      ['s1a','S1a · Plain paper','Map, with lines only on the sidebar and banner; plain paper behind the cards'],['s1b','S1b · Atlas plates','plain paper; cards as framed atlas plates, small captions'],['s1c','S1c · Legend colours','plain paper; each card keyed in its world’s colour'],['s1d','S1d · Old atlas','sepia and ink; aged sidebar and banner, sepia caption bands']],
+      ['s1a','S1a · Plain paper','Map, with lines only on the sidebar and banner; plain paper behind the cards'],['s1b','S1b · Atlas plates','plain paper; cards as framed atlas plates, small captions'],['s1c','S1c · Legend colours','plain paper; each card keyed in its world’s colour'],['s1d','S1d · Old atlas','sepia and ink; aged sidebar and banner, sepia caption bands'],
+      ['s1e','S1e · Legend colours, plain inside','S1c’s home; neighbourhood pages without the repeated world colour'],['s1f','S1f · Town plan','S1e as a town plan: street-and-plot lines, lot sizes as plot measurements, Sim World’s purple back; nothing like the travel site']],
     views: [['Laptop home', function(s){return 'simworld-'+s+'-home-1600.jpg';}],['A neighbourhood', function(s){return 'simworld-'+s+'-inner-1600.jpg';}],['Phone', function(s){return 'simworld-'+s+'-home-phone.jpg';}, true]] },
   pokedex: { name: 'My Pokédex',
     styles: [['now','Now','as it is today'],['p1','P1 · Collector’s cards','printed cards, foil on shinies, set numbers'],['p2','P2 · Binder','binder cover and rings, clear pockets, empty ones not caught'],
-      ['p3','P3 · Cards in a binder','P1’s cards; P2’s binder gap (no rings) and tabs hanging from the banner'],['p4','P4 · Cards in a binder, quieter cover','as P3, plain red cover, wider gap showing page edges']],
+      ['p3','P3 · Cards in a binder','P1’s cards; P2’s binder gap (no rings) and tabs hanging from the banner'],['p4','P4 · Cards in a binder, quieter cover','as P3, plain red cover, wider gap showing page edges'],
+      ['p3b','P3b · Cards in a binder, sidebar fixed','P3 with no stitching or lines crossing the menu, search or counts']],
     views: [['Laptop home', function(s){return 'pokedex-'+s+'-laptop.jpg';}],['Galar', function(s){return 'pokedex-'+s+'-inner.jpg';}],['Phone top', function(s){return 'pokedex-'+s+'-phone.jpg';}, true],['Phone scrolled', function(s){return 'pokedex-'+s+'-phone-2.jpg';}, true]] }
 };
 var st = { app:'library', view:0, style:0, side:false, full:false };
