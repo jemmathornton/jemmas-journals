@@ -26,7 +26,8 @@ At the bottom of every page, centred, in the site’s own fonts and colours:
 
 - Line 1 is the same words on every site (home’s wording, her pick 20 Nov). If a site isn’t true to it (e.g. it needs a server), say so to her rather than changing the words.
 - Line 2 lists only that site’s real credits, e.g. Library: “Book covers from their publishers · Fonts: Instrument Serif, Manrope and EB Garamond · Icons by Lucide”; Pokédex: “Pokémon pictures and region maps from the Pokémon games · Fonts: Instrument Serif and Manrope · Icons by Lucide”. Check each against what the site actually uses.
-- On phones the credits stack one per line (no “·” at line ends).
+- On phones the credits stack one per line (no “·” at line ends). On wide screens the line must be able to wrap (spaces between the credits) and a “·” must never start or end a line: write each separator as a no-break space before it, `credit&nbsp;· credit`, and use `text-wrap: balance`.
+- Footer text is 12.5px on phones too.
 - **Back to top** scrolls to the top and moves keyboard focus to the top of the page.
 - 12.5px text in the site’s muted colour (at least 4.5:1 contrast in both modes); links/buttons in the site’s accent colour.
 
@@ -34,9 +35,18 @@ At the bottom of every page, centred, in the site’s own fonts and colours:
 
 - **At 900px wide and below**, the sidebar hides and a **slim top bar** appears: on the left a button with the Lucide `menu` icon and the word **“Menu”**, then the site’s name lockup “Jemma’s *X*” (italic second word, a link to that site’s home).
 - **The drawer** slides in from the left over the page, with a dimmed scrim behind. It closes on: choosing a link, Escape, tapping the scrim. The page behind doesn’t scroll while it’s open.
-- **Keyboard:** the button has `aria-expanded` and `aria-controls`; opening moves focus to the first link in the drawer; closing returns focus to the button; while closed the drawer is `inert` (Tab can’t reach it). Crossing the 900px line resets it.
+- **Keyboard:** the button has `aria-expanded` and `aria-controls`; opening moves focus to **the current page’s link in the drawer (Home if the page has none)** — not “← Jemma’s Journals”, so one Enter never leaves the site (her call on Sim World, 21 Nov, now for all); closing by Escape, scrim or a link returns focus to the button (after a link, focus then goes to the page’s main content); while closed the drawer is `inert` (Tab can’t reach it); **while open, everything else (the top bar, skip link and page) is `inert`, so Tab stays inside the drawer**. Crossing the 900px line resets it and puts focus back on the button if it was inside.
+- **Sizes:** the Menu button is at least 44px tall; the name in the bar is the same size on every site (26px).
+- **The scrim** dims the page clearly (black at about 45%), so the drawer stands out on pale sites too.
 - **“← Jemma’s Journals”** stays at the very top of the drawer (and at the top of the sidebar on wide screens).
 - The home site has no sidebar, so no menu.
+
+## 4. Small things every site does the same (added 21 Nov after the second review)
+
+- `<meta name="robots" content="noindex, noai, noimageai">` in every page’s head (her decision, 20 Nov: keep out of search engines and AI).
+- **No fonts or files from other sites** (the footer says “no tracking”): fonts are local copies (Instrument Serif and Manrope are in `Documents/JemmasJournals/concepts/fonts/`, SIL OFL).
+- `data-mode` is always set (`light` or `dark`), and the old per-site mode key is removed once copied to `jj-mode`.
+- The “← Jemma’s Journals” link: at least 24px tall to tap.
 
 ## Checks every site should run
 

@@ -220,14 +220,16 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 (function(){
   // The places. A new one is one more line here. "about" is a line from that app's own home page; null means a space for her words.
   // Pictures are parked for now (her call, 20 Nov): Sim World and Pokédex show a full map until she chooses.
+  // online, all sites share one address: home at the root, each app under its GitHub repo name (research/going-online.md); set HOME_DOMAIN if she buys her own
+  var HOME_DOMAIN='', ONLINE=/github\.io$/.test(location.hostname) || (HOME_DOMAIN && location.hostname===HOME_DOMAIN);
   var PLACES=[
-    {name:"Sim World", title:"My Sim World", pc:"#4E3182", pic:{img:"img/maps/sims-willow-creek.webp", map:true, alt:"Map of Willow Creek"},
+    {name:"Sim World", url:"/sim-tracker/", title:"My Sim World", pc:"#4E3182", pic:{img:"img/maps/sims-willow-creek.webp", map:true, alt:"Map of Willow Creek"},
      about:"Every world in the game, rebuilt one lot at a time. Wander the neighbourhoods, look around the homes and venues, and meet the households who live in them."},
-    {name:"Library", title:"My Library", pc:"#6E4524", pic:{wall:true, alt:"Covers of books from my shelves"},
+    {name:"Library", url:"/library/", title:"My Library", pc:"#6E4524", pic:{wall:true, alt:"Covers of books from my shelves"},
      about:"Every book on the shelves at home, and everything you read."},
-    {name:"Pokédex", title:"My Pokédex", pc:"#7E2530", pic:{img:"img/maps/region-johto-kanto.webp", map:true, alt:"Map of Johto and Kanto"},
+    {name:"Pokédex", url:"/pokedex/", title:"My Pokédex", pc:"#7E2530", pic:{img:"img/maps/region-johto-kanto.webp", map:true, alt:"Map of Johto and Kanto"},
      about:null},
-    {name:"Travels", title:"My Travels", pc:"#1D7A69", pic:{img:"img/maps/travels-map.webp", map:true, alt:"Map of the places on my trips"},
+    {name:"Travels", url:"/jemmas-travels/", title:"My Travels", pc:"#1D7A69", pic:{img:"img/maps/travels-map.webp", map:true, alt:"Map of the places on my trips"},
      about:null}   // added 21 Nov (her yes); the picture is Travels' own map in its chosen Old Atlas look
   ];
   // Only for "More places": stand-ins to show how it grows. Not real places.
@@ -263,7 +265,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   var DOT='<span class="dot" aria-hidden="true">·</span>';
   function aboutSite(){
     return '<div class="about-site two"><p>No cookies, no tracking, no ads. Made with plain HTML and CSS, kept on GitHub.</p>'
-      +'<p>'+['World maps by 20th Century Plumbob','Region maps from the Pokémon games','Country shapes from Natural Earth','Book covers from their publishers','Fonts: Instrument Serif and Manrope','Icons by Lucide'].map(function(t){ return '<span class="cr">'+t+'</span>'; }).join(' '+DOT+' ')+'</p></div>';
+      +'<p>'+['World maps by 20th Century Plumbob','Region maps from the Pokémon games','Country shapes from Natural Earth','Book covers from their publishers','Fonts: Instrument Serif and Manrope','Icons by Lucide'].map(function(t){ return '<span class="cr">'+t+'</span>'; }).join(' '+DOT+' ')+'</p></div>';
   }
   function applyMode(){ root.setAttribute('data-mode', userMode); var tc=document.querySelector('meta[name="theme-color"]'); if(tc) tc.setAttribute('content', userMode==='dark' ? '#6A4A17' : '#8E6520');
     document.querySelectorAll('link[rel="icon"][data-dark]').forEach(function(l){ if(!l.dataset.light) l.dataset.light=l.getAttribute('href'); l.setAttribute('href', userMode==='dark' ? l.dataset.dark : l.dataset.light); });   // the tab icon flips with the page
@@ -286,9 +288,9 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
     list.forEach(function(p){
       var open=p.demo?'it':p.title;   // "Open My Sim World" (her ask, 20 Nov: the link should say My like the heading)
       h+='<article class="card" style="--pc:'+p.pc+'">'
-        +'<a class="snap" href="#" data-open="'+esc(p.demo?'':p.name)+'" aria-label="Open '+esc(open)+'">'+CORNERS+pic(p)+'</a>'
+        +'<a class="snap" href="'+esc(p.url||'#')+'" data-open="'+esc(p.demo?'':p.name)+'" aria-label="Open '+esc(open)+'">'+CORNERS+pic(p)+'</a>'
         +'<h3>'+esc(p.title)+'</h3>'+aboutPlace(p)
-        +'<a class="go" href="#" data-open="'+esc(p.demo?'':p.name)+'">Open '+esc(open)+' '+ico('arrow-right')+'</a></article>';
+        +'<a class="go" href="'+esc(p.url||'#')+'" data-open="'+esc(p.demo?'':p.name)+'">Open '+esc(open)+' '+ico('arrow-right')+'</a></article>';
     });
     h+='</div></div></main>'
       +'<div class="end" aria-hidden="true"><i></i><b></b><i></i></div>'
@@ -309,8 +311,9 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
       applyMode(); render(); document.querySelector('[data-mode-btn]').focus(); return;
     }
     var a=e.target.closest('a[data-open]'); if(!a) return;
+    if(ONLINE && a.getAttribute('href')!=='#') return;   // online, the links go to the apps
     e.preventDefault();
-    say(a.dataset.open ? 'This would open your '+a.dataset.open : 'A new place would go here');
+    say(a.dataset.open ? 'My '+a.dataset.open+' opens here once the sites are online' : 'A new place would go here');
   });
 })();
 </script>
