@@ -9,9 +9,9 @@ Documents\JemmasJournals\        (parent)
   site\                       home page (served at /)
   site\family\                shared code (later: dark mode, footer, Menu drawer, sidebar …), served at /family/
   library\        ← submodule (jemmathornton/library)
-  sim-world\      ← submodule (jemmathornton/sim-tracker)
+  sim-world\      ← submodule (jemmathornton/sim-world)
   pokedex\        ← submodule (jemmathornton/pokedex)
-  travels\        ← submodule (jemmathornton/jemmas-travels)
+  travels\        ← submodule (jemmathornton/travels)
 ```
 
 ## What was checked on her PC (21 Nov)

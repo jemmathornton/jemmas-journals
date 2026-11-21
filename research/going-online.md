@@ -54,6 +54,6 @@ Checked again 21 Nov 2026 (third-party price trackers, so confirm on the registr
 
 1. Rename this repo to `jemmathornton.github.io` (or make a new one with that name) so the home page is the main address.
 2. In each app’s repo, add a small workflow that publishes `site/`, plus the view-only changes above (Pokédex, Library).
-3. Point the home page’s “Open …” links at `/sim-tracker/`, `/library/`, `/pokedex/`.
+3. Point the home page’s “Open …” links at `/library/`, `/sim-world/`, `/pokedex/`, `/travels/` (done 21 Nov).
 4. ~~Add the noindex tag~~ done (her choice, 20 Nov), plus the AI-crawler requests.
 5. Test on `jemmathornton.github.io` first; then add her own address (steps above), which covers all four.

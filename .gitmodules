@@ -4,7 +4,7 @@
 	branch = main
 [submodule "sim-world"]
 	path = sim-world
-	url = https://github.com/jemmathornton/sim-tracker.git
+	url = https://github.com/jemmathornton/sim-world.git
 	branch = main
 [submodule "pokedex"]
 	path = pokedex
@@ -12,5 +12,5 @@
 	branch = main
 [submodule "travels"]
 	path = travels
-	url = https://github.com/jemmathornton/jemmas-travels.git
+	url = https://github.com/jemmathornton/travels.git
 	branch = main
