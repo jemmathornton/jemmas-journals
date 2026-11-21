@@ -70,4 +70,4 @@ Answers in `for-jemma/review-2-21-nov.md`. All built and the Try switches remove
 - **Sim World:** town-plan look on lot, Sim and household pages; “Sim World” in the sidebar purple.
 - **Library:** Display shelf walnut brown (was green); big first letter kept after a quote mark; EB Garamond shrunk to WOFF2; read-only without its server. The Library’s “no green” line was removed at her ask (not a rule to keep).
 - **Pokédex:** card art tinted by the first type; Lucky box stays white; tabs one row at 1280 (8.5px floor); Hide off on opening; search ignores Hide; 32px under the chips on Pokémon pages.
-- **Travels:** Favourite month removed; neutral wording; distance on trip pages; phone-writing options in its `research/write-from-phone.md`.
+- **Travels:** Favourite month removed; neutral wording; distance on trip pages; writing from a phone: option 5, draft on the phone and publish from the PC (her pick; options in its `research/write-from-phone.md`).
