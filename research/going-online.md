@@ -19,6 +19,10 @@ Nothing here is decided: it is research for Jemma to choose from. Prices change;
 
 Roughly £4–8 a year for a `.co.uk`, £8–10 for a `.com` (Porkbun and Cloudflare Registrar list at-cost prices; watch for cheap first years that renew dearer). Not needed: `jemmathornton.github.io` works for free.
 
+Checked again 21 Nov 2026 (third-party price trackers, so confirm on the registrar's own page before buying):
+- **Cloudflare Registrar** supports `.co.uk` and renews at the registry's price with no mark-up; about $5.30 (≈ £4) a year, same on renewal ([Cloudflare: .uk domains](https://www.cloudflare.com/application-services/products/registrar/buy-uk-domains/), [CostGoat](https://costgoat.com/pricing/cloudflare-domains), [DomainOffer](https://domainoffer.net/tld/uk/cloudflare)). It auto-renews by default.
+- **Porkbun**: `.co.uk` first year about $4.66; renewal ranked among the cheapest but the exact figure wasn’t listed ([DomainOffer](https://domainoffer.net/tld/co.uk/porkbun), [Porkbun: renewal prices](https://porkbun.helpscoutdocs.com/article/108-how-to-check-domain-renewal-price)).
+
 ## “Anyone can see it, but not advertised”
 
 - `<meta name="robots" content="noindex">` in each page asks search engines not to list it ([Google](https://developers.google.com/search/docs/crawling-indexing/block-indexing)). It is a request, not privacy: anyone with the link can still open it, and the GitHub repos are public anyway.
@@ -31,10 +35,25 @@ Roughly £4–8 a year for a `.co.uk`, £8–10 for a `.com` (Porkbun and Cloudf
 - **Library:** the Add a book page, phone scanning, and the condition / inscription / signed pickers call her PC’s server (`api/…`). It decides it has a server whenever the page is on `http(s)` (`app.js` line 658: `served = location.protocol.startsWith("http")`), so online it would show those controls and they would fail. Small change: treat only `localhost` as served, and hide the Add a book link (line 373) and the pickers online. Its `manifest.json` and `sw.js` already use `./`, so installing it as an app works under `/library/`. Picture names checked 20 Nov: none differ only by capitals.
 - **Sim World:** no server calls; should work as it is. One thing for her to decide: the Admin pages (At a glance, Progress, Notes) show her own list of things to do and decide (`for-jemma/your-list.md`). Online anyone with the link could read them (the GitHub copy is already public). She may want Admin hidden online. Picture names checked 20 Nov: none differ only by capitals.
 
+## Her direction so far (20 Nov, not final)
+
+- She’d like **her own domain** rather than a `github.io` address; hosting not chosen yet.
+- **Separate repos, no submodules**: one website to visitors, each app still updates on its own when pushed.
+- Already done in readiness: noindex + AI-crawler requests (`concepts/robots.txt`, meta tags), not-found page, share picture, tab icons, and the “← Jemma’s Journals” link in each app (it points at `/`, which is home when all four share one address).
+
+## Own domain on GitHub Pages: the steps (from GitHub’s docs, checked 21 Nov)
+
+1. Buy the domain (see prices above).
+2. In the home site’s repo settings → Pages → Custom domain, enter it; GitHub adds a `CNAME` file. The app repos then appear under it automatically (`yourdomain.co.uk/library/`).
+3. At the registrar, add four **A records** for the bare domain pointing to `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`, and a `www` CNAME to `jemmathornton.github.io` ([GitHub: managing a custom domain](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/managing-a-custom-domain-for-your-github-pages-site)). No wildcard records (they risk someone else claiming the domain).
+4. **Verify** the domain in GitHub’s account settings with the TXT record it gives, and leave that record in place ([GitHub: verifying](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/verifying-your-custom-domain-for-github-pages)).
+5. Tick **Enforce HTTPS** once it becomes available (can take up to 24 hours; if it stays greyed out, look for extra A/AAAA records, or remove and re-add the domain) ([GitHub: HTTPS](https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https), [troubleshooting](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/troubleshooting-custom-domains-and-github-pages)).
+6. Check from her PC with PowerShell: `Resolve-DnsName yourdomain.co.uk` should list the four addresses.
+
 ## Suggested route (Claude’s suggestion, not decided)
 
 1. Rename this repo to `jemmathornton.github.io` (or make a new one with that name) so the home page is the main address.
 2. In each app’s repo, add a small workflow that publishes `site/`, plus the view-only changes above (Pokédex, Library).
 3. Point the home page’s “Open …” links at `/sim-tracker/`, `/library/`, `/pokedex/`.
-4. Add the noindex tag if she’d rather search engines didn’t list it.
-5. Test on `jemmathornton.github.io` first; an own address can be added later and covers all four.
+4. ~~Add the noindex tag~~ done (her choice, 20 Nov), plus the AI-crawler requests.
+5. Test on `jemmathornton.github.io` first; then add her own address (steps above), which covers all four.
