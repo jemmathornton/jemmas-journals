@@ -1,0 +1,16 @@
+[submodule "library"]
+	path = library
+	url = https://github.com/jemmathornton/library.git
+	branch = main
+[submodule "sim-world"]
+	path = sim-world
+	url = https://github.com/jemmathornton/sim-tracker.git
+	branch = main
+[submodule "pokedex"]
+	path = pokedex
+	url = https://github.com/jemmathornton/pokedex.git
+	branch = main
+[submodule "travels"]
+	path = travels
+	url = https://github.com/jemmathornton/jemmas-travels.git
+	branch = main
