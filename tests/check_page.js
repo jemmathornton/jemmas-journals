@@ -103,12 +103,12 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       const shapes = await page.evaluate(() => [...document.querySelectorAll('.card .snap')].map(s => { const b = s.getBoundingClientRect(); return Math.round(b.width / b.height * 100) / 100; }));
       check(shapes.every(x => Math.abs(x - 2) < 0.03), tag + 'every picture is the same landscape shape, 2:1 (' + shapes.join(', ') + ')');
       check(await page.evaluate(() => !document.querySelector('.card .num')), tag + 'no numbers on the journals (her ask, 22 Nov)');
-      // each Style option (temporary, 22 Nov) keeps the same rules: four places, only the photo and Open as links, 2:1 pictures, no sideways scrolling
-      for (const st of ['notebook', 'album', 'field']) {
-        await page.goto(HOST + '#style-' + st, { waitUntil: 'networkidle' }); await page.reload({ waitUntil: 'networkidle' });
-        const t = await page.evaluate(() => ({ cls: document.getElementById('page').className, cards: document.querySelectorAll('.card').length, links: [...document.querySelectorAll('.card')].map(c => [...c.querySelectorAll('a')].map(a => a.className).join(',')),
+      // each Page look (temporary, 22 Nov) keeps the same rules: four journals, only the photo and Open as links, 2:1 pictures, no sideways scrolling
+      for (const st of ['gallery', 'desk', 'bold']) {
+        await page.goto(HOST + '#look-' + st, { waitUntil: 'networkidle' }); await page.reload({ waitUntil: 'networkidle' });
+        const t = await page.evaluate(() => ({ cls: 'look-' + document.documentElement.getAttribute('data-look'), cards: document.querySelectorAll('.card').length, links: [...document.querySelectorAll('.card')].map(c => [...c.querySelectorAll('a')].map(a => a.className).join(',')),
           shapes: [...document.querySelectorAll('.card .snap')].map(s => { const b = s.getBoundingClientRect(); return b.width / b.height; }), sideways: document.documentElement.scrollWidth - document.documentElement.clientWidth }));
-        check(t.cls.includes('style-' + st) && t.cards === 4 && t.links.every(k => k === 'snap,go') && t.shapes.every(x => Math.abs(x - 2) < 0.03) && t.sideways <= 0, tag + 'Style ' + st + ': four places, photo and Open the only links, 2:1 pictures, no sideways scrolling (' + t.sideways + 'px)');
+        check(t.cls === 'look-' + st && t.cards === 4 && t.links.every(k => k === 'snap,go') && t.shapes.every(x => Math.abs(x - 2) < 0.03) && t.sideways <= 0, tag + 'Page look ' + st + ': four journals, photo and Open the only links, 2:1 pictures, no sideways scrolling (' + t.sideways + 'px)');
       }
       await page.goto(HOST, { waitUntil: 'networkidle' }); await page.reload({ waitUntil: 'networkidle' });
       check(r.corners === 4, tag + 'the cover has its four gold corners (Improved)');
@@ -130,7 +130,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       const grow = async n => { await page.goto(HOST + '#more' + n, { waitUntil: 'networkidle' }); await page.reload({ waitUntil: 'networkidle' }); await page.evaluate(() => Promise.all(document.getAnimations().map(a => a.finished))); };
       // TEMPORARY (22 Nov): a Try switch is on the page while she chooses the home options; when it goes, put back the check
       // "no Try switch left on the page": check(await page.evaluate(() => !document.querySelector('.trybox, .sw, [aria-label="Try"], #more')), …)
-      check(await page.evaluate(() => document.getElementById('page').classList.contains('style-cloth') && document.querySelectorAll('.trybox [data-try="style"]').length === 4 && document.querySelectorAll('.trybox [data-try]').length === 4), tag + 'the temporary Try switch (Style only: four options) opens on As now');
+      check(await page.evaluate(() => document.documentElement.getAttribute('data-look') === 'now' && document.querySelectorAll('.trybox [data-try="look"]').length === 4 && document.querySelectorAll('.trybox [data-try]').length === 4), tag + 'the temporary Try switch (Page look only: four options) opens on As now');
       await grow(1);
       const grown = await page.evaluate(() => ({ cards: document.querySelectorAll('.card').length, sideways: document.documentElement.scrollWidth - document.documentElement.clientWidth }));
       check(grown.cards === 5 && grown.sideways <= 0, tag + '"More places" adds a fifth without sideways scrolling');

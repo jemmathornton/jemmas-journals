@@ -29,14 +29,14 @@
   function ico(n){ return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+ICON[n]+'</svg>'; }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
   var WALL=''; for(var n=0;n<72;n++) WALL+='<img src="img/wall/'+String((n*7)%40).padStart(2,'0')+'.webp" alt="" loading="lazy" decoding="async">';
-  // TRY SWITCH (temporary, 22 Nov: she worried the cloth journals look too like the Library; remove with the .trybox CSS once she has picked)
-  // style: cloth (as now) | notebook | album | field (field notes). Each keeps one object per place, in its colour, with its 2:1 picture and its name.
-  var TRY={style:[['cloth','As now'],['notebook','Notebooks'],['album','Album'],['field','Field notes']]};
-  var TRYNAMES={style:'Style'};
-  var tryState={style:'cloth'}, tryHidden=false;
-  function okStyle(v){ return TRY.style.some(function(o){ return o[0]===v; }); }
-  try { var saved=JSON.parse(localStorage.getItem('jj-home-try')||'{}'); if(okStyle(saved.style)) tryState.style=saved.style; tryHidden=!!saved.hidden; } catch(e){}
-  function saveTry(){ try { localStorage.setItem('jj-home-try', JSON.stringify({style:tryState.style,hidden:tryHidden})); } catch(e){} }
+  // TRY SWITCH (temporary, 22 Nov: she kept the journals but felt the page as a whole too like the Library; remove with the .trybox CSS once she has picked)
+  // look: now | gallery | desk | bold, set on <html data-look> (the page's colours and type; the journals stay the same)
+  var TRY={look:[['now','As now'],['gallery','Gallery'],['desk','Desk'],['bold','Bold']]};
+  var TRYNAMES={look:'Page look'};
+  var tryState={look:'now'}, tryHidden=false;
+  function okLook(v){ return TRY.look.some(function(o){ return o[0]===v; }); }
+  try { var saved=JSON.parse(localStorage.getItem('jj-home-try')||'{}'); if(okLook(saved.look)) tryState.look=saved.look; tryHidden=!!saved.hidden; } catch(e){}
+  function saveTry(){ try { localStorage.setItem('jj-home-try', JSON.stringify({look:tryState.look,hidden:tryHidden})); } catch(e){} }
   // every picture the same landscape plate, 2:1 (her pick, 22 Nov): maps cropped to that shape (img/home/frame-*), the Library's wall fills it
   function pic(p){
     if(p.demo||!p.pic) return '<span class="pic blank" style="--pc:'+p.pc+'"></span>';   // no picture yet (a new site from tools/new_site.py): the striped stand-in
@@ -51,7 +51,7 @@
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
   var more=0, root=document.documentElement, userMode=root.getAttribute('data-mode')==='dark'?'dark':'light';   // more: how many stand-in places to add (0–3); the mode was set by the family's mode.js
   location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w;
-    if(/^style-/.test(w) && okStyle(w.slice(6))) tryState.style=w.slice(6);   // e.g. #style-album in the address (for checking; not saved)
+    if(/^look-/.test(w) && okLook(w.slice(5))) tryState.look=w.slice(5);   // e.g. #look-desk in the address (for checking; not saved)
     });
 
   // About this site: two quiet lines (her pick, 20 Nov: option 2, each credit starting with a capital)
@@ -62,12 +62,14 @@
   }
   root.setAttribute('data-mode', userMode);   // #dark / #light in the address (for checking); the theme colour and tab icon follow through family.js (round 4: this page's own copy left the bar colour stuck)
 
+  // the places' colours side by side (used by the Bold look's rule under the title)
+  var PLACES_RULE='linear-gradient(90deg,'+PLACES.map(function(p,i){ var a=(i*100/PLACES.length).toFixed(2), b=((i+1)*100/PLACES.length).toFixed(2); return p.pc+' '+a+'% '+b+'%'; }).join(',')+')';
   var firstRender=true;   // the gentle entrance plays once, when the page first opens
   function render(){
     var list=PLACES.concat(EXTRA.slice(0,more)), dark=root.getAttribute('data-mode')==='dark';
     var MODETEXT='<button type="button" class="mode-text" data-jj-mode aria-pressed="'+dark+'">'+ico(dark?'sun':'moon')+(dark?'Light mode':'Dark mode')+'</button>';
     var h='<a class="skip" href="#contents">Skip to contents</a>'
-      +'<header class="cover gut" id="top" tabindex="-1"><span class="cn tl"></span><span class="cn tr"></span><span class="cn bl"></span><span class="cn br"></span>'
+      +'<header class="cover gut" id="top" tabindex="-1" style="--places:'+PLACES_RULE+'"><span class="cn tl"></span><span class="cn tr"></span><span class="cn bl"></span><span class="cn br"></span>'
       +'<div class="wrap"><h1>Jemma’s <em>Journals</em></h1></div>'
       +'</header>'
       +'<main class="gut"><div class="wrap">';
@@ -86,7 +88,7 @@
       +'<div class="end" aria-hidden="true"><i></i><b></b><i></i></div>'
       +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b>'+aboutSite()
       +'<div class="foot-links"><a class="totop" href="#top" data-jj-top>'+ico('arrow-up')+'Back to top</a>'+MODETEXT+'</div>'+'</div></footer>';
-    var page=document.getElementById('page'); page.className='v2 style-'+tryState.style+(firstRender?' i-enter':''); firstRender=false; page.innerHTML=h;
+    var page=document.getElementById('page'); root.setAttribute('data-look',tryState.look); page.className='v2'+(firstRender?' i-enter':''); firstRender=false; page.innerHTML=h;
   }
   render();
 
