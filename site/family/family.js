@@ -35,7 +35,7 @@
     try { localStorage.setItem("jj-mode", m); } catch (e) {}
     if (root.hasAttribute("data-jj-server-mode")) {   // on her PC: the family server keeps it for every app window
       root.setAttribute("data-jj-server-mode", m);
-      try { fetch("/family/mode", { method: "POST", headers: { "X-Family": "1", "Content-Type": "text/plain" }, body: m }); } catch (e) {}
+      try { fetch("/family/mode", { method: "POST", headers: { "X-Family": "1", "Content-Type": "text/plain" }, body: m, keepalive: true }); } catch (e) {}
     }
     paint(true);
     changeListeners.forEach(function (f) { try { f(m); } catch (e) {} });
@@ -115,6 +115,7 @@
   function menu(o) {
     var button = o.button, drawer = o.drawer, scrim = o.scrim;
     if (!button || !drawer) return null;
+    if (drawer._jjMenu) return drawer._jjMenu;   // set up once: a second call returns the first (round 4: two would open and close at once)
     var narrow = window.matchMedia("(max-width: " + (o.breakpoint || 900) + "px)");
     var isOpen = false;
     var outside = function () { return (typeof o.outside === "function" ? o.outside() : o.outside || []).filter(Boolean); };
@@ -168,7 +169,8 @@
     }
     if (narrow.addEventListener) narrow.addEventListener("change", onWidth); else narrow.addListener(onWidth);
     setInert();
-    return { open: open, close: close, isOpen: function () { return isOpen; }, refresh: setInert };
+    drawer._jjMenu = { open: open, close: close, isOpen: function () { return isOpen; }, refresh: setInert };
+    return drawer._jjMenu;
   }
 
   /* ---------- start ---------- */

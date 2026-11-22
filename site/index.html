@@ -34,13 +34,12 @@ body{margin:0}img{max-width:100%}[hidden]{display:none!important}   /* what the 
   --display:"Instrument Serif","Iowan Old Style","Palatino Linotype",Georgia,serif;
   --body:"Manrope","Segoe UI",system-ui,sans-serif;
   --g:clamp(16px,4vw,56px); --frame:max(calc(var(--g) - 20px),12px);
-  --sw-bg:#FFFFFF; --sw-ink:#1A1F2C; --sw-mute:#6B7280; --sw-line:#E1E4EA; --sw-on:#1A1F2C; --sw-on-ink:#FFFFFF;
   color-scheme:light;
 }
 /* dark only when the button is pressed (her choice: light by default) */
 :root[data-mode="dark"]{
   --bg:#29221B; --ink:#EFE9DE; --soft-ink:#D6CEC1; --mute:#A89F91; --line:#40362B; --acc:#DDB86A; --mat:#E9E2D4; --cover:#6A4A17; --cover-hi:#93702F;
-  --sw-bg:#1E2330; --sw-ink:#ECEEF3; --sw-mute:#9AA1B2; --sw-line:#30364A; --sw-on:#ECEEF3; --sw-on-ink:#151923; color-scheme:dark }
+  color-scheme:dark }
 /* dark mode turns the light things dark (her ask, 20 Nov): the title label and the photo mats go blackish, the photo corners go cream-white */
 :root[data-mode="dark"]{--label:var(--bg); --label-ink:#F3EBDA}   /* same as the page, as the cream label matches the cream page in light */
 :root[data-mode="dark"] .v2{--mat:#0D0A07}   /* warm blacks, to mirror the cream (her ask, 20 Nov) */
@@ -180,7 +179,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .foot .about-site.two{max-width:none}
 .about-site .cr{white-space:nowrap}   /* each credit stays in one piece when the line wraps */
 
-/* ================================================================ Ideas to try for the whole page (switch) */
+/* ================================================================ Whole-page touches she kept (20 Nov) */
 /* stitching round the cover (her pick, 20 Nov) */
 .cover::after{content:"";position:absolute;inset:7px max(calc(var(--frame) - 9px),5px);border:1.5px dashed color-mix(in srgb,var(--deco,var(--gold)) 38%,transparent);border-radius:3px;pointer-events:none}
 /* gentle entrance (her pick, 20 Nov): sections fade up softly once, as the page opens (not for anyone who has reduced motion turned on) */
@@ -265,8 +264,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   function h2(text,id){ return '<div class="h2"><h2'+(id?' id="'+id+'"':'')+'>'+text+'</h2><span class="rule"><i></i><b></b></span></div>'; }
 
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
-  var more=0, root=document.documentElement, userMode='light';   // more: how many stand-in places to add (0–3), to show how the page grows
-  try{ var m=localStorage.getItem('jj-mode'); if(m===null){ m=localStorage.getItem('jj-mode2'); if(m) localStorage.setItem('jj-mode',m); } if(m==='dark') userMode='dark'; localStorage.removeItem('jj-mode2'); localStorage.removeItem('jj-foot'); }catch(e){}   // jj-mode: one setting shared by every site in the family (research/family-rules.md)
+  var more=0, root=document.documentElement, userMode=root.getAttribute('data-mode')==='dark'?'dark':'light';   // more: how many stand-in places to add (0–3); the mode was set by the family's mode.js
   location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w;
     });
 
@@ -276,10 +274,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
     return '<div class="about-site two"><p data-jj-line1>No cookies, no tracking, no ads. Made with HTML, CSS and JavaScript, kept on GitHub.</p>'
       +'<p data-jj-credits>'+['World maps by 20th Century Plumbob','Region maps from the Pokémon games','Country shapes from Natural Earth','Book covers from their publishers','Fonts: Instrument Serif and Manrope','Icons by Lucide'].map(function(t){ return '<span class="cr">'+t+'</span>'; }).join(DOT+' ')+'</p></div>';
   }
-  function applyMode(){ root.setAttribute('data-mode', userMode); var tc=document.querySelector('meta[name="theme-color"]'); if(tc) tc.setAttribute('content', userMode==='dark' ? '#6A4A17' : '#8E6520');
-    document.querySelectorAll('link[rel="icon"][data-dark]').forEach(function(l){ if(!l.dataset.light) l.dataset.light=l.getAttribute('href'); l.setAttribute('href', userMode==='dark' ? l.dataset.dark : l.dataset.light); });   // the tab icon flips with the page
-  }
-  applyMode();
+  root.setAttribute('data-mode', userMode);   // #dark / #light in the address (for checking); the theme colour and tab icon follow through family.js (round 4: this page's own copy left the bar colour stuck)
 
   var firstRender=true;   // the gentle entrance plays once, when the page first opens
   function render(){

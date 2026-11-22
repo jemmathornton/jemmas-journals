@@ -89,7 +89,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return super().send_error(403)
         app, inner = self.split()
         if app and self.path.split('?', 1)[0] == '/' + app:   # /pokedex → /pokedex/ so the page's own links work
-            self.send_response(301); self.send_header('Location', '/' + app + '/'); self.end_headers(); return
+            query = ('?' + self.path.split('?', 1)[1]) if '?' in self.path else ''
+            self.send_response(301); self.send_header('Location', '/' + app + '/' + query); self.end_headers(); return
         if app and inner.startswith('/api/'):
             return self.forward(app, inner)
         if self.path.split('?', 1)[0] == '/family/mode':
@@ -138,8 +139,9 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             if m not in ('dark', 'light'):
                 return self.reply_text('bad mode', 400)
             os.makedirs(os.path.dirname(MODE_FILE), exist_ok=True)
-            with open(MODE_FILE, 'w', encoding='utf-8') as f:
+            with open(MODE_FILE + '.tmp', 'w', encoding='utf-8') as f:
                 f.write(m)
+            os.replace(MODE_FILE + '.tmp', MODE_FILE)   # written whole, never half
             return self.reply_text(m)
         super().send_error(405)
 
@@ -148,7 +150,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if not port:
             return self.send_error(404)
         query = ('?' + self.path.split('?', 1)[1]) if '?' in self.path else ''
-        body = self.rfile.read(int(self.headers.get('Content-Length') or 0)) if self.command == 'POST' else None
+        try:
+            size = int(self.headers.get('Content-Length') or 0)
+        except ValueError:
+            return super().send_error(400)
+        if size < 0 or size > 64 * 1024 * 1024:   # posts with photos are big, but not this big
+            return super().send_error(413)
+        body = self.rfile.read(size) if self.command == 'POST' else None
         # 127.0.0.1, not localhost: on Windows "localhost" tries ::1 first and waits about 2 s per address (round 3 review)
         req = urllib.request.Request(f'http://127.0.0.1:{port}{inner}{query}', data=body, method=self.command)
         for h in PASS_HEADERS:
@@ -181,6 +189,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
 
 class Server(socketserver.ThreadingMixIn, http.server.HTTPServer):
     daemon_threads = True
+    request_queue_size = 128   # every picture is its own connection; the default 5 refused some under load (round 4 review)
     allow_reuse_address = False   # a second copy must fail to start, not share the port
 
 
