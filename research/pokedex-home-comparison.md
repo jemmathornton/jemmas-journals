@@ -35,3 +35,27 @@ Row **All games page** (her note about an overview between games; HOME’s Games
 3. **A third choice in the switch**: All | HOME | GO, the same page.
 
 The page never lists Pokémon, so the games stay apart.
+
+## What Pokémon HOME has and tracks (read 22 Nov 2026)
+
+Her note: “For home do research online for what's available. Thing like lucky aren't a thing there. Most mon are available for it though.”
+
+**Which Pokémon can be kept in HOME**
+- **Nearly the whole National Pokédex.** Serebii’s list of depositable Pokémon runs in boxes of 30 from #0001 Bulbasaur to **#1025 Pecharunt** (47 standard boxes, with regional forms, female forms, Unown letters, Vivillon patterns, Furfrou trims, Flabébé colours, Pumpkaboo sizes and the other kept forms). Serebii notes “not all forms and Pokémon can be displayed”.
+- **Shiny exceptions** (Serebii’s Shiny boxes): marked “(Not Available)”: the cap Pikachu (Original, Hoenn, Sinnoh, Unova, Kalos, Alola, World), Victini and Battle Bond Greninja; Serebii: if a Pokémon isn’t shown there, “it currently cannot be obtained as Shiny”.
+- **From GO** (Serebii, GO → HOME): one way only. **Cannot be sent:** Mega Evolved and Shadow Pokémon, Gigantamax-capable ones, Pokémon caught in GO Safari Balls, Hyper Trained ones, some costumes and forms (Serebii doesn’t list which), and these species/forms: Armored Mewtwo, Spinda, Origin Dialga and Palkia, Black and White Kyurem, every Zygarde form, Dusk Mane and Dawn Wings Necrozma, Crowned Zacian and Zamazenta, Eternatus. **Forms that change on arrival:** Castform’s weather forms → Normal, Sunshine Cherrim → Overcast, Origin Giratina → Altered, Zen Mode Darmanitan → Standard, Resolute Keldeo → Ordinary, Pirouette Meloetta → Aria, Genesect’s Drives → Normal.
+- **Room** (Nintendo support): Basic plan 30 Pokémon in one box; Premium plan 6,000 in 200 boxes of 30. A living dex needs Premium.
+
+**What HOME’s Pokédex records**
+- One **National Pokédex**, filled when Pokémon are deposited in HOME’s boxes (official features page); it stays filled after a Pokémon leaves, so the Pokédex is “ever registered”, while her chosen meaning, “have it in HOME now”, is about the boxes (a living dex).
+- **Forms:** each form has its entry; Mega Evolution and Gigantamax forms are registered too (official page; Serebii: Gigantamax only if you have that one, battle-only forms once seen). Since 2.0.0 there is also a **Pokédex per connected game**, with completion rewards (shiny Manaphy for Sinnoh, shiny Meltan for Kanto, shiny Meloetta for Paldea, Kitakami and Blueberry; pokemon.com).
+- **Shiny and gender** (Bulbapedia, via search: the page refuses automated reading): depositing a Pokémon with a gender difference registers both genders, except a shiny, which registers only its own gender; a shiny registers both the shiny and the normal entry.
+- **Each entry** shows its forms, its data and the games it is found in; it can be sorted and shown shiny (Serebii’s features page).
+
+**GO’s boxes that are not in HOME at all:** Lucky, 4★ (appraisal), XXL / XXS, Shadow and Purified (Shadow can’t be sent; HOME has no Purified box), Dynamax and Gigantamax as GO uses them (Gigantamax-capable GO Pokémon can’t be sent), Mega (can’t be sent Mega Evolved), costumes and location backgrounds. These stay GO-only.
+
+**HOME’s ticks — my suggestion (not decided):** **Caught** (her “have it in HOME now”) and **Shiny**, on every Pokémon and form HOME keeps (regional forms as Pokémon of their own, her form-by-form list, as in GO); **Female / Male** only where the two look different, as HOME registers them; no Lucky, 4★, XXL/XXS, Shadow, Purified, Dynamax or Mega. Possibly later: Gigantamax and Mega as forms seen in HOME’s Pokédex, and the per-game Pokédexes; her call.
+
+Sources (read 22 Nov 2026): Serebii, [Depositable Pokémon](https://serebii.net/pokemonhome/depositablepokemon.shtml), [National Pokédex](https://serebii.net/pokemonhome/nationalpokedex.shtml), [Features](https://serebii.net/pokemonhome/features.shtml), [Pokémon GO to HOME](https://serebii.net/pokemongo/pokemonhometransfer.shtml); [Pokémon HOME features (official)](https://home.pokemon.com/en-us/features); Nintendo support, [Basic and Premium plans](https://en-americas-support.nintendo.com/app/answers/detail/a_id/48800); pokemon.com news on [shiny Meloetta](https://www.pokemon.com/us/pokemon-news/a-new-pokemon-home-update-and-an-opportunity-to-earn-a-shiny-meloetta) and [shiny Keldeo and Meltan](https://pokemon.com/us/pokemon-news/complete-pokedexes-to-earn-shiny-keldeo-and-shiny-meltan-in-pokemon-home); [Bulbapedia, Pokédex (HOME)](https://bulbapedia.bulbagarden.net/wiki/Pok%C3%A9dex_(HOME)) (search snippet only).
+
+**Changed on the HOME side (22 Nov):** the All games page’s HOME card shows only Pokémon and Shiny (each a Placeholder); HOME’s Home-page ideas never mention Lucky, 4★ or the other GO-only boxes (checked in the tests). No HOME data was made.
