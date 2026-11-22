@@ -96,10 +96,13 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       check(r.openWords === 'Open My Sim World|Open My Library|Open My Pokédex|Open My Travels', tag + 'links say Open My … (' + r.openWords + ')');
       check(r.creditLines === 1 && r.creditCount === 6, tag + 'the credits are shown once, in the footer (' + r.creditLines + ' lines, ' + r.creditCount + ' credits)');
       check(r.sheets.length >= 2 && r.sheets.every(([, n]) => n > 0), tag + 'every stylesheet loaded with its rules, family.css too (' + r.sheets.map(x => x.join(' ')).join(', ') + ')');
-      if (size.viewport.width >= 1280) {   // four places (Travels added 21 Nov): 2 × 2 at full size
-        const four = await page.evaluate(() => { const r = [...document.querySelectorAll('.card')].map(c => c.getBoundingClientRect()); return { first: r.filter(x => Math.round(x.top) === Math.round(r[0].top)).length, rows: new Set(r.map(x => Math.round(x.top))).size, wide: r[0].width > 300 }; });
-        check(four.first === 2 && four.rows === 2 && four.wide, tag + 'four places sit as 2 × 2 at full size (first row ' + four.first + ')');
-      }
+      // the places as journals (her pick, 22 Nov): four in a row on a laptop, two below 1200px, one on phones; every picture the same landscape shape
+      const four = await page.evaluate(() => { const r = [...document.querySelectorAll('.card')].map(c => c.getBoundingClientRect()); return { first: r.filter(x => Math.round(x.top) === Math.round(r[0].top)).length, rows: new Set(r.map(x => Math.round(x.top))).size }; });
+      const perRow = size.viewport.width >= 1200 ? 4 : size.viewport.width > 760 ? 2 : 1;
+      check(four.first === perRow && four.rows === 4 / perRow, tag + 'four journals sit ' + perRow + ' to a row (first row ' + four.first + ', ' + four.rows + ' rows)');
+      const shapes = await page.evaluate(() => [...document.querySelectorAll('.card .snap')].map(s => { const b = s.getBoundingClientRect(); return Math.round(b.width / b.height * 100) / 100; }));
+      check(shapes.every(x => Math.abs(x - 2) < 0.03), tag + 'every picture is the same landscape shape, 2:1 (' + shapes.join(', ') + ')');
+      check(await page.evaluate(() => !document.querySelector('.card .num')), tag + 'no numbers on the journals (her ask, 22 Nov)');
       check(r.corners === 4, tag + 'the cover has its four gold corners (Improved)');
       check(r.entrance, tag + 'the gentle entrance is on when the page opens (her pick, 20 Nov)');
       check(r.stitched === 'dashed', tag + 'the cover has its stitching (her pick, 20 Nov)');
@@ -119,20 +122,24 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       const grow = async n => { await page.goto(HOST + '#more' + n, { waitUntil: 'networkidle' }); await page.reload({ waitUntil: 'networkidle' }); await page.evaluate(() => Promise.all(document.getAnimations().map(a => a.finished))); };
       // TEMPORARY (22 Nov): a Try switch is on the page while she chooses the home options; when it goes, put back the check
       // "no Try switch left on the page": check(await page.evaluate(() => !document.querySelector('.trybox, .sw, [aria-label="Try"], #more')), …)
-      check(await page.evaluate(() => { const p = document.getElementById('page').classList; return p.contains('pics-now') && p.contains('layout-now') && p.contains('extras-off'); }), tag + 'the temporary Try switch opens on As now');
+      check(await page.evaluate(() => document.getElementById('page').classList.contains('extras-off') && document.querySelectorAll('.trybox [data-try]').length === 2), tag + 'the temporary Try switch (Extras only) opens on Off');
       await grow(1);
       const grown = await page.evaluate(() => ({ cards: document.querySelectorAll('.card').length, sideways: document.documentElement.scrollWidth - document.documentElement.clientWidth }));
       check(grown.cards === 5 && grown.sideways <= 0, tag + '"More places" adds a fifth without sideways scrolling');
       if (size.viewport.width >= 1280) {
-        const five = await page.evaluate(() => { const ys = [...document.querySelectorAll('.card')].map(c => Math.round(c.getBoundingClientRect().top)); const first = ys.filter(y => y === ys[0]).length; const r = [...document.querySelectorAll('.card')].slice(3).map(c => c.getBoundingClientRect()); const mid = (r[0].left + r[r.length-1].right) / 2; return { first, centred: Math.abs(mid - innerWidth / 2) < 40 }; });
-        check(five.first === 3 && five.centred, tag + 'five places sit as 3 + 2, centred');
+        const five = await page.evaluate(() => { const ys = [...document.querySelectorAll('.card')].map(c => Math.round(c.getBoundingClientRect().top)); const first = ys.filter(y => y === ys[0]).length; const r = [...document.querySelectorAll('.card')].slice(4).map(c => c.getBoundingClientRect()); const mid = (r[0].left + r[r.length-1].right) / 2; return { first, centred: Math.abs(mid - innerWidth / 2) < 40 }; });
+        check(five.first === 4 && five.centred, tag + 'five places sit as 4 + 1, centred');
         await grow(2);
         const six = await page.evaluate(() => { const ys = [...document.querySelectorAll('.card')].map(c => Math.round(c.getBoundingClientRect().top)); return { first: ys.filter(y => y === ys[0]).length, rows: new Set(ys).size }; });
-        check(six.first === 3 && six.rows === 2, tag + 'six places sit as 3 + 3');
+        check(six.first === 4 && six.rows === 2, tag + 'six places sit as 4 + 2');
       }
       // the most stand-ins (#more3) must still work, and Back to top must move focus to the top (review, 21 Nov)
       await grow(3);
       check(await page.evaluate(() => document.querySelectorAll('.card').length) === 7, tag + '#more3 shows seven places');
+      if (size.viewport.width >= 1280) {
+        const seven = await page.evaluate(() => { const c = [...document.querySelectorAll('.card')].map(x => x.getBoundingClientRect()); const ys = c.map(x => Math.round(x.top)); const r = c.slice(4); return { first: ys.filter(y => y === ys[0]).length, centred: Math.abs((r[0].left + r[r.length-1].right) / 2 - innerWidth / 2) < 40 }; });
+        check(seven.first === 4 && seven.centred, tag + 'seven places sit as 4 + 3, centred');
+      }
       await page.click('[data-jj-top]');
       check(await page.evaluate(() => document.activeElement && document.activeElement.id === 'top'), tag + 'Back to top moves focus to the top');
       check(errors.length === 0, tag + 'no errors in the browser (' + errors.slice(0, 2).join(' / ') + ')');

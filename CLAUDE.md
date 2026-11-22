@@ -50,13 +50,13 @@ She felt the three apps were too same-y (same sidebar, name style, hero, cards; 
 - **Built into the real apps 21 Nov** (her go-ahead): Library c88a065 (laptop; its own session builds the phone mode), Sim World 978bcd6 + review fixes 926993a, Pokédex 77e18f2 (with a Menu drawer under 900px) + review fixes 1d12ed6.
 - 21 Nov: full critical review of all five sites (incl. Travels) and the family: `research/reviews/`; summary and her open questions: `for-jemma/review-21-nov.md`.
 
-## Home options (22 Nov, open: a temporary Try switch)
+## Home: journals and landscape pictures (22 Nov, her picks)
 
-She felt home was “a bit bland, needs more” and the four pictures didn’t sit together. **A Try switch is on the page now, bottom right, only while she chooses: remove it afterwards** (the TRY SWITCH block at the end of index.html’s style, the switch code in home.js, the unused `site/img/home/` files, and put back the “no Try switch” check in tests/check_page.js). It opens on As now; her picks are kept in localStorage `jj-home-try`; for checking, the address takes `#pics-…--layout-…--extras-on`.
-- **Pictures:** As now · Same frame (each picture cropped to the same 4:3 shape and filling it: Willow Creek, Johto’s cities and mountains, the Atlantic with her Travels pins; Library’s wall) · Site previews (each app’s own home page, screenshot 22 Nov at 1600 light, `img/home/preview-*.webp`; they show the apps’ figures, small) · Tinted (Same frame with a gentle wash of each place’s colour, which lifts on hover).
-- **Layout:** As now · Journals (each place a cloth-bound journal in its colour with spine and stitching, the picture a plate, the name on a cream label, volume numeral) · Feature (first place large beside its words, the rest three to a row) · Side by side (one row each, picture and words alternating left/right, a gold diamond between) · Index (a contents page: numeral in the place’s colour, small plate, dotted leader to Open …).
-- **Extras:** Off · On (chapter numeral with a bar in the place’s colour, Open … in the place’s colour, a drop capital on the Introduction).
-- Record screenshots: `for-jemma/concepts/home-options/` (1600 and 390; `grow7-*` = #more3).
+She felt home was “a bit bland, needs more” and the four pictures didn’t sit together. From a Try switch of pictures (As now / Same frame / Site previews / Tinted) and layouts (As now / Journals / Feature / Side by side / Index) **she picked Journals, with no numbers on the journals, and every picture the same landscape shape** (22 Nov). Built and the other options removed.
+- **Journals:** each place is a cloth-bound journal in its colour (spine, stitching, a page edge), its picture a plate with album corners, its name on a cream label overlapping the plate like the banner’s, its line and “Open …” in cream. Four to a row on a laptop, two below 1200px, one on phones; more places wrap centred (seven = 4 + 3).
+- **Pictures:** one shared shape, 2:1 (close to the Travels and Pokédex maps, ~2.3:1). `site/img/home/frame-*.webp`: Willow Creek cropped to its lots, the whole Johto–Kanto painting, the Travels map trimmed at the edges; the Library’s wall of covers fills the same plate.
+- **Still open: Extras.** A small temporary Try switch (bottom right, Extras only: Off / On; kept in localStorage `jj-home-try`, `#extras-on` in the address for checking). On adds a drop capital on the Introduction, a short bar in each place’s colour above its name (on the label), and “Open …” in the place’s colour (on a small cream tab). **Remove the switch once she picks** (the TRY SWITCH block in index.html’s style, the switch code in home.js) and put back the “no Try switch” check in tests/check_page.js.
+- Screens: `for-jemma/concepts/home-options/` (the round of options) and `home-options/chosen/` (as built).
 
 ## Where things are
 

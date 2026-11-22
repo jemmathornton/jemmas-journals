@@ -218,110 +218,46 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   .about-site .cr{display:block}
 }
 
-/* ================================================================ TRY SWITCH (temporary, 22 Nov: options while she chooses; remove this whole block,
-   the switch code in home.js and the unused img/home/ files once she has picked). Her ask: the page is a bit bland and the pictures don’t sit together. */
-.num{display:none}
+/* ================================================================ The places as journals (her pick, 22 Nov: she found the page a bit bland and the pictures odd together)
+   Each place is a cloth-bound journal in its own colour (spine, stitching, a page edge), its picture a plate with album corners, its name on a cream label
+   like the banner’s; no numbers on the journals (her ask). Every picture is the same landscape shape, 2:1 (her pick): the maps cropped to it (img/home/), the Library’s wall fills it.
+   Four to a row on a laptop, two below 1200px, one on phones; more places wrap, centred (seven = 4 + 3). */
 .card{--pcx:var(--pc)}
 :root[data-mode="dark"] .card{--pcx:color-mix(in srgb,var(--pc) 45%,#F3EBDA)}
-/* ---- Pictures */
 .pic.fill{background:var(--mat)}
 .pic.fill>img.bg{object-fit:cover}
-.pic.shot>img.bg{object-position:0 0}
-#page:not(.pics-now) .pic::after{content:"";position:absolute;inset:0;z-index:1;box-shadow:inset 0 0 0 1px rgba(0,0,0,.16);pointer-events:none}
-.wash{position:absolute;inset:0;z-index:1;background:var(--pc);mix-blend-mode:color;opacity:.36;transition:opacity .45s;pointer-events:none}
-.pics-tinted .pic img{filter:saturate(.85) contrast(.97)}
-.pics-tinted .snap{background:color-mix(in srgb,var(--pc) 12%,var(--mat))}
-.pics-tinted .snap:hover .wash{opacity:.12}
-
-/* ---- Extras: chapter numbers with a bar in the place’s colour, Open in the place’s colour, a drop capital on the Introduction */
-.extras-on .num{display:flex;align-items:center;gap:10px;font:italic 400 24px/1 var(--display);color:var(--pcx);margin:0 0 8px}
-.extras-on .num::after{content:"";width:34px;height:2px;background:currentColor;border-radius:2px}
-.extras-on.layout-now .card>.snap,.extras-on.layout-feature .card:not(:first-child)>.snap{order:-1}
-.extras-on .go{color:var(--pcx);border-bottom-color:color-mix(in srgb,var(--pcx) 40%,transparent)}
-.extras-on .intro p::first-letter{float:left;font:400 3.3em/.82 var(--display);margin:.06em .1em 0 0;color:var(--acc);font-style:normal}
-
-/* ---- Layout: Journals (each place a cloth-bound journal in its colour, the picture a tipped-in plate, the name on a cream label) */
-#page.layout-journals .cards{gap:48px 32px}
-#page.layout-journals .cards>.card{flex:0 0 calc((100% - 96px) / 4)}
-.layout-journals .card{--cl:var(--pc);position:relative;padding:20px 20px 24px 38px;color:#F3EBDA;text-align:center;border-radius:3px 9px 9px 3px;
+.pic::after{content:"";position:absolute;inset:0;z-index:1;box-shadow:inset 0 0 0 1px rgba(0,0,0,.16);pointer-events:none}
+#page.v2 .cards{gap:48px 32px}
+#page.v2 .cards>.card{flex:0 0 calc((100% - 96px) / 4)}
+.v2 .card{--cl:var(--pc);position:relative;padding:22px 16px 24px 34px;color:#F3EBDA;text-align:center;border-radius:3px 9px 9px 3px;
   background:repeating-linear-gradient(0deg,rgba(255,255,255,.03) 0 1px,transparent 1px 3px),repeating-linear-gradient(90deg,rgba(0,0,0,.05) 0 1px,transparent 1px 3px),
     linear-gradient(160deg,color-mix(in srgb,var(--cl) 82%,#fff),var(--cl) 55%,color-mix(in srgb,var(--cl) 72%,#000));
   box-shadow:5px 5px 0 -2px #EFE6D3,5px 5px 0 -1px rgba(0,0,0,.18),0 24px 34px -20px rgba(0,0,0,.65)}
-:root[data-mode="dark"] .layout-journals .card{--cl:color-mix(in srgb,var(--pc) 82%,#000);box-shadow:5px 5px 0 -2px #5A5045,5px 5px 0 -1px rgba(0,0,0,.4),0 24px 34px -20px rgba(0,0,0,.9)}
-.layout-journals .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:20px;border-radius:3px 0 0 3px;background:linear-gradient(90deg,rgba(0,0,0,.34),rgba(255,255,255,.1) 62%,rgba(0,0,0,.28))}
-.layout-journals .card::after{content:"";position:absolute;inset:8px 8px 8px 27px;border:1.5px dashed rgba(243,235,218,.32);border-radius:5px;pointer-events:none}
-.layout-journals .num{display:block;font:italic 400 20px/1 var(--display);color:var(--gold);margin:0 0 12px}
-.layout-journals .snap{padding:8px;background:#FBF6EC;margin:0;box-shadow:0 8px 16px -9px rgba(0,0,0,.7);z-index:1}
-:root[data-mode="dark"] .layout-journals .snap{background:#0D0A07}
-.layout-journals .snap .pic{inset:8px}
-.layout-journals .c{width:16px;height:16px}
-.layout-journals .c.tl,.layout-journals .c.tr{top:3px}.layout-journals .c.bl,.layout-journals .c.br{bottom:3px}.layout-journals .c.tl,.layout-journals .c.bl{left:3px}.layout-journals .c.tr,.layout-journals .c.br{right:3px}
-.layout-journals .txt h3{display:inline-block;position:relative;z-index:3;margin:-18px 0 14px;font-size:28px;line-height:1.05;padding:.2em .5em .22em;border-radius:3px;background:var(--label);color:var(--label-ink);
+:root[data-mode="dark"] .v2 .card{--cl:color-mix(in srgb,var(--pc) 82%,#000);box-shadow:5px 5px 0 -2px #5A5045,5px 5px 0 -1px rgba(0,0,0,.4),0 24px 34px -20px rgba(0,0,0,.9)}
+.v2 .card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:20px;border-radius:3px 0 0 3px;background:linear-gradient(90deg,rgba(0,0,0,.34),rgba(255,255,255,.1) 62%,rgba(0,0,0,.28))}   /* the spine */
+.v2 .card::after{content:"";position:absolute;inset:8px 7px 8px 26px;border:1.5px dashed rgba(243,235,218,.32);border-radius:5px;pointer-events:none}   /* stitching, like the banner */
+.v2 .snap{aspect-ratio:2/1;padding:8px;background:#FBF6EC;margin:0;box-shadow:0 8px 16px -9px rgba(0,0,0,.7);z-index:1}
+:root[data-mode="dark"] .v2 .snap{background:#0D0A07}
+.v2 .snap .pic{inset:8px}
+.v2 .c{width:16px;height:16px}
+.v2 .c.tl,.v2 .c.tr{top:3px}.v2 .c.bl,.v2 .c.br{bottom:3px}.v2 .c.tl,.v2 .c.bl{left:3px}.v2 .c.tr,.v2 .c.br{right:3px}
+.v2 .card .txt h3{display:inline-block;position:relative;z-index:3;margin:-12px 0 14px;font-size:28px;line-height:1.05;padding:.2em .5em .22em;border-radius:3px;background:var(--label);color:var(--label-ink);
   outline:1px solid rgba(41,34,27,.3);outline-offset:-5px;box-shadow:0 8px 16px -9px rgba(0,0,0,.7)}
-:root[data-mode="dark"] .layout-journals .txt h3{outline-color:rgba(243,235,218,.22)}
-.v2.layout-journals .card p,.v2.layout-journals .card p.ph{color:rgba(243,235,218,.9);font-size:14.5px;text-align:left}
-.layout-journals .card .ph-tag{color:rgba(243,235,218,.85);border-color:rgba(243,235,218,.6)}
-.v2.layout-journals .go{align-self:center;color:#F3EBDA;border-bottom-color:rgba(243,235,218,.45);position:relative;z-index:3}
-.layout-journals .go:focus-visible,.layout-journals .snap:focus-visible{outline-color:#F3EBDA}
+:root[data-mode="dark"] .v2 .card .txt h3{outline-color:rgba(243,235,218,.22)}
+.v2 .card p,.v2 .card p.ph{color:rgba(243,235,218,.9);font-size:14.5px;text-align:left}
+.v2 .card .ph-tag{color:rgba(243,235,218,.85);border-color:rgba(243,235,218,.6)}
+.v2 .card .go{align-self:center;color:#F3EBDA;border-bottom-color:rgba(243,235,218,.45);position:relative;z-index:3}
+.v2 .card .go:focus-visible,.v2 .card .snap:focus-visible{outline-color:#F3EBDA}
+@media (max-width:1199px){ #page.v2 .cards>.card{flex-basis:calc((100% - 32px) / 2)} }
+@media (max-width:760px){ #page.v2 .cards>.card{flex-basis:100%;max-width:420px} .v2 .card .txt h3{font-size:30px} }
 
-/* ---- Layout: Feature (the first place large, picture beside its words; the rest in a row below) */
-@media (min-width:761px){
-  #page.layout-feature .cards>.card{flex:0 0 calc((100% - 80px) / 3)}
-  #page.layout-feature .cards>.card:first-child{flex-basis:100%;display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);grid-template-rows:1fr auto auto 1fr;column-gap:clamp(32px,4vw,56px);align-items:center;margin-bottom:8px}
-  .layout-feature .card:first-child>.snap{grid-column:1;grid-row:1/5;margin:0}
-  .layout-feature .card:first-child>.num{grid-column:2;grid-row:1;align-self:end}
-  .layout-feature .card:first-child>.txt{grid-column:2;grid-row:2}
-  .layout-feature .card:first-child>.go{grid-column:2;grid-row:3;align-self:start;justify-self:start}
-  .v2.layout-feature .card:first-child h3{font-size:clamp(46px,4.4vw,62px);margin-bottom:16px}
-  .layout-feature .card:first-child p{font-size:17.5px;line-height:1.62}
-}
-@media (min-width:761px) and (max-width:1000px){ #page.layout-feature .cards>.card:not(:first-child){flex-basis:calc((100% - 40px) / 2)} }
-
-/* ---- Layout: Side by side (each place a row, picture and words side by side, alternating left and right, a diamond between) */
-@media (min-width:761px){
-  #page.layout-rows .cards{flex-direction:column;gap:clamp(64px,7vw,96px)}
-  #page.layout-rows .cards>.card{flex:none;width:100%;display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);grid-template-rows:1fr auto auto 1fr;column-gap:clamp(32px,4.5vw,64px);align-items:center;position:relative}
-  .layout-rows .card>.snap{grid-column:1;grid-row:1/5;margin:0}
-  .layout-rows .card>.num{grid-column:2;grid-row:1;align-self:end}
-  .layout-rows .card>.txt{grid-column:2;grid-row:2}
-  .layout-rows .card>.go{grid-column:2;grid-row:3;align-self:start;justify-self:start}
-  #page.layout-rows .cards>.card:nth-child(even){grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}
-  .layout-rows .card:nth-child(even)>.snap{grid-column:2}
-  .layout-rows .card:nth-child(even)>.num,.layout-rows .card:nth-child(even)>.txt,.layout-rows .card:nth-child(even)>.go{grid-column:1}
-  .v2.layout-rows .card h3{font-size:clamp(42px,3.8vw,54px);margin-bottom:14px}
-  .layout-rows .card p{font-size:17px;max-width:460px}
-  .layout-rows .card+.card::before{content:"";position:absolute;left:50%;top:calc(clamp(64px,7vw,96px) / -2);width:7px;height:7px;background:var(--acc);transform:translate(-50%,-50%) rotate(45deg)}
-  .layout-rows .card+.card::after{content:"";position:absolute;left:50%;top:calc(clamp(64px,7vw,96px) / -2);width:220px;height:1px;transform:translate(-50%,-50%);
-    background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--acc) 60%,transparent) 40%,transparent 46%,transparent 54%,color-mix(in srgb,var(--acc) 60%,transparent) 60%,transparent)}
-}
-
-/* ---- Layout: Index (a book’s contents page: numbered chapter lines, a small plate, a dotted leader to Open …) */
-#page.layout-index .cards{display:block;border-top:1px solid var(--line)}
-.layout-index .card{display:grid;grid-template-columns:56px 210px minmax(0,1fr) auto;grid-template-rows:auto 1fr;column-gap:30px;padding:28px 0;border-bottom:1px solid var(--line);align-items:start}
-.layout-index .num{display:block;grid-column:1;grid-row:1/3;font:italic 400 46px/1 var(--display);color:var(--pcx);text-align:right;margin:0}
-.layout-index .num::after{display:none}
-.layout-index .snap{grid-column:2;grid-row:1/3;margin:0;padding:7px}
-.layout-index .snap .pic{inset:7px}
-.layout-index .c{width:15px;height:15px}
-.layout-index .c.tl,.layout-index .c.tr{top:3px}.layout-index .c.bl,.layout-index .c.br{bottom:3px}.layout-index .c.tl,.layout-index .c.bl{left:3px}.layout-index .c.tr,.layout-index .c.br{right:3px}
-.layout-index .txt{grid-column:3;grid-row:1/3}
-.v2.layout-index .card h3{display:flex;align-items:baseline;gap:14px;font-size:40px;margin:0 0 10px}
-.layout-index .card h3::after{content:"";flex:1;min-width:30px;border-bottom:2px dotted color-mix(in srgb,var(--mute) 65%,transparent);transform:translateY(-7px)}
-.layout-index .card p{max-width:640px;margin:0}
-.layout-index .go{grid-column:4;grid-row:1;margin-top:16px;white-space:nowrap;justify-self:end}
-@media (max-width:760px){
-  .layout-index .card{grid-template-columns:36px minmax(0,1fr);grid-template-rows:none;column-gap:14px;padding:24px 0}
-  .layout-index .num{grid-row:1;font-size:34px}
-  .layout-index .txt{display:contents}
-  .v2.layout-index .card h3{grid-column:2;grid-row:1;font-size:34px;margin:0}
-  .layout-index .snap{grid-column:2;grid-row:2;margin:14px 0 14px}
-  .layout-index .card p{grid-column:2;grid-row:3;margin-bottom:12px}
-  .layout-index .go{grid-column:2;grid-row:4;margin:0;justify-self:start}
-}
-
-/* growth and smaller screens for Journals */
-@media (max-width:1199px){ #page.layout-journals .cards>.card{flex-basis:calc((100% - 32px) / 2)} }
-@media (max-width:760px){ #page.layout-journals .cards>.card{flex-basis:100%;max-width:420px} .layout-journals .txt h3{font-size:30px} }
+/* ================================================================ TRY SWITCH (temporary, 22 Nov: only Extras is left for her to compare; remove this block
+   and the switch code in home.js once she has picked). Extras On: a drop capital on the Introduction, a short bar in each place’s colour above its name
+   (on the cream label), and “Open …” in the place’s colour (on a small cream tab, so the colour shows against the cloth). */
+.extras-on .intro p::first-letter{float:left;font:400 3.3em/.82 var(--display);margin:.06em .1em 0 0;color:var(--acc);font-style:normal}
+.extras-on .card .txt h3::before{content:"";display:block;width:40px;height:3px;border-radius:2px;background:var(--pcx);margin:.12em auto .16em}
+.v2.extras-on .card .go{background:var(--label);color:var(--pcx);border:0;padding:7px 14px;border-radius:99px;box-shadow:0 6px 12px -8px rgba(0,0,0,.6)}
+.v2.extras-on .card .go:hover{text-decoration:underline;text-underline-offset:3px}
 
 /* the switch itself */
 .trybox{position:fixed;z-index:70;right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));max-width:min(600px,calc(100vw - 24px));
