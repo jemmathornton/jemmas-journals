@@ -28,13 +28,13 @@
   };
   function ico(n){ return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+ICON[n]+'</svg>'; }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
-  var WALL=''; for(var n=0;n<72;n++) WALL+='<img src="img/wall/'+String((n*7)%40).padStart(2,'0')+'.webp" alt="" loading="lazy" decoding="async">';
+  var WALL=''; for(var n=0;n<72;n++) WALL+='<img draggable="false" src="img/wall/'+String((n*7)%40).padStart(2,'0')+'.webp" alt="" loading="lazy" decoding="async">';
   // every picture the same landscape plate, 2:1 (her pick, 22 Nov): maps cropped to that shape (img/home/frame-*), the Library's wall fills it
   function pic(p){
     if(p.demo||!p.pic) return '<span class="pic blank" style="--pc:'+p.pc+'"></span>';   // no picture yet (a new site from tools/new_site.py): the striped stand-in
     var q=p.pic;
     if(q.wall) return '<span class="pic" role="img" aria-label="'+esc(q.alt)+'"><span class="wall">'+WALL+'</span></span>';
-    return '<span class="pic fill"><img class="bg" src="'+(p.frame||q.img)+'" alt="'+esc(q.alt||'')+'" loading="lazy" decoding="async"></span>';
+    return '<span class="pic fill"><img class="bg" draggable="false" src="'+(p.frame||q.img)+'" alt="'+esc(q.alt||'')+'" loading="lazy" decoding="async"></span>';
   }
   function aboutPlace(p){ return p.about ? '<p>'+esc(p.about)+'</p>' : '<p class="ph">A line or two about '+(p.demo?'it':esc(p.name))+', in your own words.<span class="ph-tag">Placeholder</span></p>'; }
   var CORNERS='<span class="c tl"></span><span class="c tr"></span><span class="c bl"></span><span class="c br"></span>';

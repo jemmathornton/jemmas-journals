@@ -104,7 +104,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .card p.ph{font-size:15px}
 /* only these two are links: the photo and "Open …" */
 .snap{position:relative;display:block;aspect-ratio:4/3;background:var(--mat);padding:12px;box-shadow:0 14px 30px -18px rgba(0,0,0,.55);margin-bottom:22px;transition:box-shadow .3s,transform .3s}
-.snap:hover{box-shadow:0 20px 36px -18px rgba(0,0,0,.6);transform:translateY(-2px)}
+.snap:hover{box-shadow:0 20px 36px -18px rgba(0,0,0,.6)}   /* no movement on hover (her ask, 22 Nov) */
 .snap .pic{inset:12px}
 .c{position:absolute;z-index:2;width:24px;height:24px;background:linear-gradient(135deg,#3B3530,#1C1916);box-shadow:0 1px 2px rgba(0,0,0,.3)}
 .c.tl{top:5px;left:5px;clip-path:polygon(0 0,100% 0,0 100%)}
@@ -122,7 +122,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .pic.map{background:var(--mat)}
 .pic.map>img.bg{object-fit:contain}
 .pic .wall{position:absolute;inset:-34% -14%;display:grid;grid-template-columns:repeat(8,1fr);gap:6px;transform:rotate(-8deg);transition:transform 1s cubic-bezier(.2,.7,.2,1)}
-.snap:hover .pic .wall{transform:rotate(-8deg) scale(1.04)}
+.pic,.pic *{-webkit-user-select:none;user-select:none;-webkit-user-drag:none}   /* pictures can’t be selected or dragged (her ask, 22 Nov) */
 .pic .wall img{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:2px 3px 3px 2px;display:block}
 .pic.blank{background:repeating-linear-gradient(135deg,color-mix(in srgb,var(--pc) 88%,#fff) 0 14px,var(--pc) 14px 28px)}
 
