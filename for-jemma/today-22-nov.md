@@ -54,8 +54,8 @@ Everything is tested, saved and pushed. The full check passes on every site:
   - a security policy so only the site’s own code runs.
 
 ## Waiting for you (updated 22 Nov evening)
-- **Library header:** done. Stamped spines, every spine with title and author, one book per shelf in turn, varied colours, no Harry Potter. Your two bordered covers were cropped (originals kept).
-- **Library page counts:** a check against Open Library is running. It will list books whose page count looks wrong (e.g. Catch-22 recorded as 160), for you to say which to fix.
+- **Library header:** one shelf across the whole header; the figures in mixed photo frames among the books; classic wooden bookends (foot outward) with an engraving for each shelf (open book, quill, castle, planet, clock, headphones, teddy, hourglass, steam train). Display and old books: no shelf yet, for later.
+- **Library page counts:** 214 fixed from Open Library (your yes to all). **Tomorrow after 08:00:** check the 43 “check by hand” books and the odd ones (Ankh-Morpork map 19, Fantastic Beasts 42, Pratchett Portfolio 32, Tourist Guide to Lancre 32, Discworld Mapp) against Google Books (its free allowance was used up tonight). List: `library/for-jemma/page-counts-to-check.md`.
 - **Pokédex:** GO and Pokémon HOME first; HOME’s box means “in HOME now”. A Try switch with game-switch ideas and Pokédex Home ideas is being built (HOME shown as a placeholder).
 - **Library spines:** let *Harry, A History* and *The Casual Vacancy* back in? The Display shelf page now shows no spines (too few books).
 - **Sim World data:** four partner links only go one way (e.g. Gunther Goth → Cornelia). Pages read correctly.
