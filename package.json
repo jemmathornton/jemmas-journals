@@ -1,0 +1,9 @@
+{
+  "name": "jemmas-journals-tools",
+  "private": true,
+  "description": "Shared test tools for the whole family (no site needs Node). Playwright drives Edge for every site's checks; axe-core checks accessibility. Install with the portable Node: .tools/node/npm.cmd install",
+  "devDependencies": {
+    "@playwright/test": "1.64.0",
+    "axe-core": "4.10.3"
+  }
+}

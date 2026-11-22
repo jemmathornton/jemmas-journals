@@ -37,6 +37,10 @@ def main():
         tail = [l for l in out.strip().splitlines() if l.strip()][-1:] or ['']
         results.append((name, r.returncode == 0, f'{time.time() - t:.0f}s  {tail[0][:90]}'))
         print(f"{'ok  ' if r.returncode == 0 else 'FAIL'} {name:10} {results[-1][2]}", flush=True)
+    # accessibility (axe-core, her OK 22 Nov): a report, not a failure yet; needs the family server at 8050
+    r = subprocess.run([NODE, 'tests/axe_all.js'], cwd=ROOT, capture_output=True, text=True, encoding='utf-8', errors='replace')
+    first = ((r.stdout or '').strip().splitlines() or [''])[0]
+    print(f"note Accessibility {first}  (details in logs/check-all/axe.txt)", flush=True)
     # git: each app on main, nothing uncommitted except her own data, pushed, and recorded in the parent
     for app in ('library', 'sim-world', 'pokedex', 'travels'):
         p = os.path.join(ROOT, app)
