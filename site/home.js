@@ -29,13 +29,14 @@
   function ico(n){ return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+ICON[n]+'</svg>'; }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
   var WALL=''; for(var n=0;n<72;n++) WALL+='<img src="img/wall/'+String((n*7)%40).padStart(2,'0')+'.webp" alt="" loading="lazy" decoding="async">';
-  // TRY SWITCH (temporary, 22 Nov: only Extras is left to choose; remove with the .trybox CSS once she has picked)
-  // extras: off | on (a drop capital on the Introduction, a bar in each place's colour above its name, "Open …" in the place's colour)
-  var TRY={extras:[['off','Off'],['on','On']]};
-  var TRYNAMES={extras:'Extras'};
-  var tryState={extras:'off'}, tryHidden=false;
-  try { var saved=JSON.parse(localStorage.getItem('jj-home-try')||'{}'); if(saved.extras==='on') tryState.extras='on'; tryHidden=!!saved.hidden; } catch(e){}
-  function saveTry(){ try { localStorage.setItem('jj-home-try', JSON.stringify({extras:tryState.extras,hidden:tryHidden})); } catch(e){} }
+  // TRY SWITCH (temporary, 22 Nov: she worried the cloth journals look too like the Library; remove with the .trybox CSS once she has picked)
+  // style: cloth (as now) | notebook | album | field (field notes). Each keeps one object per place, in its colour, with its 2:1 picture and its name.
+  var TRY={style:[['cloth','As now'],['notebook','Notebooks'],['album','Album'],['field','Field notes']]};
+  var TRYNAMES={style:'Style'};
+  var tryState={style:'cloth'}, tryHidden=false;
+  function okStyle(v){ return TRY.style.some(function(o){ return o[0]===v; }); }
+  try { var saved=JSON.parse(localStorage.getItem('jj-home-try')||'{}'); if(okStyle(saved.style)) tryState.style=saved.style; tryHidden=!!saved.hidden; } catch(e){}
+  function saveTry(){ try { localStorage.setItem('jj-home-try', JSON.stringify({style:tryState.style,hidden:tryHidden})); } catch(e){} }
   // every picture the same landscape plate, 2:1 (her pick, 22 Nov): maps cropped to that shape (img/home/frame-*), the Library's wall fills it
   function pic(p){
     if(p.demo||!p.pic) return '<span class="pic blank" style="--pc:'+p.pc+'"></span>';   // no picture yet (a new site from tools/new_site.py): the striped stand-in
@@ -50,7 +51,7 @@
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
   var more=0, root=document.documentElement, userMode=root.getAttribute('data-mode')==='dark'?'dark':'light';   // more: how many stand-in places to add (0–3); the mode was set by the family's mode.js
   location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w;
-    if(w==='extras-on'||w==='extras-off') tryState.extras=w.slice(7);   // #extras-on in the address (for checking; not saved)
+    if(/^style-/.test(w) && okStyle(w.slice(6))) tryState.style=w.slice(6);   // e.g. #style-album in the address (for checking; not saved)
     });
 
   // About this site: two quiet lines (her pick, 20 Nov: option 2, each credit starting with a capital)
@@ -85,7 +86,7 @@
       +'<div class="end" aria-hidden="true"><i></i><b></b><i></i></div>'
       +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b>'+aboutSite()
       +'<div class="foot-links"><a class="totop" href="#top" data-jj-top>'+ico('arrow-up')+'Back to top</a>'+MODETEXT+'</div>'+'</div></footer>';
-    var page=document.getElementById('page'); page.className='v2 extras-'+tryState.extras+(firstRender?' i-enter':''); firstRender=false; page.innerHTML=h;
+    var page=document.getElementById('page'); page.className='v2 style-'+tryState.style+(firstRender?' i-enter':''); firstRender=false; page.innerHTML=h;
   }
   render();
 
