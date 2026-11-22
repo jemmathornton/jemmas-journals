@@ -21,7 +21,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\Jemm
 
 - Cloth-cover banner with the title on a cream label; no elastic-band stripe. **Cover colour: old gold** (#8E6520, cream trim; dark #6A4A17), her pick 20 Nov evening, replacing navy (too cool). Share picture retaken from the gold banner (img/share-preview.jpg, 1200×630, 86 KB).
 - Places as photos in album corners, named “My Sim World”, “My Library”, “My Pokédex”, nothing above the names.
-- Only the photo and “Open …” are links (not the whole card).
+- **Only “Open …” is a link** (her decision, 22 Nov, replacing 20 Nov’s “the photo and Open …”): the picture is a plain element, not a link, not focusable, no pointer and no change on hover.
 - Library’s picture: the tilted wall of her covers. Sim World and Pokédex: a full map, nothing added on top. Which ones is open: she’ll supply a Sims picture; Pokédex now uses the combined Johto and Kanto painting (official HeartGold/SoulSilver art, from PidgiWiki `File:Johto_and_Kanto_-_Pokemon_HeartGold_and_SoulSilver.jpg`, downloaded 20 Nov with her OK).
 - No “Elsewhere” links (the Sims Gallery belongs in Sim World).
 - 20 Nov: the Improved version (gold corner brackets on the cover, serif section headings with a diamond rule, centred footer, Back to top), with About this site in the footer. (Its About photo was later dropped: see “Introduction” below.) Not wanted: quick links, an empty slot, an edition mark.
@@ -58,6 +58,7 @@ She felt home was “a bit bland, needs more” and the four pictures didn’t s
 - **Extras dropped** (22 Nov, she wasn’t sold): no drop capital, no colour bars, plain “Open …”.
 - **Journals chosen** (22 Nov): after trying Notebooks, Album and Field notes she kept the cloth journals; the other styles were removed.
 - **Rejected 22 Nov, don’t offer again:** the journal styles Notebooks, Album and Field notes; the page looks Gallery (pale cool page, sans headings, flat gold band), Desk (blue-grey backdrop, slim strip) and Bold (big title on white, no banner) (“way worse”). The page stays as it was (cream page, cloth banner with the cream label, serif headings with diamond rules) with the journals; no Try switch on the page now.
+- **Photo corners: a temporary Try switch is on the page** (22 Nov; bottom right, one row, Corners: As now black / Gold / Cream / Clear / Brackets / None; only the corners change; localStorage `jj-home-try`, `#corners-gold` etc. in the address). **Remove it once she picks** (the TRY SWITCH block at the end of index.html’s style and the switch code in home.js) and put back the “no Try switch” check in tests/check_page.js. Screens: `for-jemma/concepts/home-options/corners/`.
 - **Open:** the overall look (she feels the page is too like the Library). No option is being shown; ask her before building anything.
 - Screens: `for-jemma/concepts/home-options/` (the first round), `home-options/chosen/` (journals as built) `home-options/styles/` (the four styles) and `home-options/page-looks/` (the four page looks at 1600, dark, 1000, 390 and with seven places).
 

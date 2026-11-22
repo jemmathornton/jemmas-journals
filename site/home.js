@@ -29,6 +29,12 @@
   function ico(n){ return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+ICON[n]+'</svg>'; }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
   var WALL=''; for(var n=0;n<72;n++) WALL+='<img draggable="false" src="img/wall/'+String((n*7)%40).padStart(2,'0')+'.webp" alt="" loading="lazy" decoding="async">';
+  // TRY SWITCH (temporary, 22 Nov: the photo corners only; remove with the TRY SWITCH CSS once she has picked)
+  var CORNER_OPTS=[['now','As now'],['gold','Gold'],['cream','Cream'],['clear','Clear'],['brackets','Brackets'],['none','None']];
+  var corners='now', tryHidden=false;
+  function okCorner(v){ return CORNER_OPTS.some(function(o){ return o[0]===v; }); }
+  try { var saved=JSON.parse(localStorage.getItem('jj-home-try')||'{}'); if(okCorner(saved.corners)) corners=saved.corners; tryHidden=!!saved.hidden; } catch(e){}
+  function saveTry(){ try { localStorage.setItem('jj-home-try', JSON.stringify({corners:corners,hidden:tryHidden})); } catch(e){} }
   // every picture the same landscape plate, 2:1 (her pick, 22 Nov): maps cropped to that shape (img/home/frame-*), the Library's wall fills it
   function pic(p){
     if(p.demo||!p.pic) return '<span class="pic blank" style="--pc:'+p.pc+'"></span>';   // no picture yet (a new site from tools/new_site.py): the striped stand-in
@@ -43,6 +49,7 @@
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
   var more=0, root=document.documentElement, userMode=root.getAttribute('data-mode')==='dark'?'dark':'light';   // more: how many stand-in places to add (0–3); the mode was set by the family's mode.js
   location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w;
+    if(/^corners-/.test(w) && okCorner(w.slice(8))) corners=w.slice(8);   // e.g. #corners-gold in the address (for checking; not saved)
     });
 
   // About this site: two quiet lines (her pick, 20 Nov: option 2, each credit starting with a capital)
@@ -69,7 +76,7 @@
     list.forEach(function(p){
       var open=p.demo?'it':p.title;   // "Open My Sim World" (her ask, 20 Nov: the link should say My like the heading)
       h+='<article class="card" style="--pc:'+p.pc+'">'
-        +'<a class="snap" href="'+esc(p.url||'#')+'" data-open="'+esc(p.demo?'':p.name)+'" aria-label="Open '+esc(open)+'">'+CORNERS+pic(p)+'</a>'
+        +'<div class="snap">'+CORNERS+pic(p)+'</div>'   // the picture is not a link (her decision, 22 Nov): only "Open …" opens a site
         +'<div class="txt"><h3>'+esc(p.title)+'</h3>'+aboutPlace(p)+'</div>'
         +'<a class="go" href="'+esc(p.url||'#')+'" data-open="'+esc(p.demo?'':p.name)+'">Open '+esc(open)+' '+ico('arrow-right')+'</a></article>';
     });
@@ -77,9 +84,25 @@
       +'<div class="end" aria-hidden="true"><i></i><b></b><i></i></div>'
       +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b>'+aboutSite()
       +'<div class="foot-links"><a class="totop" href="#top" data-jj-top>'+ico('arrow-up')+'Back to top</a>'+MODETEXT+'</div>'+'</div></footer>';
-    var page=document.getElementById('page'); page.className='v2'+(firstRender?' i-enter':''); firstRender=false; page.innerHTML=h;
+    var page=document.getElementById('page'); page.className='v2 corners-'+corners+(firstRender?' i-enter':''); firstRender=false; page.innerHTML=h;
   }
   render();
+
+  // the Try switch itself (temporary: bottom right, only while she chooses)
+  var box=document.createElement('div'); box.className='trybox'; box.setAttribute('role','group'); box.setAttribute('aria-label','Try');
+  function drawTry(){
+    var h='<div class="try-head"><b>Try</b><button type="button" class="try-hide" aria-expanded="'+!tryHidden+'">'+(tryHidden?'Show':'Hide')+'</button></div>';
+    if(!tryHidden) h+='<div class="try-row"><span>Corners</span>'+CORNER_OPTS.map(function(o){ return '<button type="button" data-try="corners" data-val="'+o[0]+'" aria-pressed="'+(corners===o[0])+'">'+o[1]+'</button>'; }).join('')+'</div>';
+    box.innerHTML=h; box.classList.toggle('folded',tryHidden);
+  }
+  drawTry(); document.body.appendChild(box);
+  box.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    if(b.classList.contains('try-hide')){ tryHidden=!tryHidden; saveTry(); drawTry(); box.querySelector('.try-hide').focus(); return; }
+    var v=b.getAttribute('data-val'); if(!okCorner(v)) return;
+    corners=v; saveTry(); var pg=document.getElementById('page'); pg.className=pg.className.replace(/corners-\w+/,'corners-'+v); drawTry();
+    var again=box.querySelector('[data-val="'+v+'"]'); if(again) again.focus();
+  });
 
   var toast=document.getElementById('toast'), t;
   function say(m){ toast.textContent=m; toast.hidden=false; clearTimeout(t); t=setTimeout(function(){ toast.hidden=true; },1800); }

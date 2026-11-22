@@ -63,7 +63,8 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
           linksPerCard: cards.map(c => c.querySelectorAll('a').length),
           linkKinds: cards.map(c => [...c.querySelectorAll('a')].map(a => a.className).join(',')),
           brokenImages: [...document.images].filter(i => !i.complete || i.naturalWidth === 0).map(i => i.getAttribute('src')),
-          picturesWithoutWords: cards.filter(c => { const s = c.querySelector('.snap'); return !s.getAttribute('aria-label'); }).length,
+          picturesWithoutWords: cards.filter(c => { const s = c.querySelector('.snap .pic'); const img = s.querySelector('img.bg'); return !(s.getAttribute('aria-label') || (img && img.getAttribute('alt')) || s.classList.contains('blank')); }).length,
+          pictureLinks: cards.filter(c => c.querySelector('.snap').closest('a') || c.querySelector('.snap a') || c.querySelector('.snap[tabindex]')).length,
           headings: cards.map(c => c.querySelector('h3').textContent),
           openLinksLevel: (() => { const rows = {}; cards.forEach(c => { const k = Math.round(c.getBoundingClientRect().top); (rows[k] ||= []).push(Math.round(c.querySelector('.go').getBoundingClientRect().top)); }); return Object.values(rows).every(ys => new Set(ys).size === 1) || window.innerWidth < 900; })(),
           modeButton: (() => { const b = document.querySelector('[data-jj-mode]'); return !!b && !!(b.getAttribute('aria-label') || b.textContent.trim()) && !document.querySelector('.cover [data-jj-mode]') && !!document.querySelector('.foot [data-jj-mode]'); })(),
@@ -84,10 +85,10 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       check(r.title === 'Jemma’s Journals', tag + 'title is Jemma’s Journals (got ' + r.title + ')');
       check(r.skip, tag + '"Skip to contents" link goes somewhere');
       check(r.cards === 4, tag + 'four places (got ' + r.cards + ')');
-      check(r.linksPerCard.every(n => n === 2), tag + 'only the photo and "Open" are links in each card (' + r.linksPerCard + ')');
-      check(r.linkKinds.every(k => k === 'snap,go'), tag + 'the links are the photo and "Open" (' + r.linkKinds.join(' | ') + ')');
+      check(r.linksPerCard.every(n => n === 1), tag + 'only "Open …" is a link in each card (her decision, 22 Nov) (' + r.linksPerCard + ')');
+      check(r.linkKinds.every(k => k === 'go') && r.pictureLinks === 0, tag + 'the link is "Open …"; the picture is not a link or focusable (' + r.linkKinds.join(' | ') + ')');
       check(r.brokenImages.length === 0, tag + 'every picture loads (' + r.brokenImages.slice(0, 3).join(', ') + ')');
-      check(r.picturesWithoutWords === 0, tag + 'every photo link says where it goes');
+      check(r.picturesWithoutWords === 0, tag + 'every picture has words for screen readers');
       check(r.headings.join('|') === 'My Sim World|My Library|My Pokédex|My Travels', tag + 'names are My Sim World, My Library, My Pokédex, My Travels (' + r.headings.join(', ') + ')');
       check(r.openLinksLevel, tag + '"Open" links line up across each row');
       check(r.modeButton, tag + 'light/dark button is in the footer, not the banner, and says what it does');
@@ -120,7 +121,9 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       await page.click('[data-jj-mode]');
       // how it grows when places are added (stand-ins via #more1 / #more2; the trial button is gone), still without sideways scrolling
       const grow = async n => { await page.goto(HOST + '#more' + n, { waitUntil: 'networkidle' }); await page.reload({ waitUntil: 'networkidle' }); await page.evaluate(() => Promise.all(document.getAnimations().map(a => a.finished))); };
-      check(await page.evaluate(() => !document.querySelector('.trybox, .sw, [aria-label="Try"], #more')), tag + 'no Try switch left on the page (only while she is choosing)');
+      // TEMPORARY (22 Nov): a Try switch for the photo corners while she chooses; when it goes, put back the check
+      // "no Try switch left on the page": check(await page.evaluate(() => !document.querySelector('.trybox, .sw, [aria-label="Try"], #more')), …)
+      check(await page.evaluate(() => document.getElementById('page').classList.contains('corners-now') && document.querySelectorAll('.trybox [data-try="corners"]').length === 6 && document.querySelectorAll('.trybox [data-try]').length === 6), tag + 'the temporary Try switch (Corners only) opens on As now');
       await grow(1);
       const grown = await page.evaluate(() => ({ cards: document.querySelectorAll('.card').length, sideways: document.documentElement.scrollWidth - document.documentElement.clientWidth }));
       check(grown.cards === 5 && grown.sideways <= 0, tag + '"More places" adds a fifth without sideways scrolling');
@@ -152,7 +155,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
     page.on('pageerror', e => errors.push(e.message));
     await page.route(HOST + '**', serve);
     for (const [i, app] of ['sim-world', 'library', 'pokedex', 'travels'].entries()) {
-      for (const kind of ['go', 'snap']) {
+      for (const kind of ['go']) {
         await page.goto(HOST, { waitUntil: 'networkidle' });
         await Promise.all([page.waitForURL(HOST + app + '/', { timeout: 5000 }).catch(() => {}), page.locator('.card a.' + kind).nth(i).click()]);
         const at = new URL(page.url()).pathname;
