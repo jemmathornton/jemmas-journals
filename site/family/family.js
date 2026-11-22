@@ -79,12 +79,17 @@
 
   /* a “·” between credits never starts or ends a line: hide the ones where the line breaks (section 2) */
   function fitCredits() {
-    document.querySelectorAll("[data-jj-credits] .dot, [data-jj-credits] .jj-dot").forEach(function (d) {
+    // in order, so each line is settled before the next; a dot at a break is taken out (display:none, so the line stays
+    // centred: round 4 saw visibility:hidden leave a gap), and put back if removing it lets the line run on
+    var dots = document.querySelectorAll("[data-jj-credits] .dot, [data-jj-credits] .jj-dot");
+    dots.forEach(function (d) { if (d.style.display === "none") d.style.display = ""; d.style.visibility = ""; });
+    dots.forEach(function (d) {
       var a = d.previousElementSibling, b = d.nextElementSibling;
-      d.style.visibility = "";
       if (!a || !b || !d.offsetParent) return;
-      var ra = a.getBoundingClientRect(), rb = b.getBoundingClientRect();
-      if (Math.abs(ra.top - rb.top) > 2) d.style.visibility = "hidden";
+      var apart = function () { return Math.abs(a.getBoundingClientRect().top - b.getBoundingClientRect().top) > 2; };
+      if (!apart()) return;
+      d.style.display = "none";
+      if (!apart()) { d.style.display = ""; d.style.visibility = "hidden"; }   // rare: keep the break where it was
     });
   }
 
