@@ -271,16 +271,16 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 #page.corners-brackets .c.tl,#page.corners-brackets .c.bl{left:2px}#page.corners-brackets .c.tr,#page.corners-brackets .c.br{right:2px}
 /* Frosted and Smoky (her ask, 22 Nov): like real frosted or smoked plastic photo corners. Neutral (no warm tint: the first try looked brown) and with depth
    (the first try looked flat): the corner itself casts a soft shadow onto the picture and mat (drop-shadow on the unclipped corner, the triangle drawn by ::before),
-   the face is lighter at the outer corner, and along the long folded edge there is a thin dark line (the plastic’s thickness) and a crisp bright highlight.
+   the face is lighter at the outer corner, and along the long folded edge a hairline, half-opaque highlight (her note: a wider white edge read as a stripe).
    The gradient runs from the outer corner, so its 50% line is that edge. */
 #page .c.tl{--ca:135deg;--cp:polygon(0 0,100% 0,0 100%)}#page .c.tr{--ca:225deg;--cp:polygon(0 0,100% 0,100% 100%)}
 #page .c.br{--ca:315deg;--cp:polygon(100% 0,100% 100%,0 100%)}#page .c.bl{--ca:45deg;--cp:polygon(0 0,0 100%,100% 100%)}
 #page.corners-frosted .c,#page.corners-smoky .c{background:none;clip-path:none;box-shadow:none;width:18px;height:18px;filter:drop-shadow(0 1.5px 1.5px rgba(0,0,0,.32)) drop-shadow(0 0 .5px rgba(0,0,0,.25))}
 #page.corners-frosted .c::before,#page.corners-smoky .c::before{content:"";position:absolute;inset:0;clip-path:var(--cp)}
-#page.corners-frosted .c::before{background:linear-gradient(var(--ca),rgba(255,255,255,.85),rgba(238,241,244,.62) 22%,rgba(214,219,224,.58) 43%,rgba(120,126,134,.45) 44.5%,rgba(255,255,255,1) 46%,rgba(255,255,255,1) 50%,transparent 50%)}
-#page.corners-smoky .c::before{background:linear-gradient(var(--ca),rgba(150,155,162,.62),rgba(78,82,89,.58) 22%,rgba(52,56,62,.62) 43%,rgba(20,22,26,.7) 44.5%,rgba(255,255,255,.85) 46%,rgba(255,255,255,.85) 50%,transparent 50%)}
+#page.corners-frosted .c::before{background:linear-gradient(var(--ca),rgba(255,255,255,.85),rgba(238,241,244,.62) 22%,rgba(214,219,224,.58) 43%,rgba(190,196,203,.56) 48.6%,rgba(255,255,255,.5) 48.8%,rgba(255,255,255,.5) 50%,transparent 50%)}
+#page.corners-smoky .c::before{background:linear-gradient(var(--ca),rgba(150,155,162,.62),rgba(78,82,89,.58) 22%,rgba(52,56,62,.62) 43%,rgba(20,22,26,.7) 48.6%,rgba(255,255,255,.5) 48.8%,rgba(255,255,255,.5) 50%,transparent 50%)}
 :root[data-mode="dark"] #page.corners-frosted .c,:root[data-mode="dark"] #page.corners-smoky .c{background:none;box-shadow:none;filter:drop-shadow(0 1.5px 2px rgba(0,0,0,.7)) drop-shadow(0 0 .5px rgba(0,0,0,.5))}
-:root[data-mode="dark"] #page.corners-smoky .c::before{background:linear-gradient(var(--ca),rgba(225,229,234,.66),rgba(170,175,182,.56) 22%,rgba(140,145,152,.58) 43%,rgba(70,74,80,.6) 44.5%,rgba(255,255,255,.95) 46%,rgba(255,255,255,.95) 50%,transparent 50%)}
+:root[data-mode="dark"] #page.corners-smoky .c::before{background:linear-gradient(var(--ca),rgba(225,229,234,.66),rgba(170,175,182,.56) 22%,rgba(140,145,152,.58) 43%,rgba(70,74,80,.6) 48.6%,rgba(255,255,255,.5) 48.8%,rgba(255,255,255,.5) 50%,transparent 50%)}
 #page.corners-none .c{display:none}
 .trybox{position:fixed;z-index:70;right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 24px);
   background:#FFFDF8;color:#221D17;border:1px solid #DDD3C3;border-radius:14px;box-shadow:0 12px 34px -10px rgba(0,0,0,.35);padding:10px 12px 12px;font:600 12.5px/1.2 var(--body)}
