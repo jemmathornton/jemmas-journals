@@ -124,6 +124,14 @@ class RecordApps(unittest.TestCase):
         code, out = self.run_it()
         self.assertIn('library: has uncommitted changes', out)
 
+    def test_her_pokedex_ticks_do_not_count_go_or_home(self):   # the daily backup saves them (Pokémon HOME's since 22 Nov)
+        sha = self.app_commit('pokedex', 'data/collection/home.json', '{"have": {}}\n')
+        self.box.write(os.path.join(self.parent, 'pokedex', 'data', 'collection', 'home.json'), '{"have": {"d:25": ["c"]}}\n')
+        code, out = self.run_it()
+        self.assertEqual(code, 0, out)
+        self.assertIn('recorded and pushed: pokedex', out)
+        self.assertEqual(self.recorded('pokedex'), sha)
+
     def test_a_backups_own_log_does_not_count(self):
         sha = self.app_commit('pokedex', 'logs/backup.log', 'old line\n')
         self.box.write(os.path.join(self.parent, 'pokedex', 'logs', 'backup.log'), 'old line\nnew line\n')   # written after the commit

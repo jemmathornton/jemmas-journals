@@ -42,7 +42,7 @@ Documents\JemmasJournals\                 the parent repo (jemmathornton/jemmas-
 |---|---|---|
 | 8050 | `tools/serve_all.py`: the whole family on one address, as online. Serves pages and `/family/`; passes `/<app>/api/…` to the app’s server; keeps her dark-mode choice in `logs/family-mode.txt` and writes it into each page (`data-jj-server-mode`) so it carries between app windows with different Chrome profiles. Only answers to `localhost` / `127.0.0.1`. | Startup item “Jemma's Journals server”, or `open_site.pyw` |
 | 8020 (+8021) | Library `tools/serve.py`: saves, StoryGraph import, phone scanning on 8021 (home Wi-Fi only) | `serve_all.py` starts it if down |
-| 8030 | Pokédex `tools/serve.py`: saves her ticks (`data/collection/go.json`) | `serve_all.py` |
+| 8030 | Pokédex `tools/serve.py`: saves her ticks, each game its own file (`data/collection/go.json`; Pokémon HOME's `home.json` since 22 Nov, `?game=home`) | `serve_all.py` |
 | 8041 | Travels `tools/serve.py`: the Write page (posts and photos) | `serve_all.py` |
 | 8060 | `tools/build_site.py --serve`: the online-style copy (see below) | by hand / launch config `online-test` |
 

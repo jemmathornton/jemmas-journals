@@ -118,7 +118,7 @@ def git_checks(results):
         if not os.path.isdir(p):
             print(f'note git {app:9} not there', flush=True); continue
         dirty = [l for l in git(p, 'status', '--porcelain').splitlines()
-                 if l.strip() and 'data/collection/go.json' not in l and not l[3:].startswith('logs/')]
+                 if l.strip() and 'data/collection/go.json' not in l and 'data/collection/home.json' not in l and not l[3:].startswith('logs/')]   # her Pokédex ticks, GO's and HOME's (the daily backup saves them)
         branch = git(p, 'rev-parse', '--abbrev-ref', 'HEAD')
         ahead = git(p, 'rev-list', '--count', '@{u}..HEAD') if branch == 'main' else '?'
         recorded = (git(ROOT, 'ls-tree', 'HEAD', app).split() + ['', '', ''])[2] == git(p, 'rev-parse', 'HEAD')

@@ -7,7 +7,7 @@ After an app commits (by hand or by its weekly backup), the parent still points 
 apps that are on their main branch with nothing uncommitted, never touches anything else in the parent, and never
 prompts. A failure is printed and the exit code is 1, so a backup's log shows it.
 """
-import os, subprocess, sys
+import os, re, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APPS = ['library', 'sim-world', 'pokedex', 'travels']
@@ -28,7 +28,7 @@ def main():
         path = os.path.join(ROOT, app)
         if not os.path.exists(os.path.join(path, '.git')):
             continue
-        dirty = [l for l in git('status', '--porcelain', cwd=path).stdout.splitlines() if l.strip() and not l[3:].startswith('logs/') and 'data/collection/go.json' not in l]   # a backup's own log line and her Pokédex ticks (saved by the daily backup) don't count
+        dirty = [l for l in git('status', '--porcelain', cwd=path).stdout.splitlines() if l.strip() and not l[3:].startswith('logs/') and not re.search(r'data/collection/(go|home)\.json', l)]   # a backup's own log line and her Pokédex ticks (GO's and, since 22 Nov, Pokémon HOME's; saved by the daily backup) don't count
         if dirty:
             print(f'{app}: has uncommitted changes, not recorded'); skipped.append(app); continue
         if git('rev-parse', '--abbrev-ref', 'HEAD', cwd=path).stdout.strip() != 'main':
