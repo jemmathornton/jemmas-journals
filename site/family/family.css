@@ -1,0 +1,33 @@
+/* Jemma’s Journals family: the shared layout (research/family-rules.md). One copy for every site:
+     <link rel="stylesheet" href="/family/family.css">   (before the site's own stylesheet, so the site can adjust it)
+   Each site keeps its own look by setting these on :root (and again under :root[data-mode="dark"] where they change):
+     --jj-display   the site's display font (footer name, bar name)      --jj-body    its body font
+     --jj-ink       main text colour                                     --jj-muted   footer text (4.5:1 or more)
+     --jj-accent    links and buttons                                    --jj-line    the footer's top rule (optional)
+     --jj-drawer-bg the drawer's background (usually the sidebar's)
+   Everything is wrapped in :where() so any site rule wins without a fight. */
+
+/* ---------- the footer (section 2) ---------- */
+:where(.jj-foot) { text-align: center; padding: 24px 20px 56px; color: var(--jj-muted, #666); font: 400 12.5px/1.7 var(--jj-body, system-ui, sans-serif); }
+:where(.jj-foot) :where(.jj-name) { display: block; font: 400 24px/1.2 var(--jj-display, Georgia, serif); font-style: normal; color: var(--jj-ink, #222); margin: 0 0 6px; }
+:where(.jj-foot) :where(p) { margin: 0; text-wrap: balance; }
+:where(.jj-foot) :where(.cr) { white-space: nowrap; }
+:where(.jj-foot) :where(.dot, .jj-dot) { margin: 0 3px; color: color-mix(in srgb, var(--jj-accent, #888) 60%, transparent); }
+:where(.jj-foot-links) { display: flex; gap: 26px; justify-content: center; align-items: center; flex-wrap: wrap; margin-top: 6px; }
+:where(.jj-foot-links) :where(a, button) { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 4px 2px; border: 0; background: none;
+  font: 700 13px/1 var(--jj-body, system-ui, sans-serif); color: var(--jj-accent, #555); text-decoration: none; cursor: pointer; }
+:where(.jj-foot-links) :where(a, button):hover { text-decoration: underline; text-underline-offset: 3px; }
+:where(.jj-foot-links) :where(.jj-i) { width: 14px; height: 14px; flex: none; }
+@media (max-width: 600px) {   /* on phones the credits stack one per line, no dots */
+  :where(.jj-foot) :where(.dot, .jj-dot) { display: none; }
+  :where(.jj-foot) :where(.cr) { display: block; white-space: normal; }
+}
+
+/* ---------- the Menu drawer on narrow screens (section 3): mechanics only, each site styles its own bar and drawer ---------- */
+:where(.jj-scrim) { position: fixed; inset: 0; z-index: 90; background: rgba(0, 0, 0, .45); }
+:where(.jj-scrim)[hidden] { display: none; }
+:where(html.jj-menu-open), :where(html.jj-menu-open) body { overflow: hidden; }   /* the page behind doesn't scroll while it's open */
+:where(.jj-menu-btn) { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 12px; cursor: pointer; font: 600 14px/1 var(--jj-body, system-ui, sans-serif); }
+:where(.jj-menu-btn) :where(.jj-i) { width: 18px; height: 18px; }
+:where(.jj-bar-name) { font: 400 26px/1 var(--jj-display, Georgia, serif); text-decoration: none; color: inherit; white-space: nowrap; }
+@media (prefers-reduced-motion: reduce) { :where(.jj-drawer) { transition: none !important; } }

@@ -56,7 +56,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
           picturesWithoutWords: cards.filter(c => { const s = c.querySelector('.snap'); return !s.getAttribute('aria-label'); }).length,
           headings: cards.map(c => c.querySelector('h3').textContent),
           openLinksLevel: (() => { const rows = {}; cards.forEach(c => { const k = Math.round(c.getBoundingClientRect().top); (rows[k] ||= []).push(Math.round(c.querySelector('.go').getBoundingClientRect().top)); }); return Object.values(rows).every(ys => new Set(ys).size === 1) || window.innerWidth < 900; })(),
-          modeButton: (() => { const b = document.querySelector('[data-mode-btn]'); return !!b && !!(b.getAttribute('aria-label') || b.textContent.trim()) && !document.querySelector('.cover [data-mode-btn]') && !!document.querySelector('.foot [data-mode-btn]'); })(),
+          modeButton: (() => { const b = document.querySelector('[data-jj-mode]'); return !!b && !!(b.getAttribute('aria-label') || b.textContent.trim()) && !document.querySelector('.cover [data-jj-mode]') && !!document.querySelector('.foot [data-jj-mode]'); })(),
           about: (document.querySelector('.foot .about-site') || {}).textContent || '',
           openWords: cards.map(c => c.querySelector('.go').textContent.trim()).join('|'),
           creditsShown: !!document.querySelector('.foot .credits') && getComputedStyle(document.querySelector('.foot .credits')).display !== 'none',
@@ -93,7 +93,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       check(/noindex/.test(r.noindex) && /noai/.test(r.noindex) && fs.existsSync(path.join(ROOT, 'robots.txt')), tag + 'asks search engines and AI to stay away (' + r.noindex + ')');
       check(r.icons.length === 3 && r.icons.every(h => fs.existsSync(path.join(ROOT, h))), tag + 'tab icon files are there (' + r.icons.join(', ') + ')');
       // the dark button works and is remembered
-      await page.click('[data-mode-btn]');
+      await page.click('[data-jj-mode]');
       check(await page.evaluate(() => document.documentElement.getAttribute('data-mode')) === 'dark', tag + 'dark button switches to dark');
       check(await page.evaluate(() => localStorage.getItem('jj-mode')) === 'dark', tag + 'dark is saved in the shared family setting jj-mode');
       const darkIcons = await page.evaluate(() => [...document.querySelectorAll('link[rel="icon"]')].map(l => l.getAttribute('href')));
@@ -101,7 +101,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       check(darkIcons.every(h => fs.existsSync(path.join(ROOT, h))), tag + 'the dark tab icon files are there');
       await page.reload({ waitUntil: 'networkidle' });
       check(await page.evaluate(() => document.documentElement.getAttribute('data-mode')) === 'dark', tag + 'dark is remembered after reloading');
-      await page.click('[data-mode-btn]');
+      await page.click('[data-jj-mode]');
       // how it grows when places are added (stand-ins via #more1 / #more2; the trial button is gone), still without sideways scrolling
       const grow = async n => { await page.goto(HOST + '#more' + n, { waitUntil: 'networkidle' }); await page.reload({ waitUntil: 'networkidle' }); await page.evaluate(() => Promise.all(document.getAnimations().map(a => a.finished))); };
       check(await page.evaluate(() => !document.querySelector('.sw') && !document.getElementById('more')), tag + 'the trial switch is gone');
@@ -118,7 +118,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       // the most stand-ins (#more3) must still work, and Back to top must move focus to the top (review, 21 Nov)
       await grow(3);
       check(await page.evaluate(() => document.querySelectorAll('.card').length) === 7, tag + '#more3 shows seven places');
-      await page.click('[data-top]');
+      await page.click('[data-jj-top]');
       check(await page.evaluate(() => document.activeElement && document.activeElement.id === 'top'), tag + 'Back to top moves focus to the top');
       check(errors.length === 0, tag + 'no errors in the browser (' + errors.slice(0, 2).join(' / ') + ')');
       await ctx.close();

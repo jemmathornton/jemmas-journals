@@ -4,13 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Page not found · Jemma’s Journals</title>
-<meta name="theme-color" content="#8E6520">
+<meta name="theme-color" content="#8E6520" data-dark="#6A4A17">
 <meta name="robots" content="noindex, noai, noimageai">   <!-- her choice, 20 Nov: keep out of search engines and AI -->
 <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48">
 <link rel="icon" href="/img/icon/icon-192.png" type="image/png" sizes="192x192">
 <link rel="apple-touch-icon" href="/img/icon/apple-touch-icon.png">
-<!-- family rules (21 Nov): light unless she pressed Dark mode on any of her sites; jj-mode is the shared setting. Set before the page draws. -->
-<script>(function(){var m="light";try{if(localStorage.getItem("jj-mode")==="dark")m="dark"}catch(e){}document.documentElement.setAttribute("data-mode",m);if(m==="dark")document.querySelector('meta[name="theme-color"]').setAttribute("content","#6A4A17")})()</script>
+<script src="/family/mode.js"></script>   <!-- the family’s shared dark mode (site/family/) -->
+<link rel="stylesheet" href="/family/family.css">
+<script src="/family/family.js" defer></script>
 <style>
 /* Jemma’s Journals: the page shown for an address that doesn’t exist (for when the site is online). Same cover, paper, footer and dark mode as the home page.
    Paths start with / because this page is shown at whatever address was mistyped (GitHub Pages uses 404.html at the site root). */
@@ -59,24 +60,13 @@ main p{margin:0 0 28px;color:var(--mute)}
 </main>
 <footer class="foot">
   <b>Jemma’s Journals</b>
-  <p>No cookies, no tracking, no ads. Made with HTML, CSS and JavaScript, kept on GitHub.</p>
-  <p><span class="cr">World maps by 20th Century Plumbob</span> <span class="dot" aria-hidden="true">·</span> <span class="cr">Region maps from the Pokémon games</span> <span class="dot" aria-hidden="true">·</span> <span class="cr">Country shapes from Natural Earth</span> <span class="dot" aria-hidden="true">·</span> <span class="cr">Book covers from their publishers</span> <span class="dot" aria-hidden="true">·</span> <span class="cr">Fonts: Instrument Serif and Manrope</span> <span class="dot" aria-hidden="true">·</span> <span class="cr">Icons by Lucide</span></p>
+  <p data-jj-line1>No cookies, no tracking, no ads. Made with HTML, CSS and JavaScript, kept on GitHub.</p>
+  <p data-jj-credits><span class="cr">World maps by 20th Century Plumbob</span> <span class="dot" aria-hidden="true">·</span> <span class="cr">Region maps from the Pokémon games</span> <span class="dot" aria-hidden="true">·</span> <span class="cr">Country shapes from Natural Earth</span> <span class="dot" aria-hidden="true">·</span> <span class="cr">Book covers from their publishers</span> <span class="dot" aria-hidden="true">·</span> <span class="cr">Fonts: Instrument Serif and Manrope</span> <span class="dot" aria-hidden="true">·</span> <span class="cr">Icons by Lucide</span></p>
   <div class="foot-links">
-    <a href="#top" id="toTop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>Back to top</a>
-    <button type="button" id="modeBtn" aria-pressed="false"></button>
+    <a href="#top" id="toTop" data-jj-top><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></svg>Back to top</a>
+    <button type="button" id="modeBtn" data-jj-mode aria-pressed="false"></button>
   </div>
 </footer>
-<script>
-(function(){
-  var root = document.documentElement, btn = document.getElementById('modeBtn');
-  var MOON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>';
-  var SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>';
-  function show(){ var dark = root.getAttribute('data-mode') === 'dark'; btn.innerHTML = (dark ? SUN : MOON) + (dark ? 'Light mode' : 'Dark mode'); btn.setAttribute('aria-pressed', dark ? 'true' : 'false');
-    document.querySelector('meta[name="theme-color"]').setAttribute('content', dark ? '#6A4A17' : '#8E6520'); }
-  btn.addEventListener('click', function(){ var m = root.getAttribute('data-mode') === 'dark' ? 'light' : 'dark'; root.setAttribute('data-mode', m); try{ localStorage.setItem('jj-mode', m); }catch(e){} show(); });
-  document.getElementById('toTop').addEventListener('click', function(e){ e.preventDefault(); window.scrollTo(0, 0); document.getElementById('top').focus({preventScroll:true}); });
-  show();
-})();
-</script>
+<!-- Dark mode and Back to top: the family’s shared code (/family/family.js) -->
 </body>
 </html>
