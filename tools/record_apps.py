@@ -11,7 +11,7 @@ import os, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 APPS = ['library', 'sim-world', 'pokedex', 'travels']
-GH = r'C:\Program Files\GitHub CLI\gh.exe'
+GH = 'C:/Program Files/GitHub CLI/gh.exe'   # forward slashes: git runs the helper through sh
 
 
 def git(*args, cwd=ROOT):
@@ -21,16 +21,19 @@ def git(*args, cwd=ROOT):
 def main():
     if git('rev-parse', '--abbrev-ref', 'HEAD').stdout.strip() != 'main':
         print('Jemma’s Journals is not on main: nothing recorded'); return 1
+    # every network call uses the GitHub CLI's sign-in, never Windows' credential window (her note, 22 Nov: popups)
+    helper = f"credential.helper=!'{GH}' auth git-credential" if os.path.exists(GH) else 'credential.helper='
     changed, skipped = [], []
     for app in APPS:
         path = os.path.join(ROOT, app)
         if not os.path.exists(os.path.join(path, '.git')):
             continue
-        if git('status', '--porcelain', cwd=path).stdout.strip():
+        dirty = [l for l in git('status', '--porcelain', cwd=path).stdout.splitlines() if l.strip() and not l[3:].startswith('logs/')]   # a backup's own log line doesn't count
+        if dirty:
             print(f'{app}: has uncommitted changes, not recorded'); skipped.append(app); continue
         if git('rev-parse', '--abbrev-ref', 'HEAD', cwd=path).stdout.strip() != 'main':
             print(f'{app}: not on main, not recorded'); skipped.append(app); continue
-        git('fetch', '-q', cwd=path)
+        git('-c', 'credential.helper=', '-c', helper, 'fetch', '-q', cwd=path)
         if git('rev-list', '--count', '@{u}..HEAD', cwd=path).stdout.strip() not in ('0', ''):
             print(f'{app}: has commits not yet pushed, not recorded'); skipped.append(app); continue
         recorded = git('ls-tree', 'HEAD', app).stdout.split()
@@ -45,8 +48,7 @@ def main():
         r = git('commit', '-m', 'Record app versions: ' + ', '.join(changed), '--', *changed)
     if r.returncode != 0:
         print('could not commit:', r.stderr.strip() or r.stdout.strip()); return 1
-    helper = f"credential.helper=!'{GH}' auth git-credential" if os.path.exists(GH) else 'credential.helper='
-    r = git('-c', helper, 'push', '-q')
+    r = git('-c', 'credential.helper=', '-c', helper, 'push', '-q')
     if r.returncode != 0:
         print('recorded, but the push failed:', r.stderr.strip()); return 1
     print('recorded and pushed:', ', '.join(changed)); return 0
