@@ -29,14 +29,6 @@
   function ico(n){ return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+ICON[n]+'</svg>'; }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
   var WALL=''; for(var n=0;n<72;n++) WALL+='<img draggable="false" src="img/wall/'+String((n*7)%40).padStart(2,'0')+'.webp" alt="" loading="lazy" decoding="async">';
-  // TRY SWITCH (temporary, 22 Nov: the photo corners and the mat behind each picture; remove with the TRY SWITCH CSS once she has picked)
-  var CORNER_OPTS=[['now','As now'],['gold','Gold'],['cream','Cream'],['clear','Clear'],['frosted','Frosted'],['smoky','Smoky'],['brackets','Brackets'],['none','None']];
-  var MAT_OPTS=[['flat','Flat'],['soft','Soft'],['deep','Deep']];
-  var corners='now', mat='flat', tryHidden=false;
-  function okCorner(v){ return CORNER_OPTS.some(function(o){ return o[0]===v; }); }
-  function okMat(v){ return MAT_OPTS.some(function(o){ return o[0]===v; }); }
-  try { var saved=JSON.parse(localStorage.getItem('jj-home-try')||'{}'); if(okCorner(saved.corners)) corners=saved.corners; if(okMat(saved.mat)) mat=saved.mat; tryHidden=!!saved.hidden; } catch(e){}
-  function saveTry(){ try { localStorage.setItem('jj-home-try', JSON.stringify({corners:corners,mat:mat,hidden:tryHidden})); } catch(e){} }
   // every picture the same landscape plate, 2:1 (her pick, 22 Nov): maps cropped to that shape (img/home/frame-*), the Library's wall fills it
   function pic(p){
     if(p.demo||!p.pic) return '<span class="pic blank" style="--pc:'+p.pc+'"></span>';   // no picture yet (a new site from tools/new_site.py): the striped stand-in
@@ -51,8 +43,6 @@
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
   var more=0, root=document.documentElement, userMode=root.getAttribute('data-mode')==='dark'?'dark':'light';   // more: how many stand-in places to add (0–3); the mode was set by the family's mode.js
   location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w;
-    if(/^corners-/.test(w) && okCorner(w.slice(8))) corners=w.slice(8);   // e.g. #corners-gold in the address (for checking; not saved)
-    if(/^mat-/.test(w) && okMat(w.slice(4))) mat=w.slice(4);   // e.g. #mat-soft
     });
 
   // About this site: two quiet lines (her pick, 20 Nov: option 2, each credit starting with a capital)
@@ -87,29 +77,9 @@
       +'<div class="end" aria-hidden="true"><i></i><b></b><i></i></div>'
       +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b>'+aboutSite()
       +'<div class="foot-links"><a class="totop" href="#top" data-jj-top>'+ico('arrow-up')+'Back to top</a>'+MODETEXT+'</div>'+'</div></footer>';
-    var page=document.getElementById('page'); page.className='v2 corners-'+corners+' mat-'+mat+(firstRender?' i-enter':''); firstRender=false; page.innerHTML=h;
+    var page=document.getElementById('page'); page.className='v2'+(firstRender?' i-enter':''); firstRender=false; page.innerHTML=h;
   }
   render();
-
-  // the Try switch itself (temporary: bottom right, only while she chooses)
-  var box=document.createElement('div'); box.className='trybox'; box.setAttribute('role','group'); box.setAttribute('aria-label','Try');
-  function drawTry(){
-    var h='<div class="try-head"><b>Try</b><button type="button" class="try-hide" aria-expanded="'+!tryHidden+'">'+(tryHidden?'Show':'Hide')+'</button></div>';
-    if(!tryHidden) h+='<div class="try-row"><span>Corners</span>'+CORNER_OPTS.map(function(o){ return '<button type="button" data-try="corners" data-val="'+o[0]+'" aria-pressed="'+(corners===o[0])+'">'+o[1]+'</button>'; }).join('')+'</div>'
-      +'<div class="try-row"><span>Mat</span>'+MAT_OPTS.map(function(o){ return '<button type="button" data-try="mat" data-val="'+o[0]+'" aria-pressed="'+(mat===o[0])+'">'+o[1]+'</button>'; }).join('')+'</div>';
-    box.innerHTML=h; box.classList.toggle('folded',tryHidden);
-  }
-  drawTry(); document.body.appendChild(box);
-  box.addEventListener('click',function(e){
-    var b=e.target.closest('button'); if(!b) return;
-    if(b.classList.contains('try-hide')){ tryHidden=!tryHidden; saveTry(); drawTry(); box.querySelector('.try-hide').focus(); return; }
-    var k=b.getAttribute('data-try'), v=b.getAttribute('data-val'), pg=document.getElementById('page');
-    if(k==='corners' && okCorner(v)){ corners=v; pg.className=pg.className.replace(/corners-\w+/,'corners-'+v); }
-    else if(k==='mat' && okMat(v)){ mat=v; pg.className=pg.className.replace(/mat-\w+/,'mat-'+v); }
-    else return;
-    saveTry(); drawTry();
-    var again=box.querySelector('[data-try="'+k+'"][data-val="'+v+'"]'); if(again) again.focus();
-  });
 
   var toast=document.getElementById('toast'), t;
   function say(m){ toast.textContent=m; toast.hidden=false; clearTimeout(t); t=setTimeout(function(){ toast.hidden=true; },1800); }

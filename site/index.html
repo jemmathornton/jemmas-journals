@@ -46,7 +46,7 @@ body{margin:0}img{max-width:100%}[hidden]{display:none!important}   /* what the 
 :root[data-mode="dark"] .v2{--mat:#0D0A07}   /* warm blacks, to mirror the cream (her ask, 20 Nov) */
 :root[data-mode="dark"] .cover h1{outline-color:rgba(243,235,218,.22)}
 :root[data-mode="dark"] .cover h1 em{color:var(--gold)}
-:root[data-mode="dark"] .c{background:#F3EBDA;box-shadow:0 1px 2px rgba(0,0,0,.6)}
+:root[data-mode="dark"] .c{background:linear-gradient(135deg,#E6DDCD,#CFC5B3);box-shadow:0 1px 2px rgba(0,0,0,.5)}   /* cream, softened to match (22 Nov) */
 :root[data-mode="dark"] .snap{box-shadow:0 14px 30px -14px rgba(0,0,0,.9),0 0 0 1px rgba(243,235,218,.08)}
 
 *{box-sizing:border-box}
@@ -106,7 +106,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .snap{position:relative;display:block;aspect-ratio:4/3;background:var(--mat);padding:12px;box-shadow:0 14px 30px -18px rgba(0,0,0,.55);margin-bottom:22px;cursor:default}
 /* the picture is not a link and doesn’t react to the mouse (her decision, 22 Nov): only “Open …” opens a site */
 .snap .pic{inset:12px}
-.c{position:absolute;z-index:2;width:24px;height:24px;background:linear-gradient(135deg,#3B3530,#1C1916);box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.c{position:absolute;z-index:2;width:24px;height:24px;background:linear-gradient(135deg,#4A423A,#342D27);box-shadow:0 1px 2px rgba(0,0,0,.25)}   /* a softer warm near-black (her ask, 22 Nov: the black was a bit stark) */
 .c.tl{top:5px;left:5px;clip-path:polygon(0 0,100% 0,0 100%)}
 .c.tr{top:5px;right:5px;clip-path:polygon(0 0,100% 0,100% 100%)}
 .c.bl{bottom:5px;left:5px;clip-path:polygon(0 0,0 100%,100% 100%)}
@@ -257,69 +257,6 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 .v2 .card .go{color:#F3EBDA;border-bottom-color:rgba(243,235,218,.45)}
 .v2 .card .go:focus-visible{outline-color:#F3EBDA}
 @media (max-width:760px){ .v2 .card .txt h3{font-size:30px} }
-/* ================================================================ TRY SWITCH (temporary, 22 Nov): the Corners row. She’s no longer sure about the black photo corners;
-   only the corners on the pictures change. Remove this block and the switch code in home.js once she has picked. */
-#page.corners-gold .c{background:linear-gradient(135deg,#D2AC5E,#8E6520 55%,#6A4A17);box-shadow:0 1px 2px rgba(0,0,0,.35)}
-:root[data-mode="dark"] #page.corners-gold .c{background:linear-gradient(135deg,#EBCB85,#B48A3E 55%,#8E6520)}
-#page.corners-cream .c{background:linear-gradient(135deg,#FFFBF2,#E8DCC4);box-shadow:0 1px 2px rgba(0,0,0,.35)}
-#page.corners-clear .c{background:linear-gradient(135deg,rgba(255,255,255,.7),rgba(255,255,255,.22) 55%,rgba(255,255,255,.38));box-shadow:none}
-#page.corners-brackets .c{background:none;clip-path:none;box-shadow:none;width:14px;height:14px;border:0 solid #8E6520}
-:root[data-mode="dark"] #page.corners-brackets .c{border-color:#DDB86A}
-#page.corners-brackets .c.tl{border-top-width:1.5px;border-left-width:1.5px}#page.corners-brackets .c.tr{border-top-width:1.5px;border-right-width:1.5px}
-#page.corners-brackets .c.bl{border-bottom-width:1.5px;border-left-width:1.5px}#page.corners-brackets .c.br{border-bottom-width:1.5px;border-right-width:1.5px}
-#page.corners-brackets .c.tl,#page.corners-brackets .c.tr{top:2px}#page.corners-brackets .c.bl,#page.corners-brackets .c.br{bottom:2px}
-#page.corners-brackets .c.tl,#page.corners-brackets .c.bl{left:2px}#page.corners-brackets .c.tr,#page.corners-brackets .c.br{right:2px}
-/* Frosted and Smoky (her ask, 22 Nov): like real frosted or smoked plastic photo corners. Neutral (no warm tint: the first try looked brown) and with depth
-   (the first try looked flat): the corner itself casts a soft shadow onto the picture and mat (drop-shadow on the unclipped corner, the triangle drawn by ::before),
-   the face is lighter at the outer corner, and along the long folded edge a hairline, half-opaque highlight (her note: a wider white edge read as a stripe).
-   The gradient runs from the outer corner, so its 50% line is that edge. */
-#page .c.tl{--ca:135deg;--cp:polygon(0 0,100% 0,0 100%)}#page .c.tr{--ca:225deg;--cp:polygon(0 0,100% 0,100% 100%)}
-#page .c.br{--ca:315deg;--cp:polygon(100% 0,100% 100%,0 100%)}#page .c.bl{--ca:45deg;--cp:polygon(0 0,0 100%,100% 100%)}
-#page.corners-frosted .c,#page.corners-smoky .c{background:none;clip-path:none;box-shadow:none;width:18px;height:18px;filter:drop-shadow(0 1.5px 1.5px rgba(0,0,0,.32)) drop-shadow(0 0 .5px rgba(0,0,0,.25))}
-#page.corners-frosted .c::before,#page.corners-smoky .c::before{content:"";position:absolute;inset:0;clip-path:var(--cp)}
-#page.corners-frosted .c::before{background:linear-gradient(var(--ca),rgba(255,255,255,.85),rgba(238,241,244,.62) 22%,rgba(214,219,224,.58) 43%,rgba(190,196,203,.56) 48.6%,rgba(255,255,255,.5) 48.8%,rgba(255,255,255,.5) 50%,transparent 50%)}
-#page.corners-smoky .c::before{background:linear-gradient(var(--ca),rgba(150,155,162,.62),rgba(78,82,89,.58) 22%,rgba(52,56,62,.62) 43%,rgba(20,22,26,.7) 48.6%,rgba(255,255,255,.5) 48.8%,rgba(255,255,255,.5) 50%,transparent 50%)}
-:root[data-mode="dark"] #page.corners-frosted .c,:root[data-mode="dark"] #page.corners-smoky .c{background:none;box-shadow:none;filter:drop-shadow(0 1.5px 2px rgba(0,0,0,.7)) drop-shadow(0 0 .5px rgba(0,0,0,.5))}
-:root[data-mode="dark"] #page.corners-smoky .c::before{background:linear-gradient(var(--ca),rgba(225,229,234,.66),rgba(170,175,182,.56) 22%,rgba(140,145,152,.58) 43%,rgba(70,74,80,.6) 48.6%,rgba(255,255,255,.5) 48.8%,rgba(255,255,255,.5) 50%,transparent 50%)}
-#page.corners-none .c{display:none}
-/* Mat (her ask, 22 Nov: the Frosted corners looked out of place on such a flat mat). Only the mat round each picture changes; no texture or grain (paper was a no, 20 Nov).
-   Flat = as now. Soft: a faint light-to-darker sweep across the mat, a lifted edge (a light top rim, a darker bottom rim, a slightly crisper shadow)
-   and the picture lightly pressed in (a soft inner shadow on it, a hairline bevel round it). Deep: the same, stronger: the picture sits a few millimetres
-   into a recessed window, shadowed on its top and left edges, with a light bevel bottom right. Dark mats stay the deep warm black. */
-#page.mat-soft .snap{background:linear-gradient(155deg,#FFFDF8,#FAF4E8 42%,#ECE2CF);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(0,0,0,.07),0 1px 1px rgba(0,0,0,.16),0 9px 17px -9px rgba(0,0,0,.72)}
-#page.mat-soft .pic{box-shadow:0 0 0 1px rgba(255,255,255,.7),-1px -1px 2px rgba(0,0,0,.16)}
-#page.mat-soft .pic::after{box-shadow:inset 0 0 0 1px rgba(0,0,0,.2),inset 1.5px 1.5px 4px rgba(0,0,0,.36)}
-#page.mat-deep .snap{background:linear-gradient(150deg,#FFFDF8,#F8F2E6 42%,#E9DFCC);
-  box-shadow:inset 1px 1px 0 rgba(255,255,255,.95),inset -1px -1px 0 rgba(0,0,0,.1),0 1.5px 1.5px rgba(0,0,0,.2),0 11px 20px -10px rgba(0,0,0,.78)}
-#page.mat-deep .pic{box-shadow:-1px -1px 0 rgba(0,0,0,.2),1px 1px 0 rgba(255,255,255,.95),-1px -1px 3px rgba(0,0,0,.12)}
-#page.mat-deep .pic::after{box-shadow:inset 0 0 0 1px rgba(0,0,0,.24),inset 3px 3px 6px -1px rgba(0,0,0,.5),inset 1px 1px 2px rgba(0,0,0,.3)}
-:root[data-mode="dark"] #page.mat-soft .snap{background:linear-gradient(155deg,#1A1510,#0D0A07 50%,#070504);
-  box-shadow:inset 0 1px 0 rgba(255,240,215,.09),inset 0 -1px 0 rgba(0,0,0,.6),0 1px 1px rgba(0,0,0,.5),0 9px 17px -9px rgba(0,0,0,.9)}
-:root[data-mode="dark"] #page.mat-soft .pic{box-shadow:0 0 0 1px rgba(255,240,215,.06),-.5px -.5px 2px rgba(0,0,0,.6)}
-:root[data-mode="dark"] #page.mat-soft .pic::after{box-shadow:inset 0 0 0 1px rgba(0,0,0,.4),inset 1px 1px 3px rgba(0,0,0,.5)}
-:root[data-mode="dark"] #page.mat-deep .snap{background:linear-gradient(150deg,#211A13,#0F0C08 45%,#060403);
-  box-shadow:inset 1px 1px 0 rgba(255,240,215,.12),inset -1px -1px 0 rgba(0,0,0,.7),0 1.5px 1.5px rgba(0,0,0,.6),0 11px 20px -10px rgba(0,0,0,.95)}
-:root[data-mode="dark"] #page.mat-deep .pic{box-shadow:-1px -1px 0 rgba(0,0,0,.75),1px 1px 0 rgba(255,240,215,.13),-1px -1px 3px rgba(0,0,0,.5)}
-:root[data-mode="dark"] #page.mat-deep .pic::after{box-shadow:inset 0 0 0 1px rgba(0,0,0,.45),inset 3px 3px 6px -1px rgba(0,0,0,.75),inset 1px 1px 2px rgba(0,0,0,.5)}
-.trybox{position:fixed;z-index:70;right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 24px);
-  background:#FFFDF8;color:#221D17;border:1px solid #DDD3C3;border-radius:14px;box-shadow:0 12px 34px -10px rgba(0,0,0,.35);padding:10px 12px 12px;font:600 12.5px/1.2 var(--body)}
-.try-head{display:flex;justify-content:space-between;align-items:center;gap:14px}
-.try-head b{font:800 11px/1 var(--body);letter-spacing:.12em;text-transform:uppercase;color:#6E6458}
-.try-row{display:flex;flex-wrap:wrap;align-items:center;gap:5px;margin-top:7px}
-.try-row>span{min-width:58px;color:#6E6458}
-.trybox button{border:1px solid #DDD3C3;background:#fff;color:inherit;border-radius:8px;padding:6px 10px;font:600 12.5px/1 var(--body);cursor:pointer;min-height:32px}
-.trybox button[aria-pressed="true"]{background:#29221B;color:#F4EEE3;border-color:#29221B}
-.trybox .try-hide{border:0;background:none;color:#8A661E;text-decoration:underline;text-underline-offset:3px;padding:4px 2px;min-height:28px}
-.trybox.folded{padding:6px 12px}
-:root[data-mode="dark"] .trybox{background:#1B1611;color:#EFE9DE;border-color:#40362B}
-:root[data-mode="dark"] .trybox button{background:#29221B;border-color:#40362B}
-:root[data-mode="dark"] .trybox button[aria-pressed="true"]{background:#EFE9DE;color:#221D17;border-color:#EFE9DE}
-:root[data-mode="dark"] .trybox .try-hide{background:none;color:#DDB86A}
-:root[data-mode="dark"] .try-head b,:root[data-mode="dark"] .try-row>span{color:#A89F91}
-body:has(.trybox:not(.folded)) .foot .wrap{padding-bottom:150px}
-@media (max-width:760px){ .trybox{left:calc(10px + env(safe-area-inset-left,0px));right:calc(10px + env(safe-area-inset-right,0px))} .trybox.folded{left:auto}
-  .try-row{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;gap:4px} .trybox button{flex:none;padding:5px 8px;font-size:12px;min-height:30px} .try-row>span{min-width:52px;font-size:11.5px} }
 </style>
 </head>
 <body>
