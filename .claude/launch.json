@@ -2,6 +2,13 @@
   "version": "0.0.1",
   "configurations": [
     {
+      "name": "online-test",
+      "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
+      "runtimeArgs": ["-I", "tools/build_site.py", "--serve"],
+      "port": 8060,
+      "autoPort": false
+    },
+    {
       "name": "family",
       "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
       "runtimeArgs": ["-I", "tools/serve_all.py"],

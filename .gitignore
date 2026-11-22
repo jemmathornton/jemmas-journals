@@ -7,3 +7,5 @@ __pycache__/
 node_modules/
 # local logs and the family server's saved dark-mode choice
 logs/
+# the online-style build (tools/build_site.py)
+_site/
