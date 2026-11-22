@@ -1,20 +1,36 @@
 // Checks the home page (site/index.html) in a real browser, at her laptop window, a smaller laptop and a phone.
 // Run:  C:/Users/Jemma/Documents/JemmasJournals/.tools/node/node.exe tests/check_page.js
-// Uses the Playwright that her Sim World project already has (Microsoft Edge, no download). Changes nothing on disk.
+// Uses the family's shared Playwright (node_modules/ here) with the Microsoft Edge already on the PC. Changes nothing on disk.
+// The family rules (footer, dark mode across sites, drawer…) for all five sites are in tests/family/family.test.js.
 const path = require('path');
 const fs = require('fs');
 const { chromium } = require('playwright');
 
 const ROOT = path.join(__dirname, '..', 'site');
 const HOST = 'http://jj.test/';
-const TYPES = { '.html': 'text/html; charset=utf-8', '.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.woff2': 'font/woff2', '.svg': 'image/svg+xml' };
-// The published page is wrapped in a document skeleton; this does the same for the local file.
-const wrap = () => { const f = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8'); if (/^<!doctype/i.test(f)) return f; return '<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
-  + '<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>' + f + '</body></html>'; };
+// real content types: Edge refuses a stylesheet sent as application/octet-stream, so without them home was tested with no
+// family.css at all (round 5 review)
+const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css; charset=utf-8', '.js': 'text/javascript; charset=utf-8',
+  '.json': 'application/json', '.ico': 'image/x-icon', '.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp',
+  '.woff2': 'font/woff2', '.svg': 'image/svg+xml', '.txt': 'text/plain; charset=utf-8' };
+const wrap = () => fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
+const APPS = ['sim-world', 'library', 'pokedex', 'travels'];
+// home at the root of a plain host, like the sites online: the apps' addresses answer with a stand-in page (enough to show a link
+// arrived), everything else comes from site/
+const serve = route => {
+  const url = new URL(route.request().url());
+  if (url.pathname === '/' || url.pathname === '/index.html') return route.fulfill({ body: wrap(), contentType: TYPES['.html'] });
+  const app = APPS.find(a => url.pathname === '/' + a + '/');
+  if (app) return route.fulfill({ body: '<!doctype html><title>' + app + '</title><h1>' + app + '</h1>', contentType: TYPES['.html'] });
+  const file = path.join(ROOT, decodeURIComponent(url.pathname));
+  if (!file.startsWith(ROOT) || !fs.existsSync(file) || fs.statSync(file).isDirectory()) return route.fulfill({ status: 404, body: 'missing' });
+  route.fulfill({ body: fs.readFileSync(file), contentType: TYPES[path.extname(file)] || 'application/octet-stream' });
+};
 
 const SIZES = [
   { name: 'laptop 1600', viewport: { width: 1600, height: 930 } },
   { name: 'laptop 1280', viewport: { width: 1280, height: 800 } },
+  { name: 'small laptop 1000', viewport: { width: 1000, height: 760 } },
   { name: 'phone 390', viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true, deviceScaleFactor: 2 },
 ];
 let failures = 0, passes = 0;
@@ -30,13 +46,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       const errors = [];
       page.on('pageerror', e => errors.push(e.message));
       page.on('console', m => { if (m.type() === 'error') errors.push(m.text()); });
-      await page.route(HOST + '**', route => {
-        const url = new URL(route.request().url());
-        if (url.pathname === '/' || url.pathname === '/index.html') return route.fulfill({ body: wrap(), contentType: TYPES['.html'] });
-        const file = path.join(ROOT, decodeURIComponent(url.pathname));
-        if (!file.startsWith(ROOT) || !fs.existsSync(file)) return route.fulfill({ status: 404, body: 'missing' });
-        route.fulfill({ body: fs.readFileSync(file), contentType: TYPES[path.extname(file)] || 'application/octet-stream' });
-      });
+      await page.route(HOST + '**', serve);
       await page.goto(HOST, { waitUntil: 'networkidle' });
       await page.evaluate(async () => { await document.fonts.ready; for (let y = 0; y < document.body.scrollHeight; y += 400) { window.scrollTo(0, y); await new Promise(r => setTimeout(r, 40)); } window.scrollTo(0, 0); });
       await page.waitForLoadState('networkidle');
@@ -59,7 +69,9 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
           modeButton: (() => { const b = document.querySelector('[data-jj-mode]'); return !!b && !!(b.getAttribute('aria-label') || b.textContent.trim()) && !document.querySelector('.cover [data-jj-mode]') && !!document.querySelector('.foot [data-jj-mode]'); })(),
           about: (document.querySelector('.foot .about-site') || {}).textContent || '',
           openWords: cards.map(c => c.querySelector('.go').textContent.trim()).join('|'),
-          creditsShown: !!document.querySelector('.foot .credits') && getComputedStyle(document.querySelector('.foot .credits')).display !== 'none',
+          creditLines: document.querySelectorAll('[data-jj-credits]').length,
+          creditCount: document.querySelectorAll('[data-jj-credits] .cr').length,
+          sheets: [...document.styleSheets].map(st => [(st.href || 'inline').split('/').pop(), (() => { try { return st.cssRules.length; } catch (e) { return -1; } })()]),
           corners: document.querySelectorAll('.cover .cn').length,
           entrance: document.getElementById('page').classList.contains('i-enter'),
           stitched: getComputedStyle(document.querySelector('.cover'), '::after').borderTopStyle,
@@ -82,7 +94,8 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       check(/Instrument Serif/.test(r.about) && /No cookies/.test(r.about), tag + 'About this site is in the footer');
       check(/Region maps/.test(r.about) && /Book covers/.test(r.about) && /Icons by Lucide/.test(r.about), tag + 'each credit starts with a capital (her ask, 20 Nov)');
       check(r.openWords === 'Open My Sim World|Open My Library|Open My Pokédex|Open My Travels', tag + 'links say Open My … (' + r.openWords + ')');
-      check(!r.creditsShown, tag + 'the credits aren’t repeated above About this site');
+      check(r.creditLines === 1 && r.creditCount === 6, tag + 'the credits are shown once, in the footer (' + r.creditLines + ' lines, ' + r.creditCount + ' credits)');
+      check(r.sheets.length >= 2 && r.sheets.every(([, n]) => n > 0), tag + 'every stylesheet loaded with its rules, family.css too (' + r.sheets.map(x => x.join(' ')).join(', ') + ')');
       if (size.viewport.width >= 1280) {   // four places (Travels added 21 Nov): 2 × 2 at full size
         const four = await page.evaluate(() => { const r = [...document.querySelectorAll('.card')].map(c => c.getBoundingClientRect()); return { first: r.filter(x => Math.round(x.top) === Math.round(r[0].top)).length, rows: new Set(r.map(x => Math.round(x.top))).size, wide: r[0].width > 300 }; });
         check(four.first === 2 && four.rows === 2 && four.wide, tag + 'four places sit as 2 × 2 at full size (first row ' + four.first + ')');
@@ -104,7 +117,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       await page.click('[data-jj-mode]');
       // how it grows when places are added (stand-ins via #more1 / #more2; the trial button is gone), still without sideways scrolling
       const grow = async n => { await page.goto(HOST + '#more' + n, { waitUntil: 'networkidle' }); await page.reload({ waitUntil: 'networkidle' }); await page.evaluate(() => Promise.all(document.getAnimations().map(a => a.finished))); };
-      check(await page.evaluate(() => !document.querySelector('.sw') && !document.getElementById('more')), tag + 'the trial switch is gone');
+      check(await page.evaluate(() => !document.querySelector('.trybox, .sw, [aria-label="Try"], #more')), tag + 'no Try switch left on the page (only while she is choosing)');
       await grow(1);
       const grown = await page.evaluate(() => ({ cards: document.querySelectorAll('.card').length, sideways: document.documentElement.scrollWidth - document.documentElement.clientWidth }));
       check(grown.cards === 5 && grown.sideways <= 0, tag + '"More places" adds a fifth without sideways scrolling');
@@ -124,19 +137,33 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       await ctx.close();
     }
   }
+  // home's Open links work on a plain host (online, or the 8060 copy): each goes to its app, no "opens here once online" note
+  // (round 5 review: they only worked on port 8050)
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 }, reducedMotion: 'reduce' });
+    const page = await ctx.newPage(); const errors = [];
+    page.on('pageerror', e => errors.push(e.message));
+    await page.route(HOST + '**', serve);
+    for (const [i, app] of ['sim-world', 'library', 'pokedex', 'travels'].entries()) {
+      for (const kind of ['go', 'snap']) {
+        await page.goto(HOST, { waitUntil: 'networkidle' });
+        await Promise.all([page.waitForURL(HOST + app + '/', { timeout: 5000 }).catch(() => {}), page.locator('.card a.' + kind).nth(i).click()]);
+        const at = new URL(page.url()).pathname;
+        check(at === '/' + app + '/', 'online-style host: the ' + (kind === 'go' ? '“Open …” link' : 'photo') + ' of place ' + (i + 1) + ' goes to /' + app + '/ (at ' + at + ')');
+      }
+    }
+    await page.goto(HOST, { waitUntil: 'networkidle' });
+    check(await page.evaluate(() => { const t = document.getElementById('toast'); return !t || t.hidden; }), 'online-style host: no “opens here once the sites are online” note');
+    check(errors.length === 0, 'online-style host: no errors (' + errors.slice(0, 2).join(' / ') + ')');
+    await ctx.close();
+  }
   // the family rules (research/family-rules.md): dark set on another site carries here and to the 404 page, which has the family footer
   {
     const ctx = await browser.newContext({ viewport: { width: 1280, height: 800 }, colorScheme: 'dark' });
     await ctx.addInitScript(() => { try { if (!sessionStorage.getItem('seeded')) { localStorage.setItem('jj-mode', 'dark'); sessionStorage.setItem('seeded', '1'); } } catch (e) {} });
     const page = await ctx.newPage(); const errors = [];
     page.on('pageerror', e => errors.push(e.message));
-    await page.route(HOST + '**', route => {
-      const url = new URL(route.request().url());
-      if (url.pathname === '/' || url.pathname === '/index.html') return route.fulfill({ body: wrap(), contentType: TYPES['.html'] });
-      const file = path.join(ROOT, decodeURIComponent(url.pathname));
-      if (!file.startsWith(ROOT) || !fs.existsSync(file)) return route.fulfill({ status: 404, body: 'missing' });
-      route.fulfill({ body: fs.readFileSync(file), contentType: TYPES[path.extname(file)] || 'application/octet-stream' });
-    });
+    await page.route(HOST + '**', serve);
     await page.goto(HOST, { waitUntil: 'networkidle' });
     check(await page.evaluate(() => document.documentElement.getAttribute('data-mode')) === 'dark', 'family: home opens dark when jj-mode is already dark');
     await page.goto(HOST + '404.html', { waitUntil: 'networkidle' });
