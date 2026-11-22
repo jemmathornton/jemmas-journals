@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex, noai, noimageai">
+<!-- Content Security Policy (the family’s rule, 22 Nov): the browser runs only this site’s own files; nothing from other sites. Before any script. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-src 'none'">
+<title>Jemma’s __NAME__</title>
+<meta name="theme-color" content="__BAR_LIGHT__" data-dark="__BAR_DARK__">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<!-- the family’s shared code, one copy in Jemma’s Journals (site/family/): light or dark set before the page is drawn (always opens light;
+     localStorage "jj-mode" shared by all her sites), the footer, Back to top and the Menu drawer. Opened as a file, js/app.js loads them
+     from ../../site/family/ instead. -->
+<script src="/family/mode.js"></script>
+<link rel="stylesheet" href="/family/family.css">
+<script src="/family/family.js" defer></script>
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<a class="skip" href="#view">Skip to the page</a>
+<!-- 900px and below (the family rules): a slim bar with Menu on the left and the name; the sidebar becomes a drawer from the left -->
+<div class="topbar" id="topbar"><button class="menu-btn jj-menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="side"></button><a class="brand-bar jj-bar-name" href="#/">Jemma’s <em>__NAME__</em></a></div>
+<div class="scrim jj-scrim" id="scrim" hidden></div>
+<div class="shell">
+  <header class="side jj-drawer" id="side">
+    <div class="side-top">
+      <a class="home-link" href="/" data-jj-home>← Jemma’s Journals</a>
+      <a class="brand" href="#/"><b>Jemma’s <em>__NAME__</em></b></a>
+    </div>
+    <nav class="nav" id="nav" aria-label="__NAME__"></nav>
+  </header>
+  <main id="main">
+    <div class="wrap" id="view" tabindex="-1"></div>
+    <!-- the family footer (site/family/, the same on all her sites): the name, line 1 (put in by family.js), this site’s own true
+         credits, then Back to top and Dark/Light mode (family.js adds the words and icons and wires them). Change the credits if
+         the site starts using other things (pictures, maps …). -->
+    <footer class="jj-foot" id="foot"><b class="jj-name">Jemma’s __NAME__</b>
+      <p data-jj-line1></p>
+      <p data-jj-credits><span class="cr">Fonts: Instrument Serif and Manrope</span><span class="dot" aria-hidden="true">&nbsp;·</span> <span class="cr">Icons by Lucide</span></p>
+      <div class="jj-foot-links"><a href="#top" data-jj-top="#view"></a><button data-jj-mode></button></div></footer>
+  </main>
+</div>
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

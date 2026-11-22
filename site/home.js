@@ -28,7 +28,7 @@
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
   var WALL=''; for(var n=0;n<72;n++) WALL+='<img src="img/wall/'+String((n*7)%40).padStart(2,'0')+'.webp" alt="" loading="lazy" decoding="async">';
   function pic(p){
-    if(p.demo) return '<span class="pic blank" style="--pc:'+p.pc+'"></span>';
+    if(p.demo||!p.pic) return '<span class="pic blank" style="--pc:'+p.pc+'"></span>';   // no picture yet (a new site from tools/new_site.py): the striped stand-in
     var q=p.pic;
     if(q.wall) return '<span class="pic" role="img" aria-label="'+esc(q.alt)+'"><span class="wall">'+WALL+'</span></span>';
     return '<span class="pic'+(q.map?' map':'')+'"><img class="bg" src="'+q.img+'" alt="'+esc(q.alt||'')+'" loading="lazy" decoding="async"></span>';
