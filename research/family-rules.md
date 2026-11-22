@@ -19,7 +19,7 @@ At the bottom of every page, centred, in the site’s own fonts and colours:
 ```
             ── ◆ ──                     (the site’s own small divider, optional)
          Jemma’s Journals               (or Jemma’s Library, Jemma’s Sim World …: the site’s own name, in its display font, plain not italic)
-  No cookies, no tracking, no ads. Made with HTML, CSS and JavaScript, kept on GitHub.
+  No cookies, no tracking, no ads. Made with HTML, CSS, JavaScript and Python, kept on GitHub.
   <credit> · <credit> · <credit>        (the site’s own true credits, each starting with a capital)
        ↑ Back to top     ☾ Dark mode    (both 44px tall tap areas, level with each other)
 ```

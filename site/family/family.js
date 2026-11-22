@@ -17,7 +17,7 @@
 (function () {
   "use strict";
   var root = document.documentElement;
-  var LINE1 = "No cookies, no tracking, no ads. Made with HTML, CSS and JavaScript, kept on GitHub.";
+  var LINE1 = "No cookies, no tracking, no ads. Made with HTML, CSS, JavaScript and Python, kept on GitHub.";
   var SVG = function (paths) { return '<svg class="jj-i" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + paths + "</svg>"; };
   var ICON = {   // Lucide
     moon: SVG('<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'),

@@ -271,7 +271,7 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   // About this site: two quiet lines (her pick, 20 Nov: option 2, each credit starting with a capital)
   var DOT='<span class="dot" aria-hidden="true"> ·</span>';   // the no-break space sits inside the dot, so a “·” never starts a line and on phones (dots hidden) no empty line is left
   function aboutSite(){
-    return '<div class="about-site two"><p data-jj-line1>No cookies, no tracking, no ads. Made with HTML, CSS and JavaScript, kept on GitHub.</p>'
+    return '<div class="about-site two"><p data-jj-line1>No cookies, no tracking, no ads. Made with HTML, CSS, JavaScript and Python, kept on GitHub.</p>'
       +'<p data-jj-credits>'+['World maps by 20th Century Plumbob','Region maps from the Pokémon games','Country shapes from Natural Earth','Book covers from their publishers','Fonts: Instrument Serif and Manrope','Icons by Lucide'].map(function(t){ return '<span class="cr">'+t+'</span>'; }).join(DOT+' ')+'</p></div>';
   }
   root.setAttribute('data-mode', userMode);   // #dark / #light in the address (for checking); the theme colour and tab icon follow through family.js (round 4: this page's own copy left the bar colour stuck)
