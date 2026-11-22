@@ -35,10 +35,44 @@
     try { localStorage.setItem("jj-mode", m); } catch (e) {}
     if (root.hasAttribute("data-jj-server-mode")) {   // on her PC: the family server keeps it for every app window
       root.setAttribute("data-jj-server-mode", m);
-      try { fetch("/family/mode", { method: "POST", headers: { "X-Family": "1", "Content-Type": "text/plain" }, body: m, keepalive: true }); } catch (e) {}
+      save(m);
     }
     paint(true);
     changeListeners.forEach(function (f) { try { f(m); } catch (e) {} });
+  }
+  // Saving to the family server (round 5): quick presses send only the last one, 300 ms after it, and one save at a time,
+  // so the server can't end up with an older press than the page shows. Leaving the page sends a waiting save at once.
+  var saveWanted = null, saveTimer = 0, saving = false;
+  function save(m) { saveWanted = m; clearTimeout(saveTimer); saveTimer = setTimeout(sendSave, 300); }
+  function sendSave() {
+    clearTimeout(saveTimer);
+    if (saving || saveWanted === null) return;
+    var m = saveWanted; saveWanted = null; saving = true;
+    var done = function () { saving = false; if (saveWanted !== null) sendSave(); };
+    try {
+      fetch("/family/mode", { method: "POST", headers: { "X-Family": "1", "Content-Type": "text/plain" }, body: m, keepalive: true }).then(done, done);
+    } catch (e) { done(); }
+  }
+  function busySaving() { return saving || saveWanted !== null; }
+  // the mode changed somewhere else (another tab, or another app window through the family server): follow it, without saving again
+  function follow(m) {
+    if ((m !== "dark" && m !== "light") || m === getMode()) return;
+    root.setAttribute("data-mode", m);
+    if (root.hasAttribute("data-jj-server-mode")) root.setAttribute("data-jj-server-mode", m);
+    try { localStorage.setItem("jj-mode", m); } catch (e) {}
+    paint(true);
+    changeListeners.forEach(function (f) { try { f(m); } catch (x) {} });
+  }
+  // her app windows each have their own Chrome profile, so no storage event reaches them: when a window comes back into
+  // view, ask the family server for the mode and follow it (round 5 review). Only on the family server; never while saving.
+  var lastAsk = 0;
+  function askServer() {
+    if (!root.hasAttribute("data-jj-server-mode") || document.visibilityState === "hidden" || busySaving() || Date.now() - lastAsk < 500) return;
+    lastAsk = Date.now();
+    try {
+      fetch("/family/mode", { cache: "no-store" }).then(function (r) { return r.ok ? r.text() : ""; })
+        .then(function (t) { if (!busySaving()) follow(String(t).trim()); }, function () {});
+    } catch (e) {}
   }
   function chrome() {
     var dark = getMode() === "dark";
@@ -203,13 +237,10 @@
       .observe(document.body, { childList: true, subtree: true });
     var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(fitCredits, 100); });
     // another tab or window of the same browser changed the mode: follow it straight away (round 3 review)
-    window.addEventListener("storage", function (e) {
-      if (e.key !== "jj-mode" || (e.newValue !== "dark" && e.newValue !== "light") || e.newValue === getMode()) return;
-      root.setAttribute("data-mode", e.newValue);
-      if (root.hasAttribute("data-jj-server-mode")) root.setAttribute("data-jj-server-mode", e.newValue);
-      paint(true);
-      changeListeners.forEach(function (f) { try { f(e.newValue); } catch (x) {} });
-    });
+    window.addEventListener("storage", function (e) { if (e.key === "jj-mode") follow(e.newValue); });
+    window.addEventListener("focus", askServer);
+    document.addEventListener("visibilitychange", function () { if (document.visibilityState === "hidden") sendSave(); else askServer(); });
+    window.addEventListener("pagehide", sendSave);
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitCredits);
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();

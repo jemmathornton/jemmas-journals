@@ -2,8 +2,10 @@
 (function(){
   // The places. A new one is one more line here. "about" is a line from that app's own home page; null means a space for her words.
   // Pictures are parked for now (her call, 20 Nov): Sim World and Pokédex show a full map until she chooses.
-  // all sites share one address: home at the root, each app under its folder name in Jemma’s Journals (her names, 21 Nov); online, or on her PC through tools/serve_all.py (port 8050); set HOME_DOMAIN if she buys her own
-  var HOME_DOMAIN='', ONLINE=/github\.io$/.test(location.hostname) || (HOME_DOMAIN && location.hostname===HOME_DOMAIN) || (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && location.port==='8050');
+  // all sites share one address: home at the root, each app under its folder name (her names, 21 Nov). The links work wherever the family is served:
+  // her PC (tools/serve_all.py, 8050), the online-style copy (tools/build_site.py --serve, 8060) and online, at any address. Only where the apps
+  // really aren't there (the page opened as a file, or the phone copy as a Claude artifact: claude.ai, claudeusercontent.com or a sandboxed frame) does a link say so instead (round 5 review).
+  var NO_APPS=!/^https?:$/.test(location.protocol) || /(^|\.)(claude\.ai|claudeusercontent\.com)$/.test(location.hostname);
   var PLACES=[
     {name:"Sim World", url:"/sim-world/", title:"My Sim World", pc:"#4E3182", pic:{img:"img/maps/sims-willow-creek.webp", map:true, alt:"Map of Willow Creek"},
      about:"Every world in the game, rebuilt one lot at a time. Wander the neighbourhoods, look around the homes and venues, and meet the households who live in them."},
@@ -84,7 +86,7 @@
   document.addEventListener('click',function(e){
     // Back to top and Dark mode: the family’s shared code (site/family/family.js)
     var a=e.target.closest('a[data-open]'); if(!a) return;
-    if(ONLINE && a.getAttribute('href')!=='#') return;   // online, the links go to the apps
+    if(!NO_APPS && a.getAttribute('href')!=='#') return;   // the links go to the apps
     e.preventDefault();
     say(a.dataset.open ? 'My '+a.dataset.open+' opens here once the sites are online' : 'A new place would go here');
   });

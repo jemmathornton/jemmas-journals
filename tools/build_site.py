@@ -8,28 +8,51 @@ these files. So this copies home (site/) to the top and each app's site/ folder 
 a plain static server, no forwarding, no dark-mode help from the family server. What works here works online; the
 Library and Pokédex show view-only, Travels' Write page says it needs her PC. The same build is what a publish
 workflow would upload later (research/improvements-22-nov.md).
+
+Only files git tracks are copied (git ls-files, in the parent for site/ and in each app for its site/; round 5 review),
+so git-ignored and new untracked files never get published; tracked files are copied as they are now. Left out:
+site/tools/ (the icon drawing canvas).
 """
-import http.server, os, shutil, sys
+import http.server, os, shutil, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, '_site')
 APPS = {'library': 'library/site', 'sim-world': 'sim-world/site', 'pokedex': 'pokedex/site', 'travels': 'travels/site'}
-SKIP = {'__pycache__', '.DS_Store', 'Thumbs.db'}
+LEAVE_OUT = ('tools/',)   # inside home's site/: the icon drawing canvas (site/tools/draw-icon.html) is not part of the site
 
 
-def copy(src, dst):
-    shutil.copytree(src, dst, ignore=lambda d, names: [n for n in names if n in SKIP or n.endswith('.pyc')])
+def tracked(repo, folder='site'):
+    """The files git tracks under repo/folder, as paths inside folder."""
+    r = subprocess.run(['git', '-c', 'core.quotepath=off', 'ls-files', '-z', '--', folder + '/'], cwd=repo,
+                       capture_output=True, check=True)
+    return [p[len(folder) + 1:] for p in r.stdout.decode('utf-8').split('\0') if p.startswith(folder + '/')]
+
+
+def copy(repo, dst, leave_out=()):
+    """Copy the tracked files of repo/site into dst."""
+    n = 0
+    for rel in tracked(repo):
+        if rel.startswith(leave_out):
+            continue
+        src = os.path.join(repo, 'site', *rel.split('/'))
+        if not os.path.isfile(src):   # tracked but deleted in the working folder (or a submodule entry)
+            continue
+        out = os.path.join(dst, *rel.split('/'))
+        os.makedirs(os.path.dirname(out), exist_ok=True)
+        shutil.copy2(src, out)
+        n += 1
+    return n
 
 
 def build():
     if os.path.exists(OUT):
         shutil.rmtree(OUT)
-    copy(os.path.join(ROOT, 'site'), OUT)
+    copy(ROOT, OUT, LEAVE_OUT)
     for name, folder in APPS.items():
         if not os.path.isdir(os.path.join(ROOT, folder)):   # wired in by tools/new_site.py but the folder has gone
             print(f'skipped {name}: {folder} not found (a site from tools/new_site.py deleted by hand? its --remove takes the wiring out)')
             continue
-        copy(os.path.join(ROOT, folder), os.path.join(OUT, name))
+        copy(os.path.join(ROOT, os.path.dirname(folder)), os.path.join(OUT, name))
     size = sum(os.path.getsize(os.path.join(d, f)) for d, _, fs in os.walk(OUT) for f in fs)
     count = sum(len(fs) for _, _, fs in os.walk(OUT))
     print(f'_site/: {count} files, {size / 1e6:.0f} MB (GitHub Pages allows 1,000 MB)')

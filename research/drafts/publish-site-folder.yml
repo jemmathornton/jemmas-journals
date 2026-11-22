@@ -1,3 +1,6 @@
+# SUPERSEDED (22 Nov): written for the old plan of one workflow per app repo. The family is now one parent repo with the
+# apps as submodules, built into one site by tools/build_site.py (research/going-online.md). A new workflow would check
+# out the parent with submodules, run that build and upload _site/. Kept only for the Pages steps below.
 # DRAFT, not in use. For when Jemma decides to put her apps online with GitHub Pages (see research/going-online.md).
 # It would go in each app's own repository as .github/workflows/publish.yml (sim-tracker, library, pokedex),
 # and then, in that repository's Settings > Pages, "Source" would be set to "GitHub Actions".

@@ -59,6 +59,7 @@ def start_app_servers():
 
 
 class Handler(http.server.SimpleHTTPRequestHandler):
+    timeout = 30   # a connection that sends nothing (or less than it promised) is closed after 30 s, not held for ever
     def split(self):
         """(app name or None, path inside it) for this request."""
         path = getattr(self, 'path', '/').split('?', 1)[0]
@@ -97,12 +98,12 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return self.forward(app, inner)
         if self.path.split('?', 1)[0] == '/family/mode':
             return self.reply_text(saved_mode())
-        local = self.translate_path(self.path)
+        local = self.translate_path(self.path)   # HEAD comes here too: the same headers as GET, no body
         if os.path.isdir(local) and self.path.split('?', 1)[0].endswith('/'):
             local = os.path.join(local, 'index.html')
         if local.endswith('.html') and os.path.isfile(local):
             return self.send_page(local, 200)
-        return super().do_GET()
+        return super().do_HEAD() if self.command == 'HEAD' else super().do_GET()
 
     def send_page(self, local, status):
         """An HTML page, with her dark-mode choice written into the <html> tag."""
@@ -123,12 +124,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         self.send_header('Content-Type', 'text/plain; charset=utf-8')
         self.send_header('Content-Length', str(len(data)))
         self.end_headers()
-        self.wfile.write(data)
+        if self.command != 'HEAD':
+            self.wfile.write(data)
 
-    def do_HEAD(self):
-        if not self.host_ok():
-            return super().send_error(403)
-        return super().do_HEAD()
+    def do_HEAD(self):   # like GET (pages with the mode written in, so the same length; forwards; redirects), without the body
+        return self.do_GET()
 
     def do_POST(self):
         if not self.host_ok():
@@ -137,7 +137,10 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if app and inner.startswith('/api/'):
             return self.forward(app, inner)
         if self.path == '/family/mode' and self.headers.get('X-Family') == '1':   # family.js saves her choice
-            m = self.rfile.read(min(int(self.headers.get('Content-Length') or 0), 16)).decode('utf-8', 'replace').strip()
+            size = self.headers.get('Content-Length') or '0'
+            if not (size.isascii() and size.isdigit()) or int(size) > 16:   # not a number, negative or too big: refused before reading anything
+                return self.reply_text('bad length', 400)
+            m = self.rfile.read(int(size)).decode('utf-8', 'replace').strip()
             if m not in ('dark', 'light'):
                 return self.reply_text('bad mode', 400)
             os.makedirs(os.path.dirname(MODE_FILE), exist_ok=True)
@@ -160,7 +163,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             return super().send_error(413)
         body = self.rfile.read(size) if self.command == 'POST' else None
         # 127.0.0.1, not localhost: on Windows "localhost" tries ::1 first and waits about 2 s per address (round 3 review)
-        req = urllib.request.Request(f'http://127.0.0.1:{port}{inner}{query}', data=body, method=self.command)
+        # HEAD is asked as GET (the apps' servers only know GET and POST) and the body is left off the answer
+        req = urllib.request.Request(f'http://127.0.0.1:{port}{inner}{query}', data=body, method='GET' if self.command == 'HEAD' else self.command)
         for h in PASS_HEADERS:
             if self.headers.get(h):
                 req.add_header(h, self.headers[h])
@@ -178,7 +182,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
                 self.send_header(h, headers[h])
         self.send_header('Content-Length', str(len(data)))
         self.end_headers()
-        self.wfile.write(data)
+        if self.command != 'HEAD':
+            self.wfile.write(data)
 
     def end_headers(self):
         if hasattr(self, 'path') and not self.split()[1].startswith('/api/'):

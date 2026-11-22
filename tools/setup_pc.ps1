@@ -10,16 +10,22 @@
 # --recurse-submodules. See for-jemma/new-pc.md.
 $ErrorActionPreference = 'Stop'
 $jj = Split-Path -Parent $PSScriptRoot
-$py = (Get-Command python.exe -ErrorAction SilentlyContinue).Source
-if (-not $py) { $py = "$env:LOCALAPPDATA\Programs\Python\Python313\python.exe" }
-$pyw = Join-Path (Split-Path $py) 'pythonw.exe'
-if (-not (Test-Path $pyw)) { throw "Python not found ($pyw). Install Python 3.13 first." }
+# Python: the python.org install for this user first (newest Python3*), then the py launcher's. Never the Windows Store
+# alias in WindowsApps (it isn't a real Python and has no pythonw.exe).
+$pyw = Get-ChildItem "$env:LOCALAPPDATA\Programs\Python\Python3*\pythonw.exe" -ErrorAction SilentlyContinue |
+  Sort-Object { [int]($_.Directory.Name -replace '\D','') } -Descending | Select-Object -First 1 -ExpandProperty FullName
+if (-not $pyw -and (Get-Command py.exe -ErrorAction SilentlyContinue)) {
+  $exe = (& py.exe -3 -c "import sys; print(sys.executable)" 2>$null | Select-Object -First 1)
+  if ($exe -and $exe -notmatch '\\WindowsApps\\') { $cand = Join-Path (Split-Path $exe) 'pythonw.exe'; if (Test-Path $cand) { $pyw = $cand } }
+}
+if (-not $pyw) { throw "Python not found. Install Python 3.13 from python.org (for this user), then run this again. (The Microsoft Store 'python' shortcut doesn't count.)" }
+"pythonw: $pyw"
 foreach ($app in 'library','sim-world','pokedex','travels') { if (-not (Test-Path "$jj\$app\site")) { throw "$app is missing: clone with --recurse-submodules (or run: git submodule update --init)" } }
 
-# the daily backup task
+# the daily backup task (2-hour limit: on Sundays the jobs' own limits add up to well over an hour)
 $a = New-ScheduledTaskAction -Execute $pyw -Argument "`"$jj\tools\weekly.py`"" -WorkingDirectory $jj
 $t = New-ScheduledTaskTrigger -Daily -At 09:30
-$s = New-ScheduledTaskSettingsSet -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Hours 1) -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -MultipleInstances IgnoreNew
+$s = New-ScheduledTaskSettingsSet -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Hours 2) -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -MultipleInstances IgnoreNew
 $p = New-ScheduledTaskPrincipal -UserId $env:USERNAME -LogonType Interactive -RunLevel Limited
 Register-ScheduledTask -TaskName "Jemma's Journals - backup" -Action $a -Trigger $t -Settings $s -Principal $p -Force `
   -Description "Every day: back up the Library, Pokédex and Travels to GitHub; Sundays also Sim World's Gallery refresh; then record the apps' versions (tools/weekly.py)." | Out-Null

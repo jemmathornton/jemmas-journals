@@ -4,60 +4,51 @@
     {
       "name": "online-test",
       "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
-      "runtimeArgs": ["-I", "tools/build_site.py", "--serve"],
+      "runtimeArgs": [
+        "-I",
+        "tools/build_site.py",
+        "--serve"
+      ],
       "port": 8060,
       "autoPort": false
     },
     {
       "name": "family",
       "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
-      "runtimeArgs": ["-I", "tools/serve_all.py"],
+      "runtimeArgs": [
+        "-I",
+        "tools/serve_all.py"
+      ],
       "port": 8050,
       "autoPort": false
     },
     {
       "name": "home",
       "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
-      "runtimeArgs": ["-m", "http.server", "8040", "--bind", "127.0.0.1", "--directory", "site"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8040",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "site"
+      ],
       "port": 8040
-    },
-    {
-      "name": "sims-view",
-      "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
-      "runtimeArgs": ["-m", "http.server", "8047", "--bind", "127.0.0.1", "--directory", "sim-world/site"],
-      "port": 8047
-    },
-    {
-      "name": "pokedex-view",
-      "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
-      "runtimeArgs": ["-m", "http.server", "8048", "--bind", "127.0.0.1", "--directory", "pokedex/site"],
-      "port": 8048
     },
     {
       "name": "app-styles",
       "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
-      "runtimeArgs": ["-m", "http.server", "8043", "--bind", "127.0.0.1", "--directory", "for-jemma/concepts/app-styles"],
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "8043",
+        "--bind",
+        "127.0.0.1",
+        "--directory",
+        "for-jemma/concepts/app-styles"
+      ],
       "port": 8043
-    },
-    {
-      "name": "simworld-live",
-      "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
-      "runtimeArgs": ["-m", "http.server", "8045", "--bind", "127.0.0.1", "--directory", "sim-world/site"],
-      "port": 8045,
-      "autoPort": false
-    },
-    {
-      "name": "travels-view",
-      "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
-      "runtimeArgs": ["-m", "http.server", "8046", "--bind", "127.0.0.1", "--directory", "travels/site"],
-      "port": 8046,
-      "autoPort": false
-    },
-    {
-      "name": "simworld-trial",
-      "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
-      "runtimeArgs": ["-I", "tools/trial_server.py", "simworld"],
-      "port": 8044
     }
   ]
 }

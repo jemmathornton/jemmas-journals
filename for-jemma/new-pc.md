@@ -12,6 +12,11 @@ Everything lives on GitHub, so nothing is lost if this PC dies. Your ticks and b
    ```
    git clone --recurse-submodules https://github.com/jemmathornton/jemmas-journals.git JemmasJournals
    ```
+   Then put each site on its `main` branch (they start “detached”, and the backups only save from `main`):
+   ```
+   cd JemmasJournals
+   git submodule foreach git checkout main
+   ```
 4. **Set everything up**: run this inside the `JemmasJournals` folder:
    ```
    powershell -ExecutionPolicy Bypass -File tools\setup_pc.ps1

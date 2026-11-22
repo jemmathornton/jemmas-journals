@@ -38,7 +38,7 @@ Checked again 21 Nov 2026 (third-party price trackers, so confirm on the registr
 ## Her direction so far (20 Nov, not final)
 
 - She’d like **her own domain** rather than a `github.io` address; hosting not chosen yet.
-- **Separate repos, no submodules**: one website to visitors, each app still updates on its own when pushed.
+- ~~Separate repos, no submodules~~ *(superseded 21 Nov, her decision: Jemma’s Journals is the parent and the apps are submodules in it, each still its own repo on GitHub. One site is built in the parent by `tools/build_site.py`: home's `site/` at the top and each app's `site/` under its name, from the files git tracks only, leaving out `site/tools/`. `python tools/build_site.py --serve` shows that build at http://localhost:8060 like a plain web host. A publish workflow, when she goes online, would run that build in the parent and upload `_site/` with upload-pages-artifact; see `research/improvements-22-nov.md` §2.)*
 - Already done in readiness: noindex + AI-crawler requests (`site/robots.txt`, meta tags), not-found page, share picture, tab icons, and the “← Jemma’s Journals” link in each app (it points at `/`, which is home when all four share one address).
 
 ## Own domain on GitHub Pages: the steps (from GitHub’s docs, checked 21 Nov)
@@ -53,7 +53,7 @@ Checked again 21 Nov 2026 (third-party price trackers, so confirm on the registr
 ## Suggested route (Claude’s suggestion, not decided)
 
 1. Rename this repo to `jemmathornton.github.io` (or make a new one with that name) so the home page is the main address.
-2. In each app’s repo, add a small workflow that publishes `site/`, plus the view-only changes above (Pokédex, Library).
+2. ~~In each app’s repo, add a small workflow that publishes `site/`~~ *(superseded: one workflow in the parent publishes the `tools/build_site.py` build, with the submodules checked out)*, plus the view-only changes above (Pokédex, Library).
 3. Point the home page’s “Open …” links at `/library/`, `/sim-world/`, `/pokedex/`, `/travels/` (done 21 Nov).
 4. ~~Add the noindex tag~~ done (her choice, 20 Nov), plus the AI-crawler requests.
 5. Test on `jemmathornton.github.io` first; then add her own address (steps above), which covers all four.
