@@ -30,7 +30,7 @@
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
   var WALL=''; for(var n=0;n<72;n++) WALL+='<img draggable="false" src="img/wall/'+String((n*7)%40).padStart(2,'0')+'.webp" alt="" loading="lazy" decoding="async">';
   // TRY SWITCH (temporary, 22 Nov: the photo corners only; remove with the TRY SWITCH CSS once she has picked)
-  var CORNER_OPTS=[['now','As now'],['gold','Gold'],['cream','Cream'],['clear','Clear'],['brackets','Brackets'],['none','None']];
+  var CORNER_OPTS=[['now','As now'],['gold','Gold'],['cream','Cream'],['clear','Clear'],['frosted','Frosted'],['smoky','Smoky'],['brackets','Brackets'],['none','None']];
   var corners='now', tryHidden=false;
   function okCorner(v){ return CORNER_OPTS.some(function(o){ return o[0]===v; }); }
   try { var saved=JSON.parse(localStorage.getItem('jj-home-try')||'{}'); if(okCorner(saved.corners)) corners=saved.corners; tryHidden=!!saved.hidden; } catch(e){}

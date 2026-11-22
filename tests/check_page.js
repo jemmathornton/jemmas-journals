@@ -123,7 +123,7 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       const grow = async n => { await page.goto(HOST + '#more' + n, { waitUntil: 'networkidle' }); await page.reload({ waitUntil: 'networkidle' }); await page.evaluate(() => Promise.all(document.getAnimations().map(a => a.finished))); };
       // TEMPORARY (22 Nov): a Try switch for the photo corners while she chooses; when it goes, put back the check
       // "no Try switch left on the page": check(await page.evaluate(() => !document.querySelector('.trybox, .sw, [aria-label="Try"], #more')), …)
-      check(await page.evaluate(() => document.getElementById('page').classList.contains('corners-now') && document.querySelectorAll('.trybox [data-try="corners"]').length === 6 && document.querySelectorAll('.trybox [data-try]').length === 6), tag + 'the temporary Try switch (Corners only) opens on As now');
+      check(await page.evaluate(() => document.getElementById('page').classList.contains('corners-now') && document.querySelectorAll('.trybox [data-try="corners"]').length === 8 && document.querySelectorAll('.trybox [data-try]').length === 8), tag + 'the temporary Try switch (Corners only) opens on As now');
       await grow(1);
       const grown = await page.evaluate(() => ({ cards: document.querySelectorAll('.card').length, sideways: document.documentElement.scrollWidth - document.documentElement.clientWidth }));
       check(grown.cards === 5 && grown.sideways <= 0, tag + '"More places" adds a fifth without sideways scrolling');

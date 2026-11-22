@@ -269,6 +269,11 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
 #page.corners-brackets .c.bl{border-bottom-width:1.5px;border-left-width:1.5px}#page.corners-brackets .c.br{border-bottom-width:1.5px;border-right-width:1.5px}
 #page.corners-brackets .c.tl,#page.corners-brackets .c.tr{top:2px}#page.corners-brackets .c.bl,#page.corners-brackets .c.br{bottom:2px}
 #page.corners-brackets .c.tl,#page.corners-brackets .c.bl{left:2px}#page.corners-brackets .c.tr,#page.corners-brackets .c.br{right:2px}
+/* Frosted and Smoky (her ask, 22 Nov): a darker Clear, like frosted or smoked plastic: warm-grey translucent with a soft highlight and a little blur */
+#page.corners-frosted .c{background:linear-gradient(135deg,rgba(255,255,255,.55),rgba(150,140,128,.5) 45%,rgba(120,110,98,.52));box-shadow:none;-webkit-backdrop-filter:blur(2px) saturate(.8);backdrop-filter:blur(2px) saturate(.8)}
+#page.corners-smoky .c{background:linear-gradient(135deg,rgba(255,255,255,.35),rgba(70,62,54,.6) 45%,rgba(45,39,33,.62));box-shadow:none;-webkit-backdrop-filter:blur(2.5px) saturate(.7);backdrop-filter:blur(2.5px) saturate(.7)}
+:root[data-mode="dark"] #page.corners-frosted .c{background:linear-gradient(135deg,rgba(255,255,255,.7),rgba(220,212,200,.5) 45%,rgba(190,182,170,.48))}
+:root[data-mode="dark"] #page.corners-smoky .c{background:linear-gradient(135deg,rgba(255,255,255,.5),rgba(170,160,148,.55) 45%,rgba(140,130,118,.55))}
 #page.corners-none .c{display:none}
 .trybox{position:fixed;z-index:70;right:calc(12px + env(safe-area-inset-right,0px));bottom:calc(12px + env(safe-area-inset-bottom,0px));max-width:calc(100vw - 24px);
   background:#FFFDF8;color:#221D17;border:1px solid #DDD3C3;border-radius:14px;box-shadow:0 12px 34px -10px rgba(0,0,0,.35);padding:10px 12px 12px;font:600 12.5px/1.2 var(--body)}
