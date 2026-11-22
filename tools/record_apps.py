@@ -28,7 +28,7 @@ def main():
         path = os.path.join(ROOT, app)
         if not os.path.exists(os.path.join(path, '.git')):
             continue
-        dirty = [l for l in git('status', '--porcelain', cwd=path).stdout.splitlines() if l.strip() and not l[3:].startswith('logs/')]   # a backup's own log line doesn't count
+        dirty = [l for l in git('status', '--porcelain', cwd=path).stdout.splitlines() if l.strip() and not l[3:].startswith('logs/') and 'data/collection/go.json' not in l]   # a backup's own log line and her Pokédex ticks (saved by the daily backup) don't count
         if dirty:
             print(f'{app}: has uncommitted changes, not recorded'); skipped.append(app); continue
         if git('rev-parse', '--abbrev-ref', 'HEAD', cwd=path).stdout.strip() != 'main':
