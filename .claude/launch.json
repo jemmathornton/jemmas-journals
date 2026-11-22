@@ -17,14 +17,14 @@
     {
       "name": "sims-view",
       "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
-      "runtimeArgs": ["-m", "http.server", "8041", "--bind", "127.0.0.1", "--directory", "sim-world/site"],
-      "port": 8041
+      "runtimeArgs": ["-m", "http.server", "8047", "--bind", "127.0.0.1", "--directory", "sim-world/site"],
+      "port": 8047
     },
     {
       "name": "pokedex-view",
       "runtimeExecutable": "C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe",
-      "runtimeArgs": ["-m", "http.server", "8042", "--bind", "127.0.0.1", "--directory", "pokedex/site"],
-      "port": 8042
+      "runtimeArgs": ["-m", "http.server", "8048", "--bind", "127.0.0.1", "--directory", "pokedex/site"],
+      "port": 8048
     },
     {
       "name": "app-styles",

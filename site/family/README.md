@@ -16,10 +16,12 @@ Every site loads it **from Jemma’s Journals directly**, at `/family/…` (her 
 <footer class="jj-foot">
   <b class="jj-name">Jemma’s Library</b>
   <p data-jj-line1></p>
-  <p data-jj-credits><span class="cr">Book covers from their publishers</span>&nbsp;<span class="dot" aria-hidden="true">·</span> <span class="cr">…</span></p>
+  <p data-jj-credits><span class="cr">Book covers from their publishers</span><span class="dot" aria-hidden="true">&nbsp;·</span> <span class="cr">…</span></p>
   <div class="jj-foot-links"><a href="#top" data-jj-top></a><button data-jj-mode></button></div>
 </footer>
 ```
+
+The no-break space goes **inside** the dot: a “·” never starts a line, and on phones (dots hidden, credits one per line) no empty line is left behind. `family.js` hides any “·” that would end a line.
 
 ## The Menu drawer (sites with a sidebar)
 

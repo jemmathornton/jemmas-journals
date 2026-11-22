@@ -5,3 +5,5 @@ __pycache__/
 # shared test tools for every site (portable Node, Playwright), moved here from Sim World (21 Nov)
 .tools/
 node_modules/
+# local logs and the family server's saved dark-mode choice
+logs/

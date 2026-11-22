@@ -1,4 +1,8 @@
+<!doctype html>
+<html lang="en-GB">
+<head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">   <!-- a whole page now, not a fragment (round 3 review: online and on 8050 it opened in quirks mode, 980px wide on phones) -->
 <title>Jemma’s Journals</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <meta name="theme-color" content="#8E6520" data-dark="#6A4A17">
@@ -12,6 +16,7 @@
 <link rel="icon" href="img/icon/icon-192.png" type="image/png" sizes="192x192" data-dark="img/icon/icon-dark-192.png">
 <link rel="apple-touch-icon" href="img/icon/apple-touch-icon.png">
 <style>
+body{margin:0}img{max-width:100%}[hidden]{display:none!important}   /* what the artifact skeleton used to add */
 /* Jemma's Journals: home page. 20 Nov 2026 (morning): her picks are the Improved version and About this site (laid out across the footer).
    Round 9 notes follow (the As now version and the other extras were taken out; they're in git history). */
 /* Jemma's Journals: home page, round 9 (20 Nov 2026).
@@ -213,6 +218,8 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   .about-site .cr{display:block}
 }
 </style>
+</head>
+<body>
 
 <div id="page"></div>
 
@@ -264,10 +271,10 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
     });
 
   // About this site: two quiet lines (her pick, 20 Nov: option 2, each credit starting with a capital)
-  var DOT='<span class="dot" aria-hidden="true">·</span>';
+  var DOT='<span class="dot" aria-hidden="true"> ·</span>';   // the no-break space sits inside the dot, so a “·” never starts a line and on phones (dots hidden) no empty line is left
   function aboutSite(){
     return '<div class="about-site two"><p data-jj-line1>No cookies, no tracking, no ads. Made with HTML, CSS and JavaScript, kept on GitHub.</p>'
-      +'<p data-jj-credits>'+['World maps by 20th Century Plumbob','Region maps from the Pokémon games','Country shapes from Natural Earth','Book covers from their publishers','Fonts: Instrument Serif and Manrope','Icons by Lucide'].map(function(t){ return '<span class="cr">'+t+'</span>'; }).join(' '+DOT+' ')+'</p></div>';
+      +'<p data-jj-credits>'+['World maps by 20th Century Plumbob','Region maps from the Pokémon games','Country shapes from Natural Earth','Book covers from their publishers','Fonts: Instrument Serif and Manrope','Icons by Lucide'].map(function(t){ return '<span class="cr">'+t+'</span>'; }).join(DOT+' ')+'</p></div>';
   }
   function applyMode(){ root.setAttribute('data-mode', userMode); var tc=document.querySelector('meta[name="theme-color"]'); if(tc) tc.setAttribute('content', userMode==='dark' ? '#6A4A17' : '#8E6520');
     document.querySelectorAll('link[rel="icon"][data-dark]').forEach(function(l){ if(!l.dataset.light) l.dataset.light=l.getAttribute('href'); l.setAttribute('href', userMode==='dark' ? l.dataset.dark : l.dataset.light); });   // the tab icon flips with the page
@@ -314,3 +321,5 @@ svg.i{width:1em;height:1em;flex:none;fill:none;stroke:currentColor;stroke-width:
   });
 })();
 </script>
+</body>
+</html>

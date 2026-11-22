@@ -9,8 +9,8 @@ const ROOT = path.join(__dirname, '..', 'site');
 const HOST = 'http://jj.test/';
 const TYPES = { '.html': 'text/html; charset=utf-8', '.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp', '.woff2': 'font/woff2', '.svg': 'image/svg+xml' };
 // The published page is wrapped in a document skeleton; this does the same for the local file.
-const wrap = () => '<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
-  + '<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>' + fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8') + '</body></html>';
+const wrap = () => { const f = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8'); if (/^<!doctype/i.test(f)) return f; return '<!doctype html><html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">'
+  + '<style>body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>' + f + '</body></html>'; };
 
 const SIZES = [
   { name: 'laptop 1600', viewport: { width: 1600, height: 930 } },

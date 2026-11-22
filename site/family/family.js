@@ -33,6 +33,10 @@
     m = m === "dark" ? "dark" : "light";
     root.setAttribute("data-mode", m);
     try { localStorage.setItem("jj-mode", m); } catch (e) {}
+    if (root.hasAttribute("data-jj-server-mode")) {   // on her PC: the family server keeps it for every app window
+      root.setAttribute("data-jj-server-mode", m);
+      try { fetch("/family/mode", { method: "POST", headers: { "X-Family": "1", "Content-Type": "text/plain" }, body: m }); } catch (e) {}
+    }
     paint(true);
     changeListeners.forEach(function (f) { try { f(m); } catch (e) {} });
   }
