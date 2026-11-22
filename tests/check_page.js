@@ -117,7 +117,9 @@ function check(ok, what) { if (ok) passes++; else { failures++; console.log('  F
       await page.click('[data-jj-mode]');
       // how it grows when places are added (stand-ins via #more1 / #more2; the trial button is gone), still without sideways scrolling
       const grow = async n => { await page.goto(HOST + '#more' + n, { waitUntil: 'networkidle' }); await page.reload({ waitUntil: 'networkidle' }); await page.evaluate(() => Promise.all(document.getAnimations().map(a => a.finished))); };
-      check(await page.evaluate(() => !document.querySelector('.trybox, .sw, [aria-label="Try"], #more')), tag + 'no Try switch left on the page (only while she is choosing)');
+      // TEMPORARY (22 Nov): a Try switch is on the page while she chooses the home options; when it goes, put back the check
+      // "no Try switch left on the page": check(await page.evaluate(() => !document.querySelector('.trybox, .sw, [aria-label="Try"], #more')), …)
+      check(await page.evaluate(() => { const p = document.getElementById('page').classList; return p.contains('pics-now') && p.contains('layout-now') && p.contains('extras-off'); }), tag + 'the temporary Try switch opens on As now');
       await grow(1);
       const grown = await page.evaluate(() => ({ cards: document.querySelectorAll('.card').length, sideways: document.documentElement.scrollWidth - document.documentElement.clientWidth }));
       check(grown.cards === 5 && grown.sideways <= 0, tag + '"More places" adds a fifth without sideways scrolling');

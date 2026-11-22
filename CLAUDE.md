@@ -50,6 +50,14 @@ She felt the three apps were too same-y (same sidebar, name style, hero, cards; 
 - **Built into the real apps 21 Nov** (her go-ahead): Library c88a065 (laptop; its own session builds the phone mode), Sim World 978bcd6 + review fixes 926993a, Pokédex 77e18f2 (with a Menu drawer under 900px) + review fixes 1d12ed6.
 - 21 Nov: full critical review of all five sites (incl. Travels) and the family: `research/reviews/`; summary and her open questions: `for-jemma/review-21-nov.md`.
 
+## Home options (22 Nov, open: a temporary Try switch)
+
+She felt home was “a bit bland, needs more” and the four pictures didn’t sit together. **A Try switch is on the page now, bottom right, only while she chooses: remove it afterwards** (the TRY SWITCH block at the end of index.html’s style, the switch code in home.js, the unused `site/img/home/` files, and put back the “no Try switch” check in tests/check_page.js). It opens on As now; her picks are kept in localStorage `jj-home-try`; for checking, the address takes `#pics-…--layout-…--extras-on`.
+- **Pictures:** As now · Same frame (each picture cropped to the same 4:3 shape and filling it: Willow Creek, Johto’s cities and mountains, the Atlantic with her Travels pins; Library’s wall) · Site previews (each app’s own home page, screenshot 22 Nov at 1600 light, `img/home/preview-*.webp`; they show the apps’ figures, small) · Tinted (Same frame with a gentle wash of each place’s colour, which lifts on hover).
+- **Layout:** As now · Journals (each place a cloth-bound journal in its colour with spine and stitching, the picture a plate, the name on a cream label, volume numeral) · Feature (first place large beside its words, the rest three to a row) · Side by side (one row each, picture and words alternating left/right, a gold diamond between) · Index (a contents page: numeral in the place’s colour, small plate, dotted leader to Open …).
+- **Extras:** Off · On (chapter numeral with a bar in the place’s colour, Open … in the place’s colour, a drop capital on the Introduction).
+- Record screenshots: `for-jemma/concepts/home-options/` (1600 and 390; `grow7-*` = #more3).
+
 ## Where things are
 
 - `site/index.html`: the page as it stands; the trial switch was removed 20 Nov late (her ask). Stand-in places for checking growth: add `#more1`…`#more3` to the address. The places are one list, `PLACES`, in `site/home.js` (moved out of the page 22 Nov for the Content Security Policy). Published for her phone as a private Claude artifact: https://claude.ai/artifact/Ad37As365K3HDcR8iHw7HE (republish after changes).

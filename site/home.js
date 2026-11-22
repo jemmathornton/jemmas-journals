@@ -7,13 +7,13 @@
   // really aren't there (the page opened as a file, or the phone copy as a Claude artifact: claude.ai, claudeusercontent.com or a sandboxed frame) does a link say so instead (round 5 review).
   var NO_APPS=!/^https?:$/.test(location.protocol) || /(^|\.)(claude\.ai|claudeusercontent\.com)$/.test(location.hostname);
   var PLACES=[
-    {name:"Sim World", url:"/sim-world/", title:"My Sim World", pc:"#4E3182", pic:{img:"img/maps/sims-willow-creek.webp", map:true, alt:"Map of Willow Creek"},
+    {name:"Sim World", url:"/sim-world/", frame:"img/home/frame-sim-world.webp", preview:"img/home/preview-sim-world.webp", title:"My Sim World", pc:"#4E3182", pic:{img:"img/maps/sims-willow-creek.webp", map:true, alt:"Map of Willow Creek"},
      about:"Every world in the game, rebuilt one lot at a time. Wander the neighbourhoods, look around the homes and venues, and meet the households who live in them."},
-    {name:"Library", url:"/library/", title:"My Library", pc:"#6E4524", pic:{wall:true, alt:"Covers of books from my shelves"},
+    {name:"Library", url:"/library/", preview:"img/home/preview-library.webp", title:"My Library", pc:"#6E4524", pic:{wall:true, alt:"Covers of books from my shelves"},
      about:"Every book on the shelves at home, and everything you read."},
-    {name:"Pokédex", url:"/pokedex/", title:"My Pokédex", pc:"#7E2530", pic:{img:"img/maps/region-johto-kanto.webp", map:true, alt:"Map of Johto and Kanto"},
+    {name:"Pokédex", url:"/pokedex/", frame:"img/home/frame-pokedex.webp", preview:"img/home/preview-pokedex.webp", title:"My Pokédex", pc:"#7E2530", pic:{img:"img/maps/region-johto-kanto.webp", map:true, alt:"Map of Johto and Kanto"},
      about:null},
-    {name:"Travels", url:"/travels/", title:"My Travels", pc:"#1D7A69", pic:{img:"img/maps/travels-map.webp", map:true, alt:"Map of the places on my trips"},
+    {name:"Travels", url:"/travels/", frame:"img/home/frame-travels.webp", preview:"img/home/preview-travels.webp", title:"My Travels", pc:"#1D7A69", pic:{img:"img/maps/travels-map.webp", map:true, alt:"Map of the places on my trips"},
      about:null}   // added 21 Nov (her yes); the picture is Travels' own map in its chosen Old Atlas look
   ];
   // Only for "More places": stand-ins to show how it grows. Not real places.
@@ -29,10 +29,25 @@
   function ico(n){ return '<svg class="i" viewBox="0 0 24 24" aria-hidden="true">'+ICON[n]+'</svg>'; }
   function esc(s){ return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];}); }
   var WALL=''; for(var n=0;n<72;n++) WALL+='<img src="img/wall/'+String((n*7)%40).padStart(2,'0')+'.webp" alt="" loading="lazy" decoding="async">';
+  // TRY SWITCH (temporary, 22 Nov, while she chooses; remove with the .trybox CSS once she has picked):
+  // pictures: now | frame (every picture cropped to the same 4:3 shape) | previews (each app's own home page) | tinted (same frame + a wash of the place's colour)
+  // layout: now | journals | feature | rows | index; extras: off | on (place colours, chapter numbers, a drop capital)
+  var TRY={
+    pics:[['now','As now'],['frame','Same frame'],['previews','Site previews'],['tinted','Tinted']],
+    layout:[['now','As now'],['journals','Journals'],['feature','Feature'],['rows','Side by side'],['index','Index']],
+    extras:[['off','Off'],['on','On']]
+  };
+  var TRYNAMES={pics:'Pictures',layout:'Layout',extras:'Extras'};
+  var tryState={pics:'now',layout:'now',extras:'off'}, tryHidden=false;
+  try { var saved=JSON.parse(localStorage.getItem('jj-home-try')||'{}'); Object.keys(TRY).forEach(function(k){ if(TRY[k].some(function(o){return o[0]===saved[k];})) tryState[k]=saved[k]; }); tryHidden=!!saved.hidden; } catch(e){}
+  function saveTry(){ try { localStorage.setItem('jj-home-try', JSON.stringify({pics:tryState.pics,layout:tryState.layout,extras:tryState.extras,hidden:tryHidden})); } catch(e){} }
+  var ROMAN=['I','II','III','IV','V','VI','VII','VIII','IX','X'];
   function pic(p){
     if(p.demo||!p.pic) return '<span class="pic blank" style="--pc:'+p.pc+'"></span>';   // no picture yet (a new site from tools/new_site.py): the striped stand-in
-    var q=p.pic;
-    if(q.wall) return '<span class="pic" role="img" aria-label="'+esc(q.alt)+'"><span class="wall">'+WALL+'</span></span>';
+    var q=p.pic, mode=tryState.pics, wash=mode==='tinted'?'<span class="wash"></span>':'';
+    if(mode==='previews' && p.preview) return '<span class="pic fill shot"><img class="bg" src="'+p.preview+'" alt="The home page of '+esc(p.title)+'" loading="lazy" decoding="async"></span>';
+    if(q.wall) return '<span class="pic" role="img" aria-label="'+esc(q.alt)+'"><span class="wall">'+WALL+'</span>'+wash+'</span>';
+    if((mode==='frame'||mode==='tinted') && p.frame) return '<span class="pic fill"><img class="bg" src="'+p.frame+'" alt="'+esc(q.alt||'')+'" loading="lazy" decoding="async">'+wash+'</span>';
     return '<span class="pic'+(q.map?' map':'')+'"><img class="bg" src="'+q.img+'" alt="'+esc(q.alt||'')+'" loading="lazy" decoding="async"></span>';
   }
   function aboutPlace(p){ return p.about ? '<p>'+esc(p.about)+'</p>' : '<p class="ph">A line or two about '+(p.demo?'it':esc(p.name))+', in your own words.<span class="ph-tag">Placeholder</span></p>'; }
@@ -42,6 +57,7 @@
   // state: more places (to show how it grows), light/dark (light unless the button is pressed). Her picks: the Improved version, with About this site.
   var more=0, root=document.documentElement, userMode=root.getAttribute('data-mode')==='dark'?'dark':'light';   // more: how many stand-in places to add (0–3); the mode was set by the family's mode.js
   location.hash.slice(1).split('--').forEach(function(w){ if(w==='more') more=3; var mm=/^more([123])$/.exec(w); if(mm) more=+mm[1]; if(w==='dark'||w==='light') userMode=w;
+    var tm=/^(pics|layout|extras)-(\w+)$/.exec(w); if(tm && TRY[tm[1]].some(function(o){return o[0]===tm[2];})) tryState[tm[1]]=tm[2];   // e.g. #layout-index--pics-frame (for checking; not saved)
     });
 
   // About this site: two quiet lines (her pick, 20 Nov: option 2, each credit starting with a capital)
@@ -54,7 +70,7 @@
 
   var firstRender=true;   // the gentle entrance plays once, when the page first opens
   function render(){
-    var list=PLACES.concat(EXTRA.slice(0,more)), dark=userMode==='dark';
+    var list=PLACES.concat(EXTRA.slice(0,more)), dark=root.getAttribute('data-mode')==='dark';
     var MODETEXT='<button type="button" class="mode-text" data-jj-mode aria-pressed="'+dark+'">'+ico(dark?'sun':'moon')+(dark?'Light mode':'Dark mode')+'</button>';
     var h='<a class="skip" href="#contents">Skip to contents</a>'
       +'<header class="cover gut" id="top" tabindex="-1"><span class="cn tl"></span><span class="cn tr"></span><span class="cn bl"></span><span class="cn br"></span>'
@@ -65,21 +81,39 @@
     h+='<section class="intro" aria-labelledby="intro"><div>'+h2('Introduction','intro')+INTRO+'</div></section>'   // Introduction to the site, words only (her picks, 20 Nov)
       +'<div class="sec">'+h2('Contents','contents')+'</div>'
       +'<div class="cards">';
-    list.forEach(function(p){
+    list.forEach(function(p,i){
       var open=p.demo?'it':p.title;   // "Open My Sim World" (her ask, 20 Nov: the link should say My like the heading)
       h+='<article class="card" style="--pc:'+p.pc+'">'
+        +'<span class="num" aria-hidden="true">'+(ROMAN[i]||i+1)+'</span>'   // chapter numbers: shown only by some Try options
         +'<a class="snap" href="'+esc(p.url||'#')+'" data-open="'+esc(p.demo?'':p.name)+'" aria-label="Open '+esc(open)+'">'+CORNERS+pic(p)+'</a>'
-        +'<h3>'+esc(p.title)+'</h3>'+aboutPlace(p)
+        +'<div class="txt"><h3>'+esc(p.title)+'</h3>'+aboutPlace(p)+'</div>'
         +'<a class="go" href="'+esc(p.url||'#')+'" data-open="'+esc(p.demo?'':p.name)+'">Open '+esc(open)+' '+ico('arrow-right')+'</a></article>';
     });
     h+='</div></div></main>'
       +'<div class="end" aria-hidden="true"><i></i><b></b><i></i></div>'
       +'<footer class="foot gut"><div class="wrap"><b>Jemma’s Journals</b>'+aboutSite()
       +'<div class="foot-links"><a class="totop" href="#top" data-jj-top>'+ico('arrow-up')+'Back to top</a>'+MODETEXT+'</div>'+'</div></footer>';
-    var page=document.getElementById('page'); page.className='v2'+(firstRender?' i-enter':''); firstRender=false; page.innerHTML=h;
+    var page=document.getElementById('page'); page.className='v2 pics-'+tryState.pics+' layout-'+tryState.layout+' extras-'+tryState.extras+(firstRender?' i-enter':''); firstRender=false; page.innerHTML=h;
   }
-  // title on scroll: show the slim bar once the banner has scrolled out of sight
   render();
+
+  // the Try switch itself (temporary: bottom right, only while she chooses)
+  var box=document.createElement('div'); box.className='trybox'; box.setAttribute('role','group'); box.setAttribute('aria-label','Try');
+  function drawTry(){
+    var h='<div class="try-head"><b>Try</b><button type="button" class="try-hide" aria-expanded="'+!tryHidden+'">'+(tryHidden?'Show':'Hide')+'</button></div>';
+    if(!tryHidden) Object.keys(TRY).forEach(function(k){
+      h+='<div class="try-row"><span>'+TRYNAMES[k]+'</span>'+TRY[k].map(function(o){ return '<button type="button" data-try="'+k+'" data-val="'+o[0]+'" aria-pressed="'+(tryState[k]===o[0])+'">'+o[1]+'</button>'; }).join('')+'</div>';
+    });
+    box.innerHTML=h; box.classList.toggle('folded',tryHidden);
+  }
+  drawTry(); document.body.appendChild(box);
+  box.addEventListener('click',function(e){
+    var b=e.target.closest('button'); if(!b) return;
+    if(b.classList.contains('try-hide')){ tryHidden=!tryHidden; saveTry(); drawTry(); box.querySelector('.try-hide').focus(); return; }
+    var k=b.getAttribute('data-try'), v=b.getAttribute('data-val'); if(!k) return;
+    tryState[k]=v; saveTry(); render(); drawTry();
+    var again=box.querySelector('[data-try="'+k+'"][data-val="'+v+'"]'); if(again) again.focus();
+  });
 
   var toast=document.getElementById('toast'), t;
   function say(m){ toast.textContent=m; toast.hidden=false; clearTimeout(t); t=setTimeout(function(){ toast.hidden=true; },1800); }
