@@ -13,6 +13,7 @@
 
    And for the Menu drawer on narrow screens (sites with a sidebar):
      JJFamily.menu({button, drawer, scrim, outside: [...], current: () => element, main: element})
+     (closes on Escape, the scrim, a link, or a swipe to the left on a touch screen)
    See README.md next to this file. */
 (function () {
   "use strict";
@@ -199,6 +200,29 @@
     button.addEventListener("click", function () { isOpen ? close() : open(); });
     if (scrim) { scrim.hidden = true; scrim.addEventListener("click", function () { close(); }); }
     drawer.addEventListener("click", function (e) { var a = e.target.closest("a[href]"); if (a && isOpen) close("link"); });
+    // swipe left to close (round 5, phones): touch only, on the drawer or the scrim. The first 10 px decide: mostly sideways and
+    // to the left is a swipe, anything else (scrolling the drawer's list) is left alone for good. Listeners are passive, so
+    // scrolling is never held up; it closes when the finger lifts after 50 px (o.swipe) to the left.
+    var sx = null, sy = 0, sideways = null;
+    function tStart(e) { if (!isOpen || e.touches.length !== 1) { sx = null; return; } sx = e.touches[0].clientX; sy = e.touches[0].clientY; sideways = null; }
+    function tMove(e) {
+      if (sx === null || !e.touches.length) return;
+      var dx = e.touches[0].clientX - sx, dy = e.touches[0].clientY - sy;
+      if (sideways === null && (Math.abs(dx) > 10 || Math.abs(dy) > 10)) { sideways = dx < 0 && Math.abs(dx) > Math.abs(dy) * 1.5; if (!sideways) sx = null; }
+    }
+    function tEnd(e) {
+      if (sx === null || !e.changedTouches.length) return;
+      var dx = e.changedTouches[0].clientX - sx, dy = e.changedTouches[0].clientY - sy;
+      sx = null;
+      if (isOpen && sideways && dx <= -(o.swipe || 50) && Math.abs(dx) > Math.abs(dy) * 1.5) close();
+    }
+    [drawer, scrim].forEach(function (el) {
+      if (!el) return;
+      el.addEventListener("touchstart", tStart, { passive: true });
+      el.addEventListener("touchmove", tMove, { passive: true });
+      el.addEventListener("touchend", tEnd, { passive: true });
+      el.addEventListener("touchcancel", function () { sx = null; }, { passive: true });
+    });
     document.addEventListener("keydown", function (e) {
       if (!isOpen) return;
       if (e.key === "Escape") { e.preventDefault(); close(); return; }

@@ -38,6 +38,29 @@ JJFamily.menu({
 
 The site styles its own bar and drawer (position, slide, colours); `html.jj-menu-open` and `.jj-open` on the drawer say when it is open.
 
+It closes on Escape, a tap on the scrim, choosing a link, or (round 5) **a swipe to the left** on the drawer or scrim: touch only, passive (scrolling the drawer’s list is never held up: the first 10 px decide, and only a mostly sideways move to the left counts), closing when the finger lifts after 50 px (`swipe: 60` in the options to change it). Nothing to add in a site.
+
+**Drawer width:** `min(300px, 86vw)`, the family’s width (round 5: Pokédex, Travels and Sim World use it; Library was 280px).
+
+**The way home in the drawer** (round 5): give the drawer’s “← Jemma’s Journals” link the class `jj-home-link` (and `data-jj-home`, so focus never starts on it):
+
+```html
+<a class="home-link jj-home-link" href="/" data-jj-home>← Jemma’s Journals</a>
+```
+
+Under 900px it is then at least 44px tall with 12.5px text (a floor that beats the site’s own `.home-link` size); the site keeps its colour, capitals, letter-spacing and margins, and the laptop sidebar is unchanged. The link grows by about 18px, so trim the margin above it or the padding of what follows if the drawer should look the same.
+
+## Safe areas (notch and rounded corners)
+
+Every page has `viewport-fit=cover`, so in phone landscape the page reaches under the notch (about 47px). Add to the element that holds the page’s sides:
+
+| Class | Pads | With |
+|---|---|---|
+| `jj-safe` | left and right | `max(var(--jj-safe-pad, 0px), env(safe-area-inset-left/right))` |
+| `jj-safe-top` | top | `max(var(--jj-safe-pad-top, 0px), env(safe-area-inset-top))` |
+
+Set `--jj-safe-pad` to the gutter the element already has and remove its own `padding-left/right` (these are `:where()`, so a site rule would win). On a laptop `env()` is 0, so only the gutter shows. Sticky bars: `top: env(safe-area-inset-top, 0px)` as well. Home uses `.gut` (the same sum) and pads the cover’s top.
+
 ## Changing it
 
 Change it here once; every site follows. Then run every site’s tests (each app’s own suite, and `tests/check_page.js` here), commit here, and push.

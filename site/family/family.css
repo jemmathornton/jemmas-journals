@@ -31,3 +31,21 @@
 :where(.jj-menu-btn) :where(.jj-i) { width: 18px; height: 18px; }
 :where(.jj-bar-name) { font: 400 26px/1 var(--jj-display, Georgia, serif); text-decoration: none; color: inherit; white-space: nowrap; }
 @media (prefers-reduced-motion: reduce) { :where(.jj-drawer) { transition: none !important; } }
+
+/* ---------- “← Jemma’s Journals” at the top of a drawer (round 5): a comfortable tap target on phones and tablets ----------
+   <a class="home-link jj-home-link" href="/" data-jj-home>← Jemma’s Journals</a>
+   Under 900px (the drawer's width) it is at least 44px tall with 12.5px text; the site keeps its colour, case, letter-spacing and
+   margins, and the laptop sidebar is unchanged. Not in :where() on purpose: it is a floor, so it wins over the site's own size
+   (a.jj-home-link beats a site's .home-link); a site that wants more sets it with a stronger rule. */
+@media (max-width: 900px) {
+  a.jj-home-link { display: inline-flex; align-items: center; min-height: 44px; padding-top: 0; padding-bottom: 0; font-size: 12.5px; line-height: 1.2; box-sizing: border-box; }
+}
+
+/* ---------- safe areas (round 5): keep words clear of the notch and rounded corners in phone landscape ----------
+   Every page has viewport-fit=cover, so the page reaches under the notch. Add to the element that holds the page's sides:
+     class="jj-safe"       left and right padding of at least the notch: max(var(--jj-safe-pad), env(safe-area-inset-left/right))
+     class="jj-safe-top"   top padding of at least the status bar:        max(var(--jj-safe-pad-top), env(safe-area-inset-top))
+   Set --jj-safe-pad (and --jj-safe-pad-top) to the gutter you already use, and drop your own padding-left/right there, or the
+   site's padding wins (these are :where(), no weight). On a laptop env() is 0, so the gutter is all that shows. */
+:where(.jj-safe) { padding-left: max(var(--jj-safe-pad, 0px), env(safe-area-inset-left, 0px)); padding-right: max(var(--jj-safe-pad, 0px), env(safe-area-inset-right, 0px)); }
+:where(.jj-safe-top) { padding-top: max(var(--jj-safe-pad-top, 0px), env(safe-area-inset-top, 0px)); }
