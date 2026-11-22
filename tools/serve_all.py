@@ -13,7 +13,7 @@ at this computer gets nothing: round 3 review). Each app’s own server keeps do
 the pages and passes save requests (…/api/…) on. It starts any app server that isn’t running. Dark mode (jj-mode) carries across
 the sites here, and home’s Open links work, because it is all one address.
 """
-import http.server, os, socket, socketserver, subprocess, sys, urllib.error, urllib.request
+import http.server, os, socket, socketserver, subprocess, sys, urllib.error, urllib.parse, urllib.request
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PORT = int(sys.argv[sys.argv.index('--port') + 1]) if '--port' in sys.argv else 8050
@@ -68,6 +68,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         return None, path
 
     def host_ok(self):
+        if '\x00' in urllib.parse.unquote(getattr(self, 'path', '')):   # a NUL in the address dropped the connection (round 4)
+            return False
         return (self.headers.get('Host') or '').lower() in (f'localhost:{PORT}', f'127.0.0.1:{PORT}')
 
     def translate_path(self, path):
