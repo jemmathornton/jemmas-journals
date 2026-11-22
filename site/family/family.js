@@ -184,6 +184,14 @@
     new MutationObserver(function () { if (queued) return; queued = true; requestAnimationFrame(function () { queued = false; paint(false); }); })
       .observe(document.body, { childList: true, subtree: true });
     var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(fitCredits, 100); });
+    // another tab or window of the same browser changed the mode: follow it straight away (round 3 review)
+    window.addEventListener("storage", function (e) {
+      if (e.key !== "jj-mode" || (e.newValue !== "dark" && e.newValue !== "light") || e.newValue === getMode()) return;
+      root.setAttribute("data-mode", e.newValue);
+      if (root.hasAttribute("data-jj-server-mode")) root.setAttribute("data-jj-server-mode", e.newValue);
+      paint(true);
+      changeListeners.forEach(function (f) { try { f(e.newValue); } catch (x) {} });
+    });
     if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitCredits);
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", start); else start();
