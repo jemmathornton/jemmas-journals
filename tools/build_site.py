@@ -18,7 +18,7 @@ import http.server, os, shutil, subprocess, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, '_site')
 APPS = {'library': 'library/site', 'sim-world': 'sim-world/site', 'pokedex': 'pokedex/site', 'travels': 'travels/site'}
-LEAVE_OUT = ('tools/',)   # inside home's site/: the icon drawing canvas (site/tools/draw-icon.html) is not part of the site
+LEAVE_OUT = ('tools/', 'family/README.md')   # inside home's site/: the icon drawing canvas (site/tools/draw-icon.html) and the shared code's notes are not part of the site
 
 
 def tracked(repo, folder='site'):

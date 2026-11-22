@@ -114,7 +114,6 @@ class BuildSite(unittest.TestCase):
         size = sum(os.path.getsize(os.path.join(d, f)) for d, _, fs in os.walk(self.out) for f in fs)
         self.assertLess(size, 1000 * 1000 * 1000, 'GitHub Pages allows 1 GB')
 
-    @unittest.expectedFailure   # round 5 review: draw-icon.html and site/family/README.md are published; remove the mark once they aren't
     def test_no_working_tools_or_notes_are_published(self):
         bad = [os.path.relpath(os.path.join(d, f), self.out) for d, _, fs in os.walk(self.out) for f in fs
                if f.endswith('.md') or (f.endswith('.html') and os.sep + 'tools' + os.sep in os.path.join(d, f))]
