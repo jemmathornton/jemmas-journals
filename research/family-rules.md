@@ -1,6 +1,6 @@
 # The family rules: what every site shares (her decision, 21 Nov 2026)
 
-Jemma’s Journals (home), Library, Sim World, Pokédex and Travels each keep their own look and colours, but these three things work **the same on every site**. Each site’s own session follows this page.
+Jemma’s Journals (home), Library, Sim World, Pokédex and Travels each keep their own look and colours, but these three things work **the same on every site**. Each site’s own session follows this page. **Since 22 Nov the shared parts are one copy of code in Jemma’s Journals, `site/family/` (see its README): every site loads `/family/mode.js`, `/family/family.css` and `/family/family.js` rather than its own copy.**
 
 ## 1. Dark mode: the same everywhere, and it carries across
 
