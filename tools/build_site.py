@@ -26,6 +26,9 @@ def build():
         shutil.rmtree(OUT)
     copy(os.path.join(ROOT, 'site'), OUT)
     for name, folder in APPS.items():
+        if not os.path.isdir(os.path.join(ROOT, folder)):   # wired in by tools/new_site.py but the folder has gone
+            print(f'skipped {name}: {folder} not found (a site from tools/new_site.py deleted by hand? its --remove takes the wiring out)')
+            continue
         copy(os.path.join(ROOT, folder), os.path.join(OUT, name))
     size = sum(os.path.getsize(os.path.join(d, f)) for d, _, fs in os.walk(OUT) for f in fs)
     count = sum(len(fs) for _, _, fs in os.walk(OUT))

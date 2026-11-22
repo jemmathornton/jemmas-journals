@@ -18,7 +18,9 @@
   function icon(n) { return '<svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">' + ICONS[n] + "</svg>"; }
   // a marked placeholder (her rule: nothing made-up passes for her words)
   var TAG = '<span class="ph-tag">Placeholder</span>';
-  function words(text, missing) { return text ? "<p>" + esc(text) + "</p>" : '<p class="ph">' + esc(missing) + TAG + "</p>"; }
+  // the badge is joined to the last word (a no-break space), so on a phone it never sits alone on its own line
+  function words(text, missing) { return text ? "<p>" + esc(text) + "</p>" : '<p class="ph">' + esc(missing) + "&nbsp;" + TAG + "</p>"; }
+  var MISSING = "Words about this go here.";   // one neutral voice for every placeholder line
   function head(title, kicker) { return '<header class="page-head">' + (kicker ? '<div class="kicker">' + kicker + "</div>" : "") + "<h1>" + title + "</h1></header>"; }
   function find(id) { return DATA.items.filter(function (i) { return i.id === id; })[0]; }
 
@@ -26,22 +28,22 @@
   function pageHome() {
     return head("Jemma’s <em>__NAME__</em>")
       + '<section class="sec" aria-labelledby="h-intro"><h2 id="h-intro">Introduction</h2>'
-      + words(DATA.intro, "An introduction to the site goes here, in your own words.") + "</section>"
+      + words(DATA.intro, "An introduction to the site goes here.") + "</section>"
       + '<section class="sec" aria-labelledby="h-contents"><h2 id="h-contents">Contents</h2>'
       + '<a class="go" href="#/list">Open ' + esc(DATA.listTitle || "the list") + " " + icon("arrow-right") + "</a></section>";
   }
   function card(item) {
-    return '<li class="card"><h3><a href="#/item/' + encodeURIComponent(item.id) + '">' + esc(item.title) + "</a>" + (item.placeholder ? TAG : "") + "</h3>"
-      + words(item.about, "A line about it, in your own words.") + "</li>";
+    return '<li class="card"><h3><a href="#/item/' + encodeURIComponent(item.id) + '">' + esc(item.title) + "</a>" + (item.placeholder && item.about ? "&nbsp;" + TAG : "") + "</h3>"   // one badge per card
+      + words(item.about, MISSING) + "</li>";
   }
   function pageList() {
     return head(esc(DATA.listTitle || "List"))
-      + (DATA.items.length ? '<ul class="cards">' + DATA.items.map(card).join("") + "</ul>" : '<p class="ph">Nothing here yet.' + TAG + "</p>");
+      + (DATA.items.length ? '<ul class="cards">' + DATA.items.map(card).join("") + "</ul>" : '<p class="ph">Nothing here yet.&nbsp;' + TAG + "</p>");
   }
   function pageItem(item) {
     return '<nav class="crumbs" aria-label="Breadcrumb"><a href="#/list">' + esc(DATA.listTitle || "List") + "</a> / " + esc(item.title) + "</nav>"
-      + head(esc(item.title) + (item.placeholder ? TAG : ""))
-      + '<div class="panel">' + words(item.about, "Her words about it go here.") + "</div>";
+      + head(esc(item.title) + (item.placeholder && item.about ? "&nbsp;" + TAG : ""))
+      + '<div class="panel">' + words(item.about, MISSING) + "</div>";
   }
   function notFound() {
     return head("Not found") + '<p>There’s no page at this address. <a href="#/">Go to the home page</a>.</p>';

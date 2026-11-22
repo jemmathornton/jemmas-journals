@@ -35,7 +35,8 @@
 
 - Python 3.13: `C:/Users/Jemma/AppData/Local/Programs/Python/Python313/python.exe -X utf8`. Ask before installing anything.
 - **Tests:** `../.tools/node/node.exe tests/check_site.js` from this folder (Edge through the parent’s Playwright; serves site/ itself with `/family/` from the parent). It checks: no errors or Content-Security-Policy violations, opens light, footer rules, the drawer at 899/901, dark mode and `jj-mode`, no sideways scroll at 390, curly apostrophes, axe-core (no serious or critical problems). Add `--shots <folder>` for screenshots at 1600 and 390, light and dark. Run after every change; add a check for each bug fixed. The parent’s `tools/check_all.py` runs it too.
-- To view it: through the family server, http://localhost:8050/__FOLDER__/ (`tools/serve_all.py` in the parent; restart it after `new_site.py` added this site).
+- To view it: through the family server, http://localhost:8050/__FOLDER__/ (`tools/serve_all.py` in the parent; after `new_site.py` added this site, `python tools/restart_family.py` there so the server knows it).
+- **Backup:** none until it has a GitHub repo (her decision). After that the parent’s `tools/backup_new_sites.py` commits and pushes it daily.
 - Git: commit after each piece of work. After its GitHub repo exists and it is a submodule: push here, then record the new version in the parent (`git add __FOLDER__` there) and push both.
 
 ## Her decisions so far

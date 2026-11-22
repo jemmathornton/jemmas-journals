@@ -29,6 +29,9 @@ def main():
     results, logs = [], os.path.join(ROOT, 'logs', 'check-all')
     os.makedirs(logs, exist_ok=True)
     for name, cwd, cmd in CHECKS:
+        if not os.path.isdir(cwd):   # a site wired in by tools/new_site.py whose folder has gone: a note, not a crash
+            print(f"note {name:10} skipped: {cwd} not found (a site from tools/new_site.py deleted by hand? its --remove takes the wiring out)", flush=True)
+            continue
         t = time.time()
         r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, encoding='utf-8', errors='replace')
         out = (r.stdout or '') + (r.stderr or '')
