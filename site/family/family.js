@@ -160,7 +160,18 @@
     button.addEventListener("click", function () { isOpen ? close() : open(); });
     if (scrim) { scrim.hidden = true; scrim.addEventListener("click", function () { close(); }); }
     drawer.addEventListener("click", function (e) { var a = e.target.closest("a[href]"); if (a && isOpen) close("link"); });
-    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && isOpen) { e.preventDefault(); close(); } });
+    document.addEventListener("keydown", function (e) {
+      if (!isOpen) return;
+      if (e.key === "Escape") { e.preventDefault(); close(); return; }
+      if (e.key !== "Tab") return;
+      // Tab and Shift+Tab go round the drawer's own links and never reach the page or the browser bar (round 4: one lap reached the body)
+      var items = Array.prototype.filter.call(drawer.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), select, textarea, [tabindex]:not([tabindex="-1"])'),
+        function (el) { return el.offsetParent !== null || el.getClientRects().length; });
+      if (!items.length) return;
+      var first = items[0], last = items[items.length - 1], at = document.activeElement;
+      if (e.shiftKey && (at === first || !drawer.contains(at))) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && (at === last || !drawer.contains(at))) { e.preventDefault(); first.focus(); }
+    });
     function onWidth() {
       var hadFocus = drawer.contains(document.activeElement);
       if (!narrow.matches && isOpen) close("silent");

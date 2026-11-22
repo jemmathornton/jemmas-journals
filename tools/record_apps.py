@@ -19,22 +19,27 @@ def git(*args, cwd=ROOT):
 
 
 def main():
-    changed = []
+    if git('rev-parse', '--abbrev-ref', 'HEAD').stdout.strip() != 'main':
+        print('Jemma’s Journals is not on main: nothing recorded'); return 1
+    changed, skipped = [], []
     for app in APPS:
         path = os.path.join(ROOT, app)
         if not os.path.exists(os.path.join(path, '.git')):
             continue
         if git('status', '--porcelain', cwd=path).stdout.strip():
-            print(f'{app}: has uncommitted changes, not recorded'); continue
+            print(f'{app}: has uncommitted changes, not recorded'); skipped.append(app); continue
         if git('rev-parse', '--abbrev-ref', 'HEAD', cwd=path).stdout.strip() != 'main':
-            print(f'{app}: not on main, not recorded'); continue
+            print(f'{app}: not on main, not recorded'); skipped.append(app); continue
+        git('fetch', '-q', cwd=path)
+        if git('rev-list', '--count', '@{u}..HEAD', cwd=path).stdout.strip() not in ('0', ''):
+            print(f'{app}: has commits not yet pushed, not recorded'); skipped.append(app); continue
         recorded = git('ls-tree', 'HEAD', app).stdout.split()
         current = git('rev-parse', 'HEAD', cwd=path).stdout.strip()
         if len(recorded) >= 3 and recorded[2] == current:
             continue
         changed.append(app)
     if not changed:
-        print('every app already recorded'); return 0
+        print('nothing new to record' + (f' (skipped: {", ".join(skipped)})' if skipped else ': every app already recorded')); return 0
     r = git('add', '--', *changed)
     if r.returncode == 0:
         r = git('commit', '-m', 'Record app versions: ' + ', '.join(changed), '--', *changed)
