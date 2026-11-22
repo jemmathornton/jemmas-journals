@@ -53,9 +53,10 @@ Everything is tested, saved and pushed. The full check passes on every site:
   - phone fixes (back keeps your place, bigger tap targets, no zoom on tap, room for the notch, swipe to close the menu);
   - a security policy so only the site’s own code runs.
 
-## Waiting for you
-1. **Library: covers in the header.** Pick one of As now, Shelf, Spines, Fan, Row or Stack (Try switch, bottom right).
-2. **Library: two covers with white borders** (*The New School at Scawdale*, *A Visit From the Goon Squad*). Crop them?
-3. **Library: the Shelf option.** Keep the books at varied heights, or make them all the same height?
-4. **Pokédex for more games:** your choices are in `pokedex-more-games.md`.
-5. **Sim World data:** four partner links only go one way, e.g. Gunther Goth → Cornelia. The pages still read correctly, so I left them.
+## Waiting for you (updated 22 Nov evening)
+- **Library header:** done. Stamped spines, every spine with title and author, one book per shelf in turn, varied colours, no Harry Potter. Your two bordered covers were cropped (originals kept).
+- **Library page counts:** a check against Open Library is running. It will list books whose page count looks wrong (e.g. Catch-22 recorded as 160), for you to say which to fix.
+- **Pokédex:** GO and Pokémon HOME first; HOME’s box means “in HOME now”. A Try switch with game-switch ideas and Pokédex Home ideas is being built (HOME shown as a placeholder).
+- **Library spines:** let *Harry, A History* and *The Casual Vacancy* back in? The Display shelf page now shows no spines (too few books).
+- **Sim World data:** four partner links only go one way (e.g. Gunther Goth → Cornelia). Pages read correctly.
+- **Old folders:** close your old app chats, then ask me to move the old folders to the Recycle Bin.
