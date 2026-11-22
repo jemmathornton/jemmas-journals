@@ -170,3 +170,8 @@ These check exactly what `tests/family/family.test.js` now checks for every site
 - **git**: every app has uncommitted work from tonight’s helpers (expected while they work).
 
 **A mistake in the first version of the record_apps test (fixed, no harm done, but recorded here):** `record_apps.git()` takes `cwd=ROOT` as a default argument, fixed when the module loads, so pointing `ROOT` at the temp family left its parent commands running in the real Jemma’s Journals. One test run made the commit `9123b26` “Record app versions: pokedex” in the real parent and pushed it. It recorded Pokédex at `447b320`, which was already on GitHub, on main, with nothing uncommitted except `logs/backup.log`: exactly the commit `record_apps` itself would have made, so it was left in place. The tests now send every git call to the temp family and refuse any other folder (and `test_weekly.py` fences `weekly.py` the same way).
+
+App suites (full mode), run by hand the same afternoon while their own sessions were still editing them:
+- **Library**: 339 tests, 4 failures, all in tests of 22 Nov work its session was changing at the time (cover stars, smaller pictures, old books’ spine lettering, the New covers switch): theirs to look at, not parent problems. About 6 minutes.
+- **Sim World**: 396 Python tests with 1 failure, and 127 site tests all passed. The failure (`test_zz_untouched`: temp folders left) came from another Sim World run going at the same time, not from Sim World. About 5 minutes.
+- **Pokédex** and **Travels**: not run, because their own sessions were running those suites at the time. Run `python tools/check_all.py` once they are done.
