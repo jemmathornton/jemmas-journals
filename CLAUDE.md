@@ -2,6 +2,8 @@
 
 The home page that links Jemma’s other sites: her Sims 4 save (`Documents\JemmasJournals\sim-world`, “My Sim World”), her home library (`Documents\JemmasJournals\library`, “My Library”) and her Pokémon GO collection (`Documents\JemmasJournals\pokedex`, “My Pokédex”) and her travel blog (`Documents\JemmasJournals\travels`, “My Travels”, added 21 Nov with her yes). Not her Budget app. Started 19 Nov 2026. Public, but not advertised: it’s mostly for her, to reach everything from her phone or laptop. More places will be added, so the page must grow by adding one entry.
 
+**How the parts connect** (parent and submodules, shared code, servers, backup, build, tests): [ARCHITECTURE.md](ARCHITECTURE.md). Before changing anything across the family, follow “Making a change across the family” below. Slash commands for common jobs: `/status`, `/check-all`, `/record`, `/family-change`, `/new-site` (in `.claude/commands/`).
+
 ## Working rules (as for her other apps)
 
 - **Home is a landing space only:** a name, a picture and a way in for each place, plus an Introduction. No figures, no “latest”, no dates. It must read like a website (header, sections, footer), not a screen of app icons.
@@ -23,7 +25,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\Jemm
 - Library’s picture: the tilted wall of her covers. Sim World and Pokédex: a full map, nothing added on top. Which ones is open: she’ll supply a Sims picture; Pokédex now uses the combined Johto and Kanto painting (official HeartGold/SoulSilver art, from PidgiWiki `File:Johto_and_Kanto_-_Pokemon_HeartGold_and_SoulSilver.jpg`, downloaded 20 Nov with her OK).
 - No “Elsewhere” links (the Sims Gallery belongs in Sim World).
 - 20 Nov: the Improved version (gold corner brackets on the cover, serif section headings with a diamond rule, centred footer, Back to top), with About this site in the footer. (Its About photo was later dropped: see “Introduction” below.) Not wanted: quick links, an empty slot, an edition mark.
-- 20 Nov (later): links say “Open My Sim World” etc. (she found “Open Sim World” odd beside “My Sim World”). About this site must be small and subtle (she hated the table-like band). A way back home in each app: **A**, a small “← Jemma’s Journals” link at the top of each app’s sidebar (subtle). **Added 20 Nov evening** (her go-ahead) to all three apps (Sim World 1201ff9, Library f852f84, Pokédex f7d00a3): href "/" (home once all sites share one address; she leans to her own domain, hosting undecided, separate repos, no submodules). Sim World opened as a local file points at ../../JemmasJournals/site/index.html instead. Screens: for-jemma/concepts/back-home/back-home-added.jpg.
+- 20 Nov (later): links say “Open My Sim World” etc. (she found “Open Sim World” odd beside “My Sim World”). About this site must be small and subtle (she hated the table-like band). A way back home in each app: **A**, a small “← Jemma’s Journals” link at the top of each app’s sidebar (subtle). **Added 20 Nov evening** (her go-ahead) to all three apps (Sim World 1201ff9, Library f852f84, Pokédex f7d00a3): href "/" (home once all sites share one address; she leans to her own domain, hosting undecided; at the time separate repos, no submodules: since 21 Nov late they are submodules, see “The family layout”). Sim World opened as a local file points at ../../site/index.html instead (was ../../JemmasJournals/site/index.html before the move; updated 22 Nov). Screens: for-jemma/concepts/back-home/back-home-added.jpg.
 
 - 20 Nov (evening): **About this site = option 2**, two lines (No cookies… / the credits), each credit with a capital; on phones the credits stack one per line. The other footer options are gone from the switch.
 - 20 Nov (evening): Pokédex picture = the combined Johto and Kanto painting (downloaded from PidgiWiki with her OK; page copies img/maps/region-johto-kanto.*). Shown whole for now; whole vs fill the photo is her choice.
@@ -37,7 +39,7 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\Jemm
 
 - 21 Nov: **My Travels added** (her yes). Picture: Travels’ own world map in its chosen Old Atlas look (`img/maps/travels-map.*`, from its Map page, redone 21 Nov). Its line is a placeholder. Four places sit 2 × 2; the checks now expect four. Screen: for-jemma/concepts/travels-added.jpg.
 
-- 21 Nov: **the family rules** (her decision): dark mode the same on every site and carried across (all open light; footer Dark mode button; shared localStorage key `jj-mode`), the same footer, the same Menu drawer under 900px. Written in `research/family-rules.md`; home now uses `jj-mode`. Sim World and Travels: she is fixing those herself.
+- 21 Nov: **the family rules** (her decision): dark mode the same on every site and carried across (all open light; footer Dark mode button; shared localStorage key `jj-mode`), the same footer, the same Menu drawer under 900px. Written in `research/family-rules.md`; home now uses `jj-mode`. Sim World and Travels: she is fixing those herself. (22 Nov: done; every site now loads the one shared copy in `site/family/`.)
 
 ## The apps’ own styles (21 Nov)
 
@@ -50,7 +52,7 @@ She felt the three apps were too same-y (same sidebar, name style, hero, cards; 
 
 ## Where things are
 
-- `site/index.html`: the page as it stands; the trial switch was removed 20 Nov late (her ask). Stand-in places for checking growth: add `#more1`…`#more3` to the address. The places are one list, `PLACES`, in its script. Published for her phone as a private Claude artifact: https://claude.ai/artifact/Ad37As365K3HDcR8iHw7HE (republish after changes).
+- `site/index.html`: the page as it stands; the trial switch was removed 20 Nov late (her ask). Stand-in places for checking growth: add `#more1`…`#more3` to the address. The places are one list, `PLACES`, in `site/home.js` (moved out of the page 22 Nov for the Content Security Policy). Published for her phone as a private Claude artifact: https://claude.ai/artifact/Ad37As365K3HDcR8iHw7HE (republish after changes).
 - `site/img/`: pictures copied from her apps (`maps/` every Sims world and Pokémon region map, `wall/` 40 of her covers, `icons/` each app’s own icon). `site/fonts/`: Instrument Serif and Manrope (SIL OFL).
 - `for-jemma/concepts/`: screenshots of each round and the labelled choice sheets (older rounds in `round-1/` …).
 - `research/going-online.md`: hosting research (GitHub Pages and what each app needs, checked in each app’s code).
@@ -62,11 +64,22 @@ She felt the three apps were too same-y (same sidebar, name style, hero, cards; 
 
 Repo on `main`, pushed to https://github.com/jemmathornton/jemmas-journals (**public**). Commit after each piece of work and push with `git -c "credential.helper=!'C:/Program Files/GitHub CLI/gh.exe' auth git-credential" push`. Name and email are set in this repo’s own git config (copied from her Library project).
 
+## Making a change across the family (checklist for Claude sessions, 22 Nov)
+
+1. **Is it quiet?** Other sessions work in the parent and in each app. Run `git status` and `git log --oneline -5` in the parent and in the app you’ll touch (or `/status`). If there are uncommitted changes you didn’t make, or a commit in the last few minutes, leave those files alone and commit only your own (`git add <your files>`, never `git add -A`).
+2. **Where the code goes:** shared behaviour (dark mode, footer, Back to top, Menu drawer) in `site/family/` here, once, for every site (`/family-change`); an app’s own look and features in that app’s folder, following its own `CLAUDE.md`. Home is `site/`. Family rules: `research/family-rules.md`.
+3. **Never change her data:** Pokédex ticks (`pokedex/data/collection/go.json`; its test server on 8031 writes to the same file), the Library’s `library/data/`, Travels’ posts and photos, Sim World’s plan data, or her own files outside these projects. Tests run on throwaway copies; generated files (`site/js/data.js`) are rebuilt, never edited.
+4. **Her rules:** British English; curly apostrophes in shown text; no made-up text (her words, an app’s own text, or a marked placeholder); no AI art, no real logos; light mode by default. For looks, **show, don’t ask**: build the options into the running page with a Try switch (bottom right, removed once she picks) and open it in the browser pane. When asking her to choose, list every option, and label your own as “my suggestion (not decided)”.
+5. **Check:** the app’s own tests and, for home, `tests/check_page.js`; after a `site/family/` change, every site (`python tools/check_all.py --quick`, or `/check-all`).
+6. **Commit in the app first, then record it here:** commit and push in the app, then `python tools/record_apps.py` (or `/record`) commits “Record app versions: …” in the parent and pushes. Push everywhere with the gh credential helper above; commit messages end with the Co-Authored-By line.
+7. **Home changed?** Republish the private artifact (link in “Where things are”).
+8. **Update the notes:** her decisions in the right `CLAUDE.md` (dated), how-things-connect changes in `ARCHITECTURE.md`, shared-code use in `site/family/README.md`.
+
 ## Her picks after the second review (21 Nov, late)
 
 Answers in `for-jemma/review-2-21-nov.md`. All built and the Try switches removed:
 - **Home:** the four places span the full width, lined up with the headings.
-- **All sites:** footer line 1 “Made with HTML, CSS and JavaScript, kept on GitHub.” (family rule updated).
+- **All sites:** footer line 1 “Made with HTML, CSS and JavaScript, kept on GitHub.” (family rule updated). 22 Nov, her ask: now “… HTML, CSS, JavaScript and Python, kept on GitHub.” (in `site/family/family.js`).
 - **Sim World:** town-plan look on lot, Sim and household pages; “Sim World” in the sidebar purple.
 - **Library:** Display shelf walnut brown (was green); big first letter kept after a quote mark; EB Garamond shrunk to WOFF2; read-only without its server. The Library’s “no green” line was removed at her ask (not a rule to keep).
 - **Pokédex:** card art tinted by the first type; Lucky box stays white; tabs one row at 1280 (8.5px floor); Hide off on opening; search ignores Hide; 32px under the chips on Pokémon pages.
@@ -76,10 +89,10 @@ Answers in `for-jemma/review-2-21-nov.md`. All built and the Try switches remove
 
 Jemma’s Journals is the **parent**; the apps are **submodules** in it: `library/`, `sim-world/`, `pokedex/`, `travels/` (their own repos on GitHub unchanged; plan and checks in `research/submodules-plan.md`). Home’s own folder is `site/` (was `concepts/`). Shared code goes in Jemma’s Journals (next job: dark mode, footer, Menu drawer, sidebar into `site/family/`, one app at a time); the apps keep their own looks.
 - **Shared code (22 Nov, overnight):** `site/family/` (`mode.js`, `family.js`, `family.css`, README): dark mode, footer, Back to top, credit dots, the Menu drawer. Every site loads it from Jemma’s Journals directly (`/family/…`; home uses `family/…`), her choice. The family server keeps her dark-mode choice in `logs/family-mode.txt` and writes it into each page (`data-jj-server-mode`), so it carries between app windows with their own Chrome profiles.
-- **Opening the sites:** her shortcuts run `tools/open_site.pyw <app>` (starts the family server if needed, opens the app window at 8050); the Startup folder has “Jemma's Journals server” (serve_all.py, which also starts the app servers). `tools/record_apps.py` records the apps’ new versions in the parent (the apps’ weekly backups run it).
+- **Opening the sites:** her shortcuts run `tools/open_site.pyw <app>` (starts the family server if needed, opens the app window at 8050); the Startup folder has “Jemma's Journals server” (serve_all.py, which also starts the app servers). `tools/record_apps.py` records the apps’ new versions in the parent (the daily backup runs it: see below).
 - **One address for all:** `tools/serve_all.py` (launch config `family`, http://localhost:8050): `/` home, `/library/`, `/sim-world/`, `/pokedex/`, `/travels/`; saves are passed on to each app’s own server (Library 8020, Pokédex 8030, Travels 8041), which still does the saving. Home’s Open links work there; dark mode carries.
 - **Shared test tools:** Node in `.tools/node`, Playwright in `node_modules/` (both git-ignored), moved here from Sim World.
-- **Re-pointed 21 Nov:** the three weekly tasks, the desktop and Start-menu shortcuts and the Library server’s Startup shortcut now use the new folders. The old folders (`Documents\HomeLibrary`, `SimTracker`, `Pokedex`, `Travels`) are kept untouched for now (her choice); delete only with her OK.
+- **Re-pointed 21 Nov:** the three weekly tasks (22 Nov: replaced by one daily task, “Jemma's Journals - backup”, 09:30, running `tools/weekly.py`; the three old tasks are disabled), the desktop and Start-menu shortcuts and the Library server’s Startup shortcut now use the new folders. The old folders (`Documents\HomeLibrary`, `SimTracker`, `Pokedex`, `Travels`) are kept untouched for now (her choice); delete only with her OK.
 - **After committing in an app:** commit the new version in the parent too (`git add <app>`), and push both.
 - **Claude memory** for each app was copied to its new folder (21 Nov); she starts each app’s chats from its new folder. Repos renamed on GitHub to `sim-world` and `travels` (her ask); old addresses forward.
 
