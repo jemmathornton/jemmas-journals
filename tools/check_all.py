@@ -16,7 +16,7 @@ The parts (research/tests-audit.md says what each covers):
 Prints one line per part and a summary; exits 1 if anything failed. Logs in logs/check-all/. It only reads: every suite
 works on throwaway copies and its own servers on spare ports (never her 8050 server, her dark-mode file or her data).
 """
-import contextlib, importlib.util, io, os, shutil, socket, subprocess, sys, tempfile, time
+import contextlib, importlib.util, io, os, re, shutil, socket, subprocess, sys, tempfile, time
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PY = sys.executable
@@ -118,7 +118,7 @@ def git_checks(results):
         if not os.path.isdir(p):
             print(f'note git {app:9} not there', flush=True); continue
         dirty = [l for l in git(p, 'status', '--porcelain').splitlines()
-                 if l.strip() and 'data/collection/go.json' not in l and 'data/collection/home.json' not in l and not l[3:].startswith('logs/')]   # her Pokédex ticks, GO's and HOME's (the daily backup saves them)
+                 if l.strip() and not re.search(r'data/collection/[\w-]+\.json', l) and not l[3:].startswith('logs/')]   # her Pokédex ticks, every game's file (the daily backup saves them)
         branch = git(p, 'rev-parse', '--abbrev-ref', 'HEAD')
         ahead = git(p, 'rev-list', '--count', '@{u}..HEAD') if branch == 'main' else '?'
         recorded = (git(ROOT, 'ls-tree', 'HEAD', app).split() + ['', '', ''])[2] == git(p, 'rev-parse', 'HEAD')

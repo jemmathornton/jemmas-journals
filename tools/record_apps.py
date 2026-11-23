@@ -28,7 +28,7 @@ def main():
         path = os.path.join(ROOT, app)
         if not os.path.exists(os.path.join(path, '.git')):
             continue
-        dirty = [l for l in git('status', '--porcelain', cwd=path).stdout.splitlines() if l.strip() and not l[3:].startswith('logs/') and not re.search(r'data/collection/(go|home)\.json', l)]   # a backup's own log line and her Pokédex ticks (GO's and, since 22 Nov, Pokémon HOME's; saved by the daily backup) don't count
+        dirty = [l for l in git('status', '--porcelain', cwd=path).stdout.splitlines() if l.strip() and not l[3:].startswith('logs/') and not re.search(r'data/collection/[\w-]+\.json', l)]   # a backup's own log line and her Pokédex ticks (each game's file: GO, HOME since 22 Nov, Shield since 23 Nov; saved by the daily backup) don't count
         if dirty:
             print(f'{app}: has uncommitted changes, not recorded'); skipped.append(app); continue
         if git('rev-parse', '--abbrev-ref', 'HEAD', cwd=path).stdout.strip() != 'main':
