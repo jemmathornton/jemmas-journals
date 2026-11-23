@@ -10,7 +10,9 @@ const AXE = fs.readFileSync(require.resolve('axe-core/axe.min.js'), 'utf8');
 const BASE = (process.argv.includes('--base') ? process.argv[process.argv.indexOf('--base') + 1] : 'http://localhost:8050').replace(/\/$/, '');
 const PAGES = [
   '/', '/library/#home', '/library/#stats', '/sim-world/#home', '/sim-world/#w-willow-creek', '/sim-world/#s-bella-goth',
-  '/pokedex/#home', '/pokedex/#gen-1', '/pokedex/#p-6', '/travels/', '/travels/#/stats',
+  '/pokedex/#home', '/pokedex/#go', '/pokedex/#gen-1', '/pokedex/#p-6',
+  '/pokedex/#hm-gen-8', '/pokedex/#hm-p-869', '/pokedex/#hm-fast', '/pokedex/#games',   // Pokémon HOME's pages (22 Nov)
+  '/travels/', '/travels/#/stats',
 ];
 (async () => {
   const browser = await chromium.launch({ channel: 'msedge' });
