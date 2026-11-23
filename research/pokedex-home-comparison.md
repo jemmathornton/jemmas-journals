@@ -1,5 +1,7 @@
 # A game’s Home page in the Pokédex: how others lay it out (22 Nov 2026)
 
+> **Update, 23 Nov:** Pokémon HOME has since been fully built (Pokédex commits 1f24481 and a29b361), so HOME’s figures are real now. Where this note says HOME’s figures are Placeholders, that describes the options as they stood on 22 Nov.
+
 Short comparison for Jemma’s Pokédex, after her picks on 22 Nov: the game switch in the sidebar (HOME | GO), Pokémon HOME the default game, and the Home page still open. Her later note: “maybe there needs to be something overview between games but every mon is game specific so seems weird for them to be together.” Everything that proposes something here is **my suggestion (not decided)**. Background: `research/pokedex-more-games.md`.
 
 ## What the sites and apps do
