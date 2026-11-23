@@ -55,7 +55,7 @@ Sim World has no save server. Other ports in `.claude/launch.json` (8040 home al
 
 ## The daily backup
 
-- Windows task **“Jemma's Journals - backup”**, every day at 09:30 (catches up after the PC was off), runs `pythonw tools/weekly.py` (the name is older than the daily schedule). In turn: Sim World’s Gallery refresh (Sundays only, or `--all`), Library `tools/backup.py`, Pokédex `tools/backup.py`, Travels’ Write-page files committed and pushed, then `tools/record_apps.py`. One failure doesn’t stop the rest. Log: `logs/weekly.log` (each app also keeps its own).
+- Windows task **“Jemma's Journals - backup”**, every day at 09:30 (catches up after the PC was off), runs `pythonw tools/weekly.py` (the name is older than the daily schedule). In turn: Sim World’s Gallery refresh (Sundays only, or `--all`), Library `tools/backup.py`, Pokédex `tools/backup.py`, `tools/backup_new_sites.py` (sites made by `new_site.py`, once they have a GitHub repo; none yet), Travels’ Write-page files committed and pushed, then `tools/record_apps.py`. One failure doesn’t stop the rest. Log: `logs/weekly.log` (each app also keeps its own).
 - Every push signs in through the GitHub CLI credential helper, never a Windows sign-in window.
 - The three old per-app weekly tasks still exist but are **disabled** (checked 22 Nov).
 
@@ -68,18 +68,20 @@ Sim World has no save server. Other ports in `.claude/launch.json` (8040 home al
 
 | Site | Command (from its folder) | Notes |
 |---|---|---|
-| Home | `.tools/node/node.exe tests/check_page.js` | Edge at 1600, 1280, 390; expects four places |
+| Home | `.tools/node/node.exe tests/check_page.js` | Edge at 1600, 1280, 1000, 390; expects four places |
+| Family rules | `.tools/node/node.exe tests/family/family.test.js` | all five sites through a test copy of the family server, and the online-style build |
+| Family tools | `python -B -X utf8 -m unittest discover -s tests/tools -t tests/tools` | serve_all, record_apps, weekly, build_site, new_site, open_site |
 | Library | `python -B -X utf8 tests/run_tests.py` | on a throwaway copy |
 | Sim World | `python -B -X utf8 tools/run_tests.py` | about 2 minutes |
 | Pokédex | `python -B -X utf8 tests/run_tests.py` | never leave test ticks in `go.json` |
 | Travels | `python -B -X utf8 tests/run_tests.py` (`unit` for the quick half) | about 11 minutes in full |
 | Accessibility | `.tools/node/node.exe tests/axe_all.js [--strict]` | needs 8050 running; report only without `--strict` |
 
-**All at once:** `python tools/check_all.py` (about 20 minutes) or `--quick` (skips Travels’ end-to-end half). It runs each suite above, the accessibility report, and checks each app is on `main`, clean, pushed and recorded in the parent. Logs: `logs/check-all/`. Node and Playwright are shared from the parent (`.tools/node`, `node_modules/`, both git-ignored; see new-pc.md step 5).
+**All at once:** `python tools/check_all.py` (about 25 minutes) or `--quick` (a few minutes: home, family rules, family tools, accessibility and git; skips the four apps’ own suites). It runs each suite above, the accessibility report (on its own test copy of the family server, so 8050 isn’t needed), and checks each app is on `main`, clean and pushed (and notes any not yet recorded in the parent). Logs: `logs/check-all/`. Node and Playwright are shared from the parent (`.tools/node`, `node_modules/`, both git-ignored; see new-pc.md step 5).
 
 ## Adding a new site
 
-`python -X utf8 tools/new_site.py <folder> "<Name>" ["#colour"] --dry-run`, then without `--dry-run`. It copies `templates/new-site`, makes a local git repo (no GitHub until she says), and wires the folder into `serve_all.py`, `open_site.pyw`, `build_site.py` and `check_all.py`. Home only changes with `--add-to-home` (a new place on home is her yes; `tests/check_page.js` expects four). Not wired automatically: `record_apps.py`, `weekly.py`, `setup_pc.ps1` shortcuts, and the git checks in `check_all.py` (they list the four apps by name). Her guide: [for-jemma/new-site.md](for-jemma/new-site.md).
+`python -X utf8 tools/new_site.py <folder> "<Name>" ["#colour"] --dry-run`, then without `--dry-run`. It copies `templates/new-site`, makes a local git repo (no GitHub until she says), and wires the folder into `serve_all.py`, `open_site.pyw`, `build_site.py`, `check_all.py` (its tests), `tests/axe_all.js`, `backup_new_sites.py` (so the daily backup pushes it once it has a GitHub repo) and the parent’s `.gitignore`. Home only changes with `--add-to-home` (a new place on home is her yes; `tests/check_page.js` expects four); a shortcut only with `--shortcut` (listed in `setup_pc.ps1`). Not wired automatically: `record_apps.py` and the git checks in `check_all.py` (they list the submodules by name; added by hand once it is a submodule). Her guide: [for-jemma/new-site.md](for-jemma/new-site.md).
 
 ## Where else to look
 

@@ -70,7 +70,7 @@ She felt home was “a bit bland, needs more” and the four pictures didn’t s
 - `research/going-online.md`: hosting research (GitHub Pages and what each app needs, checked in each app’s code).
 - `research/site-ideas.md`: ideas to make the site better, what was tried on the page, a checklist for going online. `research/drafts/`: draft head tags, robots.txt, manifest and a publishing workflow, for going online (the robots and noindex choices are made and already on the page; `site/robots.txt` is the live copy).
 - `site/404.html` (not-found page) and `site/img/share-preview.jpg` (link preview picture), for when it’s online. Pictures on the page are WebP at the size shown (`img/wall/*.webp`, `img/maps/*.webp`); the JPGs are the larger originals.
-- `tests/check_page.js`: checks the page in Edge at 1600, 1280 and 390 wide (run with `C:/Users/Jemma/Documents/JemmasJournals/.tools/node/node.exe tests/check_page.js`; uses the shared Playwright in node_modules/). Run after every change.
+- `tests/check_page.js`: checks the page in Edge at 1600, 1280, 1000 and 390 wide (run with `C:/Users/Jemma/Documents/JemmasJournals/.tools/node/node.exe tests/check_page.js`; uses the shared Playwright in node_modules/). Run after every change.
 
 ## Git
 
@@ -110,7 +110,7 @@ Jemma’s Journals is the **parent**; the apps are **submodules** in it: `librar
 
 ## Adding a new site (22 Nov)
 
-- **One command:** `python -X utf8 tools/new_site.py <folder> "<Name>" ["#accent"]` (e.g. `recipes "Recipes" "#8A3B2E"`; `--dry-run` shows everything first). It copies `templates/new-site/` to `JemmasJournals/<folder>/` (filled in: “Jemma’s <Name>”, the accent checked to 4.5:1 or more in light and dark and adjusted if not), runs `git init` there with a first commit, and wires it into `tools/serve_all.py` (APPS), `tools/open_site.pyw` (SITES), `tools/build_site.py` (APPS) and `tools/check_all.py` (its tests). Each edit is marked “added by tools/new_site.py” and safe to run twice. Restart the family server afterwards.
+- **One command:** `python -X utf8 tools/new_site.py <folder> "<Name>" ["#accent"]` (e.g. `recipes "Recipes" "#8A3B2E"`; `--dry-run` shows everything first). It copies `templates/new-site/` to `JemmasJournals/<folder>/` (filled in: “Jemma’s <Name>”, the accent checked to 4.5:1 or more in light and dark and adjusted if not), runs `git init` there with a first commit, and wires it into `tools/serve_all.py` (APPS), `tools/open_site.pyw` (SITES), `tools/build_site.py` (APPS), `tools/check_all.py` (its tests), `tests/axe_all.js`, `tools/backup_new_sites.py` (the daily backup, once it has a GitHub repo) and the parent’s `.gitignore`. Each edit is marked “added by tools/new_site.py” and safe to run twice. Restart the family server afterwards.
 - **Home is not changed** unless `--add-to-home` (a new place on home is her yes; it adds a placeholder entry to PLACES in `site/home.js` with the striped stand-in picture, and `tests/check_page.js`’s “four places” checks then need updating). Without it, the line to add is printed.
 - **No GitHub repo:** creating one is her decision; the script prints the `gh repo create` and `git submodule add` commands. After it is a submodule, add it to `tools/record_apps.py` APPS and the git list in `tools/check_all.py`.
 - **Undo:** `python -X utf8 tools/new_site.py <folder> --remove` takes the wiring back out (exactly, also the home entry); it never deletes the folder, only prints how.

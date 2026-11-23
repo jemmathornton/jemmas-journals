@@ -159,6 +159,9 @@ async function go(page, hash) {
     await page.waitForTimeout(350);
     let s = await page.evaluate(() => ({ exp: document.querySelector('#menuBtn').getAttribute('aria-expanded'), focus: document.activeElement.getAttribute('href'), mainInert: document.querySelector('#main').inert, barInert: document.querySelector('#topbar').inert, scrim: !document.querySelector('#scrim').hidden }));
     check(s.exp === 'true' && s.focus === '#/list' && s.mainInert && s.barInert && s.scrim, '899: Menu opens the drawer, focus on the current page’s link, the rest inert (' + JSON.stringify(s) + ')');
+    // the family's drawer width and the 44px “← Jemma’s Journals” in it (site/family/README.md, round 5; the template had 84vw and no jj-home-link)
+    const dw = await page.evaluate(() => ({ w: Math.round(document.querySelector('#side').getBoundingClientRect().width), home: Math.round(document.querySelector('#side .jj-home-link').getBoundingClientRect().height) }));
+    check(dw.w === 300 && dw.home >= 44, '899: the drawer is the family’s width (300px) and its “← Jemma’s Journals” 44px tall (' + JSON.stringify(dw) + ')');
     await page.keyboard.press('Escape');
     s = await page.evaluate(() => ({ exp: document.querySelector('#menuBtn').getAttribute('aria-expanded'), focus: document.activeElement.id, inert: document.querySelector('#side').inert }));
     check(s.exp === 'false' && s.focus === 'menuBtn' && s.inert, '899: Escape closes it and focus goes back to Menu');

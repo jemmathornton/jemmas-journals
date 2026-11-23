@@ -6,7 +6,7 @@ Every site loads it **from Jemma’s Journals directly**, at `/family/…` (her 
 
 | File | Loaded | Does |
 |---|---|---|
-| `mode.js` | `<script src="/family/mode.js" data-old-key="…">` in `<head>`, before the stylesheet | sets `data-mode` before the page draws, from the shared `jj-mode` |
+| `mode.js` | `<script src="/family/mode.js" data-old-key="…">` in `<head>`, before the stylesheet | sets `data-mode` before the page draws, from the shared `jj-mode`; on her PC the family server’s choice (`data-jj-server-mode` on `<html>`, from `logs/family-mode.txt`) wins |
 | `family.css` | `<link rel="stylesheet" href="/family/family.css">` before the site’s own stylesheet | footer layout, drawer scrim, Menu button and bar-name sizes; colours and fonts from the site’s `--jj-*` variables |
 | `family.js` | `<script src="/family/family.js" defer>` | Dark mode button, theme colour and tab icon, Back to top, footer line 1, credit dots, the Menu drawer (`JJFamily.menu`) |
 
@@ -63,4 +63,4 @@ Set `--jj-safe-pad` to the gutter the element already has and remove its own `pa
 
 ## Changing it
 
-Change it here once; every site follows. Then run every site’s tests (each app’s own suite, and `tests/check_page.js` here), commit here, and push.
+Change it here once; every site follows. Then run every site’s tests (each app’s own suite, and here `tests/check_page.js` and `tests/family/family.test.js`, which checks these rules on all five sites; `python tools/check_all.py --quick` runs the parent’s checks in one go), commit here, and push.

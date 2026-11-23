@@ -9,10 +9,10 @@ turn, then records the apps' new versions in Jemma's Journals once.
      6 days ago, so a Sunday with the PC off catches up the next day; --all forces it, --daily-only skips it
   2. Library: back up to GitHub (tools/backup.py), every day
   3. Pokédex: refresh What's on, back up to GitHub (tools/backup.py), every day
-  4. Travels: any posts saved on the Write page (data/, site/photos/, the rebuilt site/js/data.js, the restamped
+  4. New sites (tools/backup_new_sites.py): each site made from the template with its own GitHub repo, every day
+  5. Travels: any posts saved on the Write page (data/, site/photos/, the rebuilt site/js/data.js, the restamped
      site/index.html) are committed (those paths only) and pushed, every day; not pushed if main already had other
      unpushed commits (logged instead) (her pick, 22 Nov: Travels in the daily backup)
-  5. New sites (tools/backup_new_sites.py): each site made from the template with its own GitHub repo, every day
   6. tools/record_apps.py: the parent records the new versions and pushes
 
 Every push signs in through the GitHub CLI (never a window). One app failing doesn't stop the others. Log: logs/weekly.log
