@@ -24,4 +24,22 @@
     if (saved === "dark") mode = "dark";
   } catch (e) {}
   root.setAttribute("data-mode", mode);
+
+  // Until family.js (deferred) has drawn them, the footer's Back to top and Dark mode controls are empty in the page's HTML;
+  // on a slow load a screen reader (or axe) met them with no name (23 Nov, Sim World review). Give each a name as soon as it is
+  // parsed; family.js takes it off again when it writes the words in.
+  if (document.readyState !== "loading" || !window.MutationObserver) return;
+  function name() {
+    var els = document.querySelectorAll("[data-jj-mode]:not([data-jj-painted]):not([aria-label]), [data-jj-top]:not([data-jj-painted]):not([aria-label])");
+    for (var i = 0; i < els.length; i++) {
+      if (els[i].textContent.trim()) continue;
+      var isMode = els[i].hasAttribute("data-jj-mode");
+      els[i].setAttribute("aria-label", isMode ? (mode === "dark" ? "Light mode" : "Dark mode") : "Back to top");
+      if (isMode) els[i].setAttribute("aria-pressed", mode === "dark" ? "true" : "false");
+      els[i].setAttribute("data-jj-prelabel", "");
+    }
+  }
+  var watch = new MutationObserver(name);
+  watch.observe(root, { childList: true, subtree: true });
+  document.addEventListener("DOMContentLoaded", function () { name(); watch.disconnect(); });
 })();

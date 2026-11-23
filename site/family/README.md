@@ -6,7 +6,7 @@ Every site loads it **from Jemma’s Journals directly**, at `/family/…` (her 
 
 | File | Loaded | Does |
 |---|---|---|
-| `mode.js` | `<script src="/family/mode.js" data-old-key="…">` in `<head>`, before the stylesheet | sets `data-mode` before the page draws, from the shared `jj-mode`; on her PC the family server’s choice (`data-jj-server-mode` on `<html>`, from `logs/family-mode.txt`) wins |
+| `mode.js` | `<script src="/family/mode.js" data-old-key="…">` in `<head>`, before the stylesheet | sets `data-mode` before the page draws, from the shared `jj-mode`; on her PC the family server’s choice (`data-jj-server-mode` on `<html>`, from `logs/family-mode.txt`) wins. Until family.js has drawn them, it gives the empty Back to top and Dark mode controls a stand-in `aria-label`, so they are never nameless on a slow load (23 Nov) |
 | `family.css` | `<link rel="stylesheet" href="/family/family.css">` before the site’s own stylesheet | footer layout, drawer scrim, Menu button and bar-name sizes; colours and fonts from the site’s `--jj-*` variables |
 | `family.js` | `<script src="/family/family.js" defer>` | Dark mode button, theme colour and tab icon, Back to top, footer line 1, credit dots, the Menu drawer (`JJFamily.menu`) |
 

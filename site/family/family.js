@@ -90,7 +90,7 @@
   }
 
   /* ---------- painting the shared bits (idempotent, so it can run after any redraw) ---------- */
-  function paint(force) {
+  function paint(force, noFit) {
     var mode = getMode();
     chrome();
     document.querySelectorAll("[data-jj-mode]").forEach(function (b) {
@@ -99,17 +99,19 @@
       b.innerHTML = (dark ? ICON.sun : ICON.moon) + "<span>" + (dark ? "Light mode" : "Dark mode") + "</span>";
       b.setAttribute("aria-pressed", dark ? "true" : "false");
       if (b.tagName === "BUTTON" && !b.hasAttribute("type")) b.setAttribute("type", "button");
+      if (b.hasAttribute("data-jj-prelabel")) { b.removeAttribute("aria-label"); b.removeAttribute("data-jj-prelabel"); }   // mode.js's stand-in name
       b.setAttribute("data-jj-painted", mode);
     });
     document.querySelectorAll("[data-jj-top]").forEach(function (a) {
       if (a.getAttribute("data-jj-painted")) return;
       if (!a.textContent.trim()) a.innerHTML = ICON.up + "<span>Back to top</span>";
+      if (a.hasAttribute("data-jj-prelabel")) { a.removeAttribute("aria-label"); a.removeAttribute("data-jj-prelabel"); }
       a.setAttribute("data-jj-painted", "1");
     });
     document.querySelectorAll("[data-jj-line1]").forEach(function (p) {
       if (p.textContent !== LINE1) p.textContent = LINE1;
     });
-    fitCredits();
+    if (!noFit) fitCredits();
   }
 
   /* a “·” between credits never starts or ends a line: hide the ones where the line breaks (section 2) */
@@ -256,8 +258,10 @@
   if (!root.hasAttribute("data-mode")) root.setAttribute("data-mode", "light");   // if a page forgot mode.js
   function start() {
     paint(true);
+    // a site that draws its footer later: the words go in straight away, before the next frame, so a control is never shown
+    // (or met by a screen reader) empty (23 Nov); the credit dots, which need layout, once per frame
     var queued = false;
-    new MutationObserver(function () { if (queued) return; queued = true; requestAnimationFrame(function () { queued = false; paint(false); }); })
+    new MutationObserver(function () { paint(false, true); if (queued) return; queued = true; requestAnimationFrame(function () { queued = false; fitCredits(); }); })
       .observe(document.body, { childList: true, subtree: true });
     var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(fitCredits, 100); });
     // another tab or window of the same browser changed the mode: follow it straight away (round 3 review)

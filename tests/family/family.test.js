@@ -250,6 +250,39 @@ test('footer credits: a “·” never starts or ends a line at laptop widths; o
   await ctx.close();
 });
 
+test('Back to top and Dark mode always have a name: while family.js is still loading (slow load) and when a site draws its footer later', async t => {
+  // 23 Nov (Sim World review): on a slow first load axe met both with no name, because they are empty until family.js runs
+  const ctx = await context({ viewport: { width: 1000, height: 800 } });
+  let hold = null;
+  await ctx.route('**/family/family.js', async route => { await new Promise(r => { hold = r; setTimeout(r, 4000); }); await route.continue(); });
+  for (const s of SITES) {
+    const page = await ctx.newPage();
+    await page.goto(FAM + s.path, { waitUntil: 'commit' });
+    await page.waitForSelector('[data-jj-mode]', { state: 'attached', timeout: 10000 }).catch(() => {});
+    await page.waitForTimeout(300);
+    const early = await page.evaluate(() => ({ loaded: !!window.JJFamily, names: [...document.querySelectorAll('[data-jj-mode], [data-jj-top]')].map(e => (e.getAttribute('aria-label') || e.textContent).trim()) }));
+    t.ok(!early.loaded, `${s.key}: (the test held family.js back)`);
+    t.ok(early.names.length >= 2 && early.names.every(Boolean), `${s.key}: before family.js runs, every footer control has a name (${JSON.stringify(early.names)})`);
+    if (hold) hold();
+    await page.waitForFunction(() => { const b = document.querySelector('[data-jj-mode]'); return b && b.hasAttribute('data-jj-painted'); }, null, { timeout: 15000 }).catch(() => {});
+    const after = await page.evaluate(() => [...document.querySelectorAll('[data-jj-mode], [data-jj-top]')].map(e => ({ label: e.getAttribute('aria-label'), text: e.textContent.trim() })));
+    t.ok(after.every(a => a.text && a.label === null), `${s.key}: once drawn, the words are in and the stand-in name is gone (${JSON.stringify(after)})`);
+    // a footer drawn later by the site: named before the next frame, not one frame later
+    const late = await page.evaluate(async () => {
+      const f = document.createElement('div');
+      f.innerHTML = '<a href="#top" data-jj-top></a><button data-jj-mode></button>';
+      document.body.appendChild(f);
+      await new Promise(r => queueMicrotask(r));
+      const r = [...f.children].map(e => e.textContent.trim());
+      f.remove();
+      return r;
+    });
+    t.ok(late.every(Boolean), `${s.key}: controls added later get their words at once (${JSON.stringify(late)})`);
+    await page.close();
+  }
+  await ctx.close();
+});
+
 test('Back to top scrolls to the top and moves keyboard focus there, on every site', async t => {
   const ctx = await context({ viewport: { width: 1280, height: 800 } });
   const page = await ctx.newPage();
