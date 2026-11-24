@@ -7,4 +7,4 @@ The home page of Jemma’s family of websites, and the parent that holds them: h
 - `tools/` – the family server, the shortcuts’ opener, the daily backup, the checks, the online-style build, the new-site maker.
 - How it all fits together: [ARCHITECTURE.md](ARCHITECTURE.md).
 
-Fonts: Instrument Serif and Manrope (SIL Open Font Licence). Icons: Lucide (ISC). World maps by 20th Century Plumbob; Pokémon pictures from the games; book covers from their publishers.
+Fonts: Instrument Serif and Manrope (SIL Open Font Licence). Icons: Lucide (ISC). World maps by filipesims and 20th Century Plumbob; Pokémon pictures from the games; book covers from their publishers.
