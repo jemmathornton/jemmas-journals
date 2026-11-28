@@ -13,6 +13,15 @@ Documents\JemmasJournals\                 the parent repo (jemmathornton/jemmas-
   pokedex\     │  own GitHub repo          served at  /pokedex/    saves → Pokédex server   :8030
   travels\    ─┘                           served at  /travels/    saves → Travels server   :8041
   tools\  tests\  templates\new-site\  research\  for-jemma\  logs\ (not in git)
+```
+
+**`site\` is only where the files live, never part of an address.** Every server (the family server on her PC, the
+8060 preview, GitHub Pages) puts home’s `site\` at the top and each app’s own `site\` under the app’s name. So online
+it is https://jemmathornton.github.io/jemmas-journals/ for home, never `…/site/`, and `…/library/`, not
+`…/library/site/`. Publishing the repo folder as it is (Pages “Deploy from a branch”) does not work: home ends up
+under `/site/` and the apps are missing (GitHub does not include submodules that way).
+
+```
 
             her shortcut ──► tools/open_site.pyw <app> ──► Chrome app window on http://localhost:8050/<app>/
                                          │ starts if needed
@@ -62,7 +71,8 @@ Sim World has no save server. Other ports in `.claude/launch.json` (8040 home al
 ## The online-style build and going online
 
 - `python tools/build_site.py` copies home’s `site/` to `_site/` and each app’s `site/` under its name; `--serve` serves it at http://localhost:8060 like a plain host (no saving, no forwarding, its `404.html` for missing pages). What works there should work online: the Library and Pokédex show view-only, Travels’ Write page says it needs her PC.
-- Not online yet (her decision when). It will need, per [research/improvements-22-nov.md](research/improvements-22-nov.md) and [research/going-online.md](research/going-online.md): a GitHub Actions workflow in the parent that checks out the submodules, does what `build_site.py` does and deploys to GitHub Pages; the site at the **root** of an address (her domain, or the parent repo renamed `jemmathornton.github.io`), because `/family/` and `/` links need it; Pages kept off in the app repos; finishing view-only for the Pokédex; perhaps a `?v=` stamp on `/family/` links for caching. Draft files: `research/drafts/`.
+- **Online since 28 Nov** at https://jemmathornton.github.io/jemmas-journals/ (public, not advertised; robots meta keeps search engines off, but `robots.txt` only counts at the root of a domain, so it does nothing there). `.github/workflows/publish.yml` runs on every push to `main` (so also after each “Record app versions” commit): it checks out the apps at the recorded versions, runs `python tools/build_site.py --base <Pages path>` (`/jemmas-journals/` on github.io, taken from Pages itself) and deploys `_site/`. Pages’ source must be **GitHub Actions** (repo Settings → Pages), not “Deploy from a branch”.
+- Why `--base`: the pages link to `/`, `/family/`, `/sim-world/` … from the root of the address. Online they sit under `/jemmas-journals/`, so the build rewrites those root links in the copied `.html`, `.js` and `.css` (never the source files, never the OCR engine). On her own domain later the workflow passes `/` and nothing is rewritten. Still to do: Pages kept off in the app repos; finishing view-only for the Pokédex; perhaps a `?v=` stamp on `/family/` links for caching.
 
 ## Tests
 

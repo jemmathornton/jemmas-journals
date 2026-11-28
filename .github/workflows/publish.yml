@@ -1,0 +1,47 @@
+# Publishes the whole family to GitHub Pages (28 Nov): home at the top, each app under its name
+# (https://jemmathornton.github.io/jemmas-journals/, …/library/, …/sim-world/, …/pokedex/, …/travels/).
+# It checks out the apps (submodules) at the versions recorded here, builds the site with tools/build_site.py
+# exactly as the 8060 preview does, and moves the pages' root links ("/", "/family/") under the Pages address.
+# One-off setting: repo Settings > Pages > Build and deployment > Source: "GitHub Actions".
+name: Publish the site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:        # also run by hand from the Actions tab
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          # the apps' repos are fetched with this; if any of them is private, add a repo secret SUBMODULES_TOKEN
+          # (a fine-grained token with read access to them)
+          token: ${{ secrets.SUBMODULES_TOKEN || github.token }}
+      - id: pages
+        uses: actions/configure-pages@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build the family
+        # base_path is "/jemmas-journals" on github.io, or "" on her own domain later
+        run: python -X utf8 tools/build_site.py --base "${{ steps.pages.outputs.base_path }}/"
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
