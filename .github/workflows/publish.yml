@@ -20,11 +20,10 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  publish:
+  # two jobs, as in GitHub's own Pages template: deploying in the same job as the upload sometimes found
+  # "No artifacts named github-pages" (runs 3 and 4, 28 Nov)
+  build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -40,8 +39,16 @@ jobs:
       - name: Build the family
         # base_path is "/jemmas-journals" on github.io, or "" on her own domain later
         run: python -X utf8 tools/build_site.py --base "${{ steps.pages.outputs.base_path }}/"
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v4
         with:
           path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - id: deployment
         uses: actions/deploy-pages@v4
