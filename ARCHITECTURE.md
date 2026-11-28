@@ -19,7 +19,8 @@ Documents\JemmasJournals\                 the parent repo (jemmathornton/jemmas-
 8060 preview, GitHub Pages) puts home’s `site\` at the top and each app’s own `site\` under the app’s name. So online
 it is https://jemmathornton.github.io/jemmas-journals/ for home, never `…/site/`, and `…/library/`, not
 `…/library/site/`. Publishing the repo folder as it is (Pages “Deploy from a branch”) does not work: home ends up
-under `/site/` and the apps are missing (GitHub does not include submodules that way).
+under `/site/`, each app under `/<app>/site/`, and the pages’ root links (`/`, `/family/`) point outside the
+Pages address. Use the publish workflow (Pages source: GitHub Actions) instead.
 
 ```
 
