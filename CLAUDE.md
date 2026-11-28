@@ -29,8 +29,8 @@ The home page that links Jemma’s other sites: her Sims 4 save (`Documents\Jemm
 
 - 20 Nov (evening): **About this site = option 2**, two lines (No cookies… / the credits), each credit with a capital; on phones the credits stack one per line. The other footer options are gone from the switch.
 - 20 Nov (evening): Pokédex picture = the combined Johto and Kanto painting (downloaded from PidgiWiki with her OK; page copies img/maps/region-johto-kanto.*). Shown whole for now; whole vs fill the photo is her choice.
-- 20 Nov (evening): **keep out of search engines and AI crawlers**: robots meta (noindex, noai, noimageai) on the pages and site/robots.txt. Going online: later.
-- 28 Nov: **online** at https://jemmathornton.github.io/jemmas-journals/ (she published it). Built and deployed by `.github/workflows/publish.yml` (Pages source: GitHub Actions); home at the top, no `/site/` in any address. See ARCHITECTURE.md, “The online-style build and going online”.
+- 20 Nov (evening): **keep out of search engines and AI crawlers**: robots meta (noindex, noai, noimageai) on the pages and site/robots.txt. Going online on her own domain: later (her note, 28 Nov: “later” means the full domain, not GitHub Pages).
+- 28 Nov: **on GitHub Pages** at https://jemmathornton.github.io/jemmas-journals/ (she published it; her own domain is still later). Built and deployed by `.github/workflows/publish.yml` (Pages source: GitHub Actions); home at the top, no `/site/` in any address. See ARCHITECTURE.md, “The online-style build and going online”.
 - 20 Nov (evening): page ideas: **stitching on the cover, yes** (always on now); **paper and tilted photos, no** (removed). Bookmark ribbon (as a link): no, removed. Title on scroll: no, removed. Red ribbon: removed (her pick). **Gentle entrance: yes** (plays once as the page opens; skipped for reduced motion). The Ideas row is gone from the switch.
 - 20 Nov (evening): pictures parked again: she will change them later (Pokédex whole-vs-fill not decided).
 - 20 Nov (late): the top section is an **Introduction** to the site (her pick; was “About me”), words only, no photo, lined up with Contents.
